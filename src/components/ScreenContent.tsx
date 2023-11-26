@@ -2,6 +2,7 @@ import arrowDown from "../assests/down-arrow-5-svgrepo-com.svg";
 import logo from "../assests/logo.svg";
 import ngFlag from "../assests/emojione_flag-for-nigeria.svg";
 import { useState } from "react";
+import { More } from "../pages/More";
 export const ScreenContent = () => {
   const [showDiv, setShowDiv] = useState<boolean>(false);
   // const [AddClass, setAddClass] = useState('');
@@ -13,14 +14,13 @@ export const ScreenContent = () => {
     setShowDiv(false)
   }
   // function handleReset() : void{ 
-  //   const call = setInterval(()=> {
-  //     handleDisplayCountries()
+  //   setInterval(()=> {
+  //     handleHideCountries()
   //   }, 2000)
-  //  setInterval(()=> {
-  //   setShowDiv(false)
-  // }, 2000)
+  //   setShowDiv(true)
+  //     // handleDisplayCountries()
+
   
-  //   clearInterval(call)
   // }
  
   return (
@@ -40,31 +40,31 @@ export const ScreenContent = () => {
               <div className="flex justify-between">
                 <p className="text-xs pb-1 pt-2 border-b-2 border-red-600">Tap to change country</p>
                 <div className="countries-header-icon flex gap-3 mr-2 mt-1">
-                  <i className="fa-solid fa-rotate-right cursor-pointer" onClick={handleReset}></i>
+                  {/* <i className="fa-solid fa-rotate-right cursor-pointer" onClick={handleReset}></i> */}
                   <i className="fa-solid fa-xmark cursor-pointer" onClick={handleHideCountries}></i>
                 </div>
               </div>
               <ul className="countries-wrapper pl-6 flex flex-col gap-4 text-xs mt-5">
-                <li>Benin</li>
-                <li>Burkina Faso</li>
-                <li>Cameroon</li>
-                <li>Chad</li>
-                <li>Congo Brazzaville</li>
-                <li>Congo DRC</li>
-                <li>Cote d'Ivoire</li>
-                <li>Gabon</li>
-                <li>Ghana</li>
-                <li>Guinea</li>
-                <li>Kenya</li>
-                <li>Liberia</li>
-                <li>Mali</li>
-                <li>Mozambique</li>
-                <li>Nigeria</li>
-                <li>Senegal</li>
-                <li>Sierra Leone</li>
-                <li>Tanzania</li>
-                <li>Uganda</li>
-                <li>Zambia</li>
+                <li className="cursor-pointer">Benin</li>
+                <li className="cursor-pointer">Burkina Faso</li>
+                <li className="cursor-pointer">Cameroon</li>
+                <li className="cursor-pointer">Chad</li>
+                <li className="cursor-pointer">Congo Brazzaville</li>
+                <li className="cursor-pointer">Congo DRC</li>
+                <li className="cursor-pointer">Cote d'Ivoire</li>
+                <li className="cursor-pointer">Gabon</li>
+                <li className="cursor-pointer">Ghana</li>
+                <li className="cursor-pointer">Guinea</li>
+                <li className="cursor-pointer">Kenya</li>
+                <li className="cursor-pointer">Liberia</li>
+                <li className="cursor-pointer">Mali</li>
+                <li className="cursor-pointer">Mozambique</li>
+                <li className="cursor-pointer">Nigeria</li>
+                <li className="cursor-pointer">Senegal</li>
+                <li className="cursor-pointer">Sierra Leone</li>
+                <li className="cursor-pointer">Tanzania</li>
+                <li className="cursor-pointer">Uganda</li>
+                <li className="cursor-pointer">Zambia</li>
               </ul>
             </div>
           </section>
@@ -74,6 +74,7 @@ export const ScreenContent = () => {
           <i className="fa-solid fa-camera"></i>
           <i className="fa-solid fa-ellipsis-vertical"></i>
         </div>
+        {/* <More/> */}
       </div>
       <div className="logo ml-6 mt-8 flex justify-center items-center gap-2  pb-2">
         <h1 className="font-bold text-5xl pt-3">UBA</h1>

@@ -18,7 +18,7 @@ function App() {
     <div className="h-screen w-100% flex justify-center items-center">
       <div className="phone w-64 border-black border-4 border-solid bg-white overflow-hidden">
         <div className="header flex my-3 items-center mx-5 gap-5">
-          <div className="time text-xs">
+          <div className="time text-sm h-4 w-10 mx-2 overflow-hidden">
             <h1>
               {time.toLocaleTimeString([], {
                 hour: "numeric",
