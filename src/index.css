@@ -30,3 +30,45 @@
 .new {
     font-size: 10px;
 }
+@keyframes showCountries {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes hideCountries {
+  0% {
+    transform:  translateY(0);
+  }
+  100% {
+    transform: translateY(-90%);
+  }
+}
+.showCountries {
+  animation: showCountries 0.3s ease-in-out;
+}
+.hideCountries {
+  animation: hideCountries 0.9s ease-in-out;
+}
+
+
+.countries-wrapper {
+  height: 365px;
+  overflow-y: scroll;
+}
+
+.countries-wrapper::-webkit-scrollbar {
+  width: 10px;
+}
+
+.countries-wrapper::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 10px;
+}
+
+.countries-wrapper::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}

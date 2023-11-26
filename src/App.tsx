@@ -16,9 +16,9 @@ function App() {
 
   return (
     <div className="h-screen w-100% flex justify-center items-center">
-      <div className="phone w-64 border-black border-4 border-solid bg-white">
+      <div className="phone w-64 border-black border-4 border-solid bg-white overflow-hidden">
         <div className="header flex my-3 items-center mx-5 gap-5">
-          <div className="time text-sm">
+          <div className="time text-xs">
             <h1>
               {time.toLocaleTimeString([], {
                 hour: "numeric",
@@ -28,7 +28,7 @@ function App() {
             </h1>
           </div>
           <div className="camera-container">
-            <div className="camera-spot w-16 h-6 rounded-full bg-black py-2">
+            <div className="camera-spot w-16 h-6 rounded-full bg-black py-2 ml-1">
               <div className="camera w-2 h-2 bg-gray-900 rounded-full ml-12"></div>
             </div>
           </div>
