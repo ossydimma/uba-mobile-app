@@ -15,17 +15,25 @@
     src: url(./fonts/Poppins-Medium.ttf);
   }
   @font-face {
-    font-family: Rubik;
-    src: url(./fonts/Rubik-VariableFont_wght.ttf);
+    font-family: Roboto;
+    src: url(./fonts/Roboto/Roboto-Medium.ttf);
+  }
+  body {
+    font-family: "Roboto";
   }
 
 .phone {
-    background: url('./assests/unsplash_60XLoOgwkfA.png') no-repeat;
-    background-position: center;
-    background-size: cover;
+    
     border-radius: 40px;
     height: 80%;
-    font-family: poppins-medium;
+}
+.phone-deafult-screen {
+  background: url('./assests/unsplash_60XLoOgwkfA.png') no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+.phone-white-screen {
+  background: #fff;
 }
 .new {
     font-size: 10px;
@@ -47,11 +55,22 @@
     transform: translateY(-90%);
   }
 }
+@keyframes showMorePage {
+  0% {
+    transform: translateX(20%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
 .showCountries {
-  animation: showCountries 0.3s ease-in-out;
+  animation: showCountries 0.3s ease-in-out ;
 }
 .hideCountries {
   animation: hideCountries 0.9s ease-in-out;
+}
+.showMorePage {
+  animation: showMorePage 0.3s ease-in-out;
 }
 
 

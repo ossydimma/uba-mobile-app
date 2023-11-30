@@ -1,17 +1,31 @@
 import arrowDown from "../assests/down-arrow-5-svgrepo-com.svg";
 import logo from "../assests/logo.svg";
 import ngFlag from "../assests/emojione_flag-for-nigeria.svg";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { More } from "../pages/More";
+import { BgContext, MorePageContext } from "../MyContext";
+// export interface backGroundType {
+//   setShowMorePage: React.Dispatch<React.SetStateAction<boolean>>
+// }
 export const ScreenContent = () => {
+  
+// states
+  const {showMorePage, setShowMorePage} = useContext(MorePageContext)
+  const { setBg } = useContext(BgContext)
   const [showDiv, setShowDiv] = useState<boolean>(false);
-  // const [AddClass, setAddClass] = useState('');
 
+// functions 
   function handleDisplayCountries() : void{
     setShowDiv(true)
   }
   function handleHideCountries() : void{ 
     setShowDiv(false)
+  }
+  function changeBg(): void {  
+    if (setShowMorePage !== undefined) {
+      setShowMorePage(true)
+      setBg("phone-white-screen")  
+    }
   }
   // function handleReset() : void{ 
   //   setInterval(()=> {
@@ -20,9 +34,9 @@ export const ScreenContent = () => {
   //   setShowDiv(true)
   //     // handleDisplayCountries()
 
-  
+
   // }
- 
+
   return (
     <div className="text-white relative">
       <div className="header flex items-center justify-between mx-4">
@@ -69,12 +83,11 @@ export const ScreenContent = () => {
             </div>
           </section>
         )}
-
         <div className="icons flex gap-3 cursor-pointer text-lg ">
           <i className="fa-solid fa-camera"></i>
-          <i className="fa-solid fa-ellipsis-vertical"></i>
+          <i className="fa-solid fa-ellipsis-vertical" onClick={changeBg}></i>
         </div>
-        {/* <More/> */}
+        {showMorePage && <More/> }
       </div>
       <div className="logo ml-6 mt-8 flex justify-center items-center gap-2  pb-2">
         <h1 className="font-bold text-5xl pt-3">UBA</h1>

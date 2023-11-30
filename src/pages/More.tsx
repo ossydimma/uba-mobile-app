@@ -1,48 +1,67 @@
-import React from "react";
+import { useContext } from "react";
+import { MoreHeader } from "../components/MoreHeader";
+import { BgContext, MorePageContext} from "../MyContext";
+import { Contact } from "./Contact";
+import { EmptyPage } from "./EmptyPage";
+import { About } from "./About";
+// import { backGroundType } from "../components/ScreenContent";
 
-export const More = () => {
+interface showMorePageType {
+  setShowMorePage: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export const More = ( ) => {
+  const {bg, setBg} = useContext(BgContext)
+  const {showContact, setShowContact, showInbox, setShowInbox, showAbout, setShowAbout } = useContext(MorePageContext)
+  function handleContactPage() : void {
+    if (setShowContact !== undefined) {
+      setShowContact(true);
+    }
+  }
+  function handleInboxPage() : void {
+    if (setShowInbox !== undefined) {
+      setShowInbox(true);
+    }
+  }
+  function handleAboutPage() : void {
+    if (setShowAbout !== undefined) {
+      setShowAbout(true);
+    }
+  }
   return (
     <div>
-      <section className="bg-white text-black w-full h-full top-0 absolute left-0">
-        <div className="more-menu flex justify-between items-center pb-2 px-3 border-b-4 border-gray-400">
-          <div className="flex gap-7 items-center">
-            <i className="fa-solid fa-arrow-left cursor-pointer"></i>
-            <h2 className="font-semibold">More</h2>
-          </div>
-          <div>
-            <i className="fa-regular fa-bell text-gray-400 text-xl "></i>
-          </div>
-        </div>
+      <section className="bg-white text-black w-full h-screen top-0 absolute left-0 showMorePage">
+        <MoreHeader name="more"/>
           <ul className="text-sm flex flex-col gap-3 mx-2 mt-1">
-            <li>
-              <a href="/" className="more-items flex items-center justify-between pb-2 border-b-2 ">
+            <li >
+              <article onClick={handleContactPage} className="more-items cursor-pointer flex items-center justify-between pb-2 border-b-2 ">
                 <p>Contact Us</p>
                 <i className="fa-solid fa-angle-right"></i>
-              </a>
+              </article>
             </li>
             <li>
-              <a href="/" className="more-items flex items-center justify-between pb-2 border-b-2">
+              <article onClick={handleInboxPage} className="more-items cursor-pointer flex items-center justify-between pb-2 border-b-2">
                 <p>Inbox</p>
                 <i className="fa-solid fa-angle-right"></i>
-              </a>
+              </article>
             </li>
             <li>
-              <a href="/" className="more-items flex items-center justify-between pb-2 border-b-2">
+              <article className="more-items cursor-pointer flex items-center justify-between pb-2 border-b-2">
                 <p>FAQ</p>
                 <i className="fa-solid fa-angle-right"></i>
-              </a>
+              </article>
             </li>
             <li>
-              <a href="/" className="more-items flex items-center justify-between pb-2 border-b-2">
+              <article className="more-items cursor-pointer flex items-center justify-between pb-2 border-b-2">
                 <p>Tour</p>
                 <i className="fa-solid fa-angle-right"></i>
-              </a>
+              </article>
             </li>
             <li>
-              <a href="/" className="more-items flex items-center justify-between pb-2 border-b-2">
+              <article onClick={handleAboutPage} className="more-items cursor-pointer flex items-center justify-between pb-2 border-b-2">
                 <p>About</p>
                 <i className="fa-solid fa-angle-right"></i>
-              </a>
+              </article>
             </li>
           </ul>
           <div className="medias flex gap-3 text-sm justify-center mt-16 text-white ">
@@ -53,6 +72,9 @@ export const More = () => {
           </div>
           <p className="text-center text-sm mt-3 font-black">Ubagroup</p>
       </section>
+      {showContact && <Contact />}
+     {showInbox && <EmptyPage pageName='Inbox' article='No Message Found'/>}
+     {showAbout && <About />}
     </div>
   );
 };
