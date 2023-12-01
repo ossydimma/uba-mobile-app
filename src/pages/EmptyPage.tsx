@@ -1,3 +1,5 @@
+import { useContext } from "react"
+import { MorePageContext } from "../MyContext"
 import { MoreHeader } from "../components/MoreHeader"
 
 interface EmptyPageType {
@@ -6,12 +8,14 @@ interface EmptyPageType {
 }
 
 export const EmptyPage = ({pageName, article }: EmptyPageType) => {
+  const {showNoti} = useContext(MorePageContext)
   return (
     <div>
          <section className="bg-white text-black w-full h-screen top-0 absolute left-0 showMorePage">
             <MoreHeader name={pageName}  />
             <p className="text-center mt-40 text-sm font-serif">{article}</p>
          </section>
+        
     </div>
   )
 }

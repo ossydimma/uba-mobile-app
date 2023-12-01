@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { MoreHeader } from '../components/MoreHeader'
 import logo from "../assests/UBA-logo.webp"
+import { EmptyPage } from './EmptyPage'
+import { MorePageContext } from '../MyContext'
 
 export const About = () => {
+    const {showNoti} = useContext(MorePageContext)
   return (
     <>
         <div className="bg-white text-black w-full h-screen top-0 absolute left-0 showMorePage">
@@ -22,6 +25,8 @@ export const About = () => {
                     </div>
                 </div>
             </main>
+            { showNoti &&<EmptyPage pageName="Notification" article="There Are No Notification" />}
+        
         </div>
     </>
   )

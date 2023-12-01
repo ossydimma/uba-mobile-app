@@ -4,6 +4,7 @@ import { BgContext, MorePageContext} from "../MyContext";
 import { Contact } from "./Contact";
 import { EmptyPage } from "./EmptyPage";
 import { About } from "./About";
+import { Faq } from "./Faq";
 // import { backGroundType } from "../components/ScreenContent";
 
 interface showMorePageType {
@@ -12,7 +13,7 @@ interface showMorePageType {
 
 export const More = ( ) => {
   const {bg, setBg} = useContext(BgContext)
-  const {showContact, setShowContact, showInbox, setShowInbox, showAbout, setShowAbout } = useContext(MorePageContext)
+  const {showContact, setShowContact, showInbox, setShowInbox, showAbout, setShowAbout, showFaq, setShowFaq, showNoti } = useContext(MorePageContext)
   function handleContactPage() : void {
     if (setShowContact !== undefined) {
       setShowContact(true);
@@ -26,6 +27,11 @@ export const More = ( ) => {
   function handleAboutPage() : void {
     if (setShowAbout !== undefined) {
       setShowAbout(true);
+    }
+  }
+  function handleFaqPage() : void {
+    if (setShowFaq !== undefined) {
+      setShowFaq(true);
     }
   }
   return (
@@ -46,7 +52,7 @@ export const More = ( ) => {
               </article>
             </li>
             <li>
-              <article className="more-items cursor-pointer flex items-center justify-between pb-2 border-b-2">
+              <article onClick={handleFaqPage} className="more-items cursor-pointer flex items-center justify-between pb-2 border-b-2">
                 <p>FAQ</p>
                 <i className="fa-solid fa-angle-right"></i>
               </article>
@@ -72,8 +78,10 @@ export const More = ( ) => {
           </div>
           <p className="text-center text-sm mt-3 font-black">Ubagroup</p>
       </section>
+      { showNoti &&<EmptyPage pageName="Notification" article="There Are No Notification" />}
       {showContact && <Contact />}
      {showInbox && <EmptyPage pageName='Inbox' article='No Message Found'/>}
+      {showFaq && <Faq />}
      {showAbout && <About />}
     </div>
   );

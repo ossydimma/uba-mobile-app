@@ -18,6 +18,9 @@ interface morePageType {
     setShowFaq?: Dispatch<SetStateAction<boolean>>;
     showAbout?: boolean;
     setShowAbout?: Dispatch<SetStateAction<boolean>>;
+    showNoti? : boolean;
+    setShowNoti? : Dispatch<SetStateAction<boolean>>;
+    
 }
 // export interface moreType {
 //     showContact?: boolean;

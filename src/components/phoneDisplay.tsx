@@ -11,6 +11,7 @@ export function PhoneDisplay() {
   const [showInbox, setShowInbox] = useState<boolean>(false);
   const [showFaq, setShowFaq] = useState<boolean>(false);
   const [showAbout, setShowAbout] = useState<boolean>(false);
+  const [showNoti, setShowNoti] = useState(false)
   // changing background
   const { bg, setBg } = useContext(BgContext);
   function handeleClick(): void {
@@ -31,7 +32,7 @@ export function PhoneDisplay() {
   return (
     <div className="h-screen w-100% flex justify-center items-center ">
       <div
-        className={`phone w-64 border-black border-4 border-solid bg-white overflow-hidden ${bg}`}
+        className={`phone w-64 border-black border-4 border-solid overflow-hidden pb-20 ${bg}`}
       >
         <div className="header flex my-3 items-center mx-5 gap-5">
           <div className="time text-sm h-4 w-20   mx-1 overflow-hidden">
@@ -57,7 +58,7 @@ export function PhoneDisplay() {
             ></i>
           </div>
         </div>
-        <MorePageContext.Provider value={{showMorePage, setShowMorePage, showContact, setShowContact, showNews, setShowNews, showInbox, setShowInbox, showFaq, setShowFaq, showAbout,setShowAbout}}>
+        <MorePageContext.Provider value={{showMorePage, setShowMorePage, showContact, setShowContact, showNews, setShowNews, showInbox, setShowInbox, showFaq, setShowFaq, showAbout,setShowAbout,showNoti, setShowNoti}}>
           {/* <MoreContext.Provider value={{ showContact, setShowContact, showNews, setShowNews, showInbox, setShowInbox, showFaq, setShowFaq, showAbout,setShowAbout }}> */}
             <ScreenContent />
           {/* </MoreContext.Provider> */}

@@ -4,7 +4,7 @@ import { EmptyPage } from './EmptyPage'
 import { MorePageContext } from '../MyContext'
 
 export const Contact = () => {
-    const {showNews, setShowNews} = useContext(MorePageContext)
+    const {showNews, setShowNews, showNoti} = useContext(MorePageContext)
     function handleShowNews(): void {
         if (setShowNews !== undefined) {
             setShowNews(true)
@@ -52,6 +52,7 @@ export const Contact = () => {
             </div>
             <p className="text-center text-sm mt-3 font-black">Ubagroup</p>
         </section>
+        { showNoti &&<EmptyPage pageName="Notification" article="There Are No Notification" />}
         {showNews && <EmptyPage pageName='News' article='no recent news'/>}
     </>
   )

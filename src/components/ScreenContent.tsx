@@ -38,7 +38,7 @@ export const ScreenContent = () => {
   // }
 
   return (
-    <div className="text-white relative">
+    <div className="text-white relative ">
       <div className="header flex items-center justify-between mx-4">
         <div className="countries-container flex cursor-pointer" onClick={handleDisplayCountries}>
           <div className="flag w-6 h-6 rounded-full overflow-hidden">

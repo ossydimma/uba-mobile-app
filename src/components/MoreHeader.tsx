@@ -1,5 +1,6 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { BgContext, MorePageContext } from "../MyContext";
+import { EmptyPage } from "../pages/EmptyPage";
 
 interface ProductProps {
 
@@ -9,9 +10,18 @@ interface ProductProps {
 
 export const MoreHeader = (name: ProductProps) => {
   // const {setShowMorePage} = useContext(MorePageContext);
-  const {setShowMorePage, setShowContact, setShowNews, setShowInbox, setShowAbout} = useContext(MorePageContext)
   const {setBg} = useContext(BgContext)
-
+  const {setShowMorePage, setShowContact, setShowNews, setShowInbox, setShowAbout, setShowFaq,showNoti, setShowNoti} = useContext(MorePageContext)
+  
+  const [showBell, seShowtBell] = useState(true)
+  function handleNotiPage() : void {
+    // seShowtBell(false)
+    if (setShowNoti !== undefined) {
+      setShowNoti(true)
+      
+    }
+    
+  }
   function changePage(name: ProductProps) {
     switch (name.name) {
       case "more":
@@ -40,11 +50,24 @@ export const MoreHeader = (name: ProductProps) => {
           setShowAbout(false);
           setShowMorePage(true)
         }
+        break; 
+      case "FAQ":
+        if (setShowFaq !== undefined) {
+          setShowFaq(false);
+        }
+        break;
+      case "Notification":
+        if (setShowNoti !== undefined) {
+
+          setShowNoti(false)
+        }
         break;
     
       default:
         break;
     }
+   
+   
     // if (name.name === "more") {
     //   setShowMorePage(false)
     //   setBg('phone-deafult-screen')
@@ -60,10 +83,11 @@ export const MoreHeader = (name: ProductProps) => {
             <i className="fa-solid fa-arrow-left cursor-pointer" onClick={()=> changePage(name)}></i>
             <h2 className="font-semibold">{name.name}</h2>
           </div>
-          <div>
-            <i className="fa-regular fa-bell text-gray-400 text-xl cursor-pointer"></i>
-          </div>
+          {!showNoti && <div >
+            <i className="fa-regular fa-bell text-gray-400 text-xl cursor-pointer" onClick={handleNotiPage}></i>
+          </div>}
         </div>
+        
     </div>
   )
 }
