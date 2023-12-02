@@ -14,9 +14,9 @@ export function PhoneDisplay() {
   const [showNoti, setShowNoti] = useState(false)
   // changing background
   const { bg, setBg } = useContext(BgContext);
-  function handeleClick(): void {
-    setBg("phone-white-screen");
-  }
+  // const { showHome, setShowHome } = useContext(MorePageContext);
+  
+  
 
   // getting current time
   const [time, setTime] = useState(new Date());
@@ -54,14 +54,11 @@ export function PhoneDisplay() {
             <i className="icon fa-solid fa-wifi"></i>
             <i
               className="icon fa-solid fa-battery-half"
-              onClick={handeleClick}
             ></i>
           </div>
         </div>
         <MorePageContext.Provider value={{showMorePage, setShowMorePage, showContact, setShowContact, showNews, setShowNews, showInbox, setShowInbox, showFaq, setShowFaq, showAbout,setShowAbout,showNoti, setShowNoti}}>
-          {/* <MoreContext.Provider value={{ showContact, setShowContact, showNews, setShowNews, showInbox, setShowInbox, showFaq, setShowFaq, showAbout,setShowAbout }}> */}
-            <ScreenContent />
-          {/* </MoreContext.Provider> */}
+          <ScreenContent />
         </MorePageContext.Provider>
       </div>
     </div>

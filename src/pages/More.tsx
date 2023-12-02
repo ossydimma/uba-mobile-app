@@ -36,9 +36,9 @@ export const More = ( ) => {
   }
   return (
     <div>
-      <section className="bg-white text-black w-full h-screen top-0 absolute left-0 showMorePage">
+      <section className=" text-black w-full h-screen top-0 absolute left-0 showMorePage bg-white">
         <MoreHeader name="more"/>
-          <ul className="text-sm flex flex-col gap-3 mx-2 mt-1">
+          <ul className="text-sm flex flex-col gap-3 mx-4 mt-2">
             <li >
               <article onClick={handleContactPage} className="more-items cursor-pointer flex items-center justify-between pb-2 border-b-2 ">
                 <p>Contact Us</p>
@@ -58,19 +58,13 @@ export const More = ( ) => {
               </article>
             </li>
             <li>
-              <article className="more-items cursor-pointer flex items-center justify-between pb-2 border-b-2">
-                <p>Tour</p>
-                <i className="fa-solid fa-angle-right"></i>
-              </article>
-            </li>
-            <li>
-              <article onClick={handleAboutPage} className="more-items cursor-pointer flex items-center justify-between pb-2 border-b-2">
+              <article onClick={handleAboutPage} className="more-items cursor-pointer flex items-center justify-between pb-2 ">
                 <p>About</p>
                 <i className="fa-solid fa-angle-right"></i>
               </article>
             </li>
           </ul>
-          <div className="medias flex gap-3 text-sm justify-center mt-16 text-white ">
+          <div className="medias flex gap-3 text-sm justify-center mt-28 text-white ">
             <i className="fa-brands fa-twitter bg-red-600 p-1.5 rounded-full cursor-pointer"></i>
             <i className="fa-brands fa-instagram bg-red-600 p-1.5 rounded-full cursor-pointer"></i>
             <i className="fa-brands fa-square-youtube bg-red-600 p-1.5 rounded-full cursor-pointer"></i>
