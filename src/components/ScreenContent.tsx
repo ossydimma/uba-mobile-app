@@ -25,6 +25,12 @@ export const ScreenContent = () => {
   function handleHideCountries(): void {
     setShowDiv(false);
   }
+  function handleReset() {
+    handleHideCountries()
+    setTimeout(()=> {
+      setShowDiv(true)
+    }, 1000)
+  }
   function changeBg(): void {
     if (setShowMorePage !== undefined) {
       setShowSignIn(false);
@@ -43,6 +49,7 @@ export const ScreenContent = () => {
       setChangeType("password");
     }
   }
+ 
 
   return (
     <div className={`text-white relative`}>
@@ -68,7 +75,7 @@ export const ScreenContent = () => {
                   Tap to change country
                 </p>
                 <div className="countries-header-icon flex gap-3 mr-2 mt-1">
-                  {/* <i className="fa-solid fa-rotate-right cursor-pointer" onClick={handleReset}></i> */}
+                  <i className="fa-solid fa-rotate-right cursor-pointer" onClick={handleReset}></i>
                   <i
                     className="fa-solid fa-xmark cursor-pointer"
                     onClick={handleHideCountries}
