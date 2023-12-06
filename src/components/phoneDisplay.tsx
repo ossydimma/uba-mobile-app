@@ -12,6 +12,7 @@ export function PhoneDisplay() {
   const [showFaq, setShowFaq] = useState<boolean>(false);
   const [showAbout, setShowAbout] = useState<boolean>(false);
   const [showNoti, setShowNoti] = useState(false)
+  const [showSignUp, setShowSignUp] = useState(false)
   // changing background
   const { bg, setBg } = useContext(BgContext);
   // const { showHome, setShowHome } = useContext(MorePageContext);
@@ -57,7 +58,7 @@ export function PhoneDisplay() {
             ></i>
           </div>
         </div>
-        <MorePageContext.Provider value={{showMorePage, setShowMorePage, showContact, setShowContact, showNews, setShowNews, showInbox, setShowInbox, showFaq, setShowFaq, showAbout,setShowAbout,showNoti, setShowNoti}}>
+        <MorePageContext.Provider value={{showMorePage, setShowMorePage, showContact, setShowContact, showNews, setShowNews, showInbox, setShowInbox, showFaq, setShowFaq, showAbout,setShowAbout,showNoti, setShowNoti, showSignUp, setShowSignUp}}>
           <ScreenContent />
         </MorePageContext.Provider>
       </div>

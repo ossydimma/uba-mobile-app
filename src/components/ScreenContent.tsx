@@ -8,7 +8,8 @@ import { SignUp } from "../pages/SignUp";
 
 export const ScreenContent = () => {
   // states
-  const { showMorePage, setShowMorePage } = useContext(MorePageContext);
+  const { showMorePage, setShowMorePage, showSignUp, setShowSignUp } =
+    useContext(MorePageContext);
   const { setBg } = useContext(BgContext);
   const [showDiv, setShowDiv] = useState<boolean>(false);
   const [showIcon, setShowIcon] = useState<boolean>(false);
@@ -18,7 +19,7 @@ export const ScreenContent = () => {
 
   // functions
   function handleDisplayCountries(): void {
-    setShowPrivacy(false)
+    setShowPrivacy(false);
     setShowSignIn(false);
     setShowDiv(true);
   }
@@ -26,10 +27,10 @@ export const ScreenContent = () => {
     setShowDiv(false);
   }
   function handleReset() {
-    handleHideCountries()
-    setTimeout(()=> {
-      setShowDiv(true)
-    }, 1000)
+    handleHideCountries();
+    setTimeout(() => {
+      setShowDiv(true);
+    }, 1000);
   }
   function changeBg(): void {
     if (setShowMorePage !== undefined) {
@@ -40,7 +41,7 @@ export const ScreenContent = () => {
       setBg("light-screen-mode");
     }
   }
-  function handleChangeType() {
+  function handleChangeType(): void {
     if (showIcon === false) {
       setShowIcon(true);
       setChangeType("text");
@@ -49,7 +50,6 @@ export const ScreenContent = () => {
       setChangeType("password");
     }
   }
- 
 
   return (
     <div className={`text-white relative`}>
@@ -75,7 +75,10 @@ export const ScreenContent = () => {
                   Tap to change country
                 </p>
                 <div className="countries-header-icon flex gap-3 mr-2 mt-1">
-                  <i className="fa-solid fa-rotate-right cursor-pointer" onClick={handleReset}></i>
+                  <i
+                    className="fa-solid fa-rotate-right cursor-pointer"
+                    onClick={handleReset}
+                  ></i>
                   <i
                     className="fa-solid fa-xmark cursor-pointer"
                     onClick={handleHideCountries}
@@ -178,30 +181,56 @@ export const ScreenContent = () => {
       )}
 
       <div className="new text-xs flex justify-between mx-3 mt-20 md:mt-24">
-        <p className="cursor-pointer" onClick={()=> {if (!showPrivacy) setShowPrivacy(true)}}> Open an Account</p>
+        <p
+          className="cursor-pointer"
+          onClick={() => {
+            if (!showPrivacy) setShowPrivacy(true);
+          }}
+        >
+          {" "}
+          Open an Account
+        </p>
         <p className="cursor-pointer">Sign up</p>
       </div>
 
-     {showPrivacy && <section className="absolute top-6   bg-white text-black ml-5 w-52  rounded-xl p-5">
-        <i
-          className="fa-solid fa-xmark cursor-pointer ml-36 mb-4"
-          onClick={()=> setShowPrivacy(false)}
-        ></i>
-        <h3 className="text-center font-bold mb-2">Privacy Notice</h3>
-        <article className="text-xs">
-          We take your privacy seriously and only process your personal
-          information to make your banking experience better. In accordance with
-          NDPR, GDPR, and any applicable regulations, continuing to use this
-          platform indicates your consent to the processing of your personal
-          data by United Bank for Africa PLC, its subsidiaries and partners as
-          detailed in our Privacy Policy.
-        </article>
-        <div className="flex flex-col gap-2 mt-3 text-sm">
-          <button className="bg-red-600 rounded-md py-1">Accept</button>
-          <button className=" rounded-md py-1 text-red-600 border-red-600 border-2 hover:bg-gray-200" onClick={()=> setShowPrivacy(false)}>Reject</button>
-        </div>
-      </section>}
-      <SignUp />
+      {showPrivacy && (
+        <section className="absolute top-6   bg-white text-black ml-5 w-52  rounded-xl p-5">
+          <i
+            className="fa-solid fa-xmark cursor-pointer ml-36 mb-4"
+            onClick={() => setShowPrivacy(false)}
+          ></i>
+          <h3 className="text-center font-bold mb-2">Privacy Notice</h3>
+          <article className="text-xs">
+            We take your privacy seriously and only process your personal
+            information to make your banking experience better. In accordance
+            with NDPR, GDPR, and any applicable regulations, continuing to use
+            this platform indicates your consent to the processing of your
+            personal data by United Bank for Africa PLC, its subsidiaries and
+            partners as detailed in our Privacy Policy.
+          </article>
+          <div className="flex flex-col gap-2 mt-3 text-sm">
+            <button
+              className="bg-red-600 rounded-md py-1"
+              onClick={() => {
+                if (setShowSignUp !== undefined) {
+                  setShowPrivacy(false);
+                  setBg("light-screen-mode");
+                  setShowSignUp(true);
+                }
+              }}
+            >
+              Accept
+            </button>
+            <button
+              className=" rounded-md py-1 text-red-600 border-red-600 border-2 hover:bg-gray-200"
+              onClick={() => setShowPrivacy(false)}
+            >
+              Reject
+            </button>
+          </div>
+        </section>
+      )}
+      {showSignUp && <SignUp />}
     </div>
   );
 };

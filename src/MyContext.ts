@@ -20,6 +20,8 @@ interface morePageType {
     setShowAbout?: Dispatch<SetStateAction<boolean>>;
     showNoti? : boolean;
     setShowNoti? : Dispatch<SetStateAction<boolean>>;
+    showSignUp?: boolean;
+    setShowSignUp? : Dispatch<SetStateAction<boolean>>;
 }
 
 
