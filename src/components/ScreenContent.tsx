@@ -5,12 +5,22 @@ import { useContext, useState } from "react";
 import { More } from "../pages/More";
 import { BgContext, MorePageContext } from "../MyContext";
 import { SignUp } from "../pages/SignUp";
+import { SignUpHomePage } from "../pages/SignUpHomePage";
+import { EmptyPage } from "../pages/EmptyPage";
 
 export const ScreenContent = () => {
-  // states
-  const { showMorePage, setShowMorePage, showSignUp, setShowSignUp } =
-    useContext(MorePageContext);
+  // contexts
+  const {
+    showMorePage,
+    setShowMorePage,
+    showSignUp,
+    setShowSignUp,
+    showSignUpHomePage,
+    setShowSignUpHomePage,
+  } = useContext(MorePageContext);
   const { setBg } = useContext(BgContext);
+
+   // states
   const [showDiv, setShowDiv] = useState<boolean>(false);
   const [showIcon, setShowIcon] = useState<boolean>(false);
   const [showSignIn, setShowSignIn] = useState<boolean>(false);
@@ -187,10 +197,19 @@ export const ScreenContent = () => {
             if (!showPrivacy) setShowPrivacy(true);
           }}
         >
-          {" "}
           Open an Account
         </p>
-        <p className="cursor-pointer">Sign up</p>
+        <p
+          className="cursor-pointer"
+          onClick={() => {
+            if (setShowSignUpHomePage !== undefined) {
+              setBg("light-screen-mode");
+              setShowSignUpHomePage(true);
+            }
+          }}
+        >
+          Sign up
+        </p>
       </div>
 
       {showPrivacy && (
@@ -231,6 +250,7 @@ export const ScreenContent = () => {
         </section>
       )}
       {showSignUp && <SignUp />}
+      {showSignUpHomePage && <SignUpHomePage />}
     </div>
   );
 };

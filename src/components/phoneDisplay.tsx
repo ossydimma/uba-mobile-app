@@ -2,22 +2,19 @@ import { useContext, useEffect, useState } from "react";
 import { ScreenContent } from "./ScreenContent";
 import { BgContext, MorePageContext } from "../MyContext";
 
-
 export function PhoneDisplay() {
-  
   const [showMorePage, setShowMorePage] = useState<boolean>(false);
   const [showContact, setShowContact] = useState<boolean>(false);
   const [showNews, setShowNews] = useState<boolean>(false);
   const [showInbox, setShowInbox] = useState<boolean>(false);
   const [showFaq, setShowFaq] = useState<boolean>(false);
   const [showAbout, setShowAbout] = useState<boolean>(false);
-  const [showNoti, setShowNoti] = useState(false)
-  const [showSignUp, setShowSignUp] = useState(false)
+  const [showNoti, setShowNoti] = useState(false);
+  const [showSignUp, setShowSignUp] = useState(false);
+  const [showSignUpHomePage, setShowSignUpHomePage] = useState(false);
+
   // changing background
   const { bg, setBg } = useContext(BgContext);
-  // const { showHome, setShowHome } = useContext(MorePageContext);
-  
-  
 
   // getting current time
   const [time, setTime] = useState(new Date());
@@ -53,12 +50,31 @@ export function PhoneDisplay() {
           <div className="icons flex gap-1 text-xs">
             <i className="icon fa-solid fa-signal"></i>
             <i className="icon fa-solid fa-wifi"></i>
-            <i
-              className="icon fa-solid fa-battery-half"
-            ></i>
+            <i className="icon fa-solid fa-battery-half"></i>
           </div>
         </div>
-        <MorePageContext.Provider value={{showMorePage, setShowMorePage, showContact, setShowContact, showNews, setShowNews, showInbox, setShowInbox, showFaq, setShowFaq, showAbout,setShowAbout,showNoti, setShowNoti, showSignUp, setShowSignUp}}>
+        <MorePageContext.Provider
+          value={{
+            showMorePage,
+            setShowMorePage,
+            showContact,
+            setShowContact,
+            showNews,
+            setShowNews,
+            showInbox,
+            setShowInbox,
+            showFaq,
+            setShowFaq,
+            showAbout,
+            setShowAbout,
+            showNoti,
+            setShowNoti,
+            showSignUp,
+            setShowSignUp,
+            showSignUpHomePage,
+            setShowSignUpHomePage,
+          }}
+        >
           <ScreenContent />
         </MorePageContext.Provider>
       </div>

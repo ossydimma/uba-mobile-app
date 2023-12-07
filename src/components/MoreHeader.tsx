@@ -11,7 +11,7 @@ interface ProductProps {
 export const MoreHeader = (name: ProductProps) => {
   // const {setShowMorePage} = useContext(MorePageContext);
   const {setBg} = useContext(BgContext)
-  const {setShowMorePage, setShowContact, setShowNews, setShowInbox, setShowAbout, setShowFaq,showNoti, setShowNoti} = useContext(MorePageContext)
+  const {setShowMorePage, setShowContact, setShowNews, setShowInbox, setShowAbout, setShowFaq,showNoti, setShowNoti, setShowSignUpHomePage} = useContext(MorePageContext)
   
   const [showBell, seShowtBell] = useState(true)
   function handleNotiPage() : void {
@@ -62,6 +62,12 @@ export const MoreHeader = (name: ProductProps) => {
           setShowNoti(false)
         }
         break;
+      case "Sign Up":
+      if (setShowSignUpHomePage!== undefined) {
+        setShowSignUpHomePage(false)
+        setBg('phone-deafult-screen')
+      }
+      break;
     
       default:
         break;

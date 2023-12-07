@@ -2,9 +2,11 @@ import { useContext, useState } from "react";
 import { BgContext, MorePageContext } from "../MyContext";
 
 export const SignUp = () => {
+  // Contexts
   const { setBg } = useContext(BgContext);
   const { setShowSignUp } = useContext(MorePageContext);
 
+  // states
   const [showName, setshowName] = useState<boolean>(true);
   const [showPassPage, setshowPassPage] = useState<boolean>(false);
   const [showPinPage, setshowPinPage] = useState<boolean>(false);
@@ -15,6 +17,7 @@ export const SignUp = () => {
   const [inputValue1, setInputValue1] = useState<string>("");
   const [inputValue2, setInputValue2] = useState<string>("");
 
+  // local functions
   function handleNextBtn(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
 
@@ -82,6 +85,8 @@ export const SignUp = () => {
       setshowPinPage(true);
     }
   }
+
+
   function handleActivationBtn(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
 
