@@ -9,9 +9,10 @@ export function PhoneDisplay() {
   const [showInbox, setShowInbox] = useState<boolean>(false);
   const [showFaq, setShowFaq] = useState<boolean>(false);
   const [showAbout, setShowAbout] = useState<boolean>(false);
-  const [showNoti, setShowNoti] = useState(false);
-  const [showSignUp, setShowSignUp] = useState(false);
-  const [showSignUpHomePage, setShowSignUpHomePage] = useState(false);
+  const [showForgottenPage, setShowForgottenPage] = useState<boolean>(false);
+  const [showNoti, setShowNoti] = useState<boolean>(false);
+  const [showSignUp, setShowSignUp] = useState<boolean>(false);
+  const [showSignUpHomePage, setShowSignUpHomePage] = useState<boolean>(false);
 
   // changing background
   const { bg, setBg } = useContext(BgContext);
@@ -73,6 +74,8 @@ export function PhoneDisplay() {
             setShowSignUp,
             showSignUpHomePage,
             setShowSignUpHomePage,
+            showForgottenPage,
+            setShowForgottenPage,
           }}
         >
           <ScreenContent />

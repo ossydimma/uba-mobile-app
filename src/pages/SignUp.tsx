@@ -30,6 +30,7 @@ export const SignUp = () => {
       : inputValue1.length < 5
       ? setshowFeedBack1("Field must be more than 5 characters ")
       : setshowFeedBack1("");
+      
     !isNumber(inputValue2)
       ? setshowFeedBack2("Field must be a Number")
       : inputValue2.length < 11

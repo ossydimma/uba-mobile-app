@@ -7,6 +7,7 @@ import { BgContext, MorePageContext } from "../MyContext";
 import { SignUp } from "../pages/SignUp";
 import { SignUpHomePage } from "../pages/SignUpHomePage";
 import { EmptyPage } from "../pages/EmptyPage";
+import { ForgetPaswrd } from "../pages/ForgetPaswrd";
 
 export const ScreenContent = () => {
   // contexts
@@ -17,12 +18,14 @@ export const ScreenContent = () => {
     setShowSignUp,
     showSignUpHomePage,
     setShowSignUpHomePage,
+    showForgottenPage,
+    setShowForgottenPage,
   } = useContext(MorePageContext);
   const { setBg } = useContext(BgContext);
 
-   // states
+  // states
   const [showDiv, setShowDiv] = useState<boolean>(false);
-  const [showIcon, setShowIcon] = useState<boolean>(false);
+  const [showIcon, setShowIcon] = useState<boolean>(true);
   const [showSignIn, setShowSignIn] = useState<boolean>(false);
   const [showPrivacy, setShowPrivacy] = useState<boolean>(false);
   const [changeType, setChangeType] = useState<string>("password");
@@ -52,11 +55,11 @@ export const ScreenContent = () => {
     }
   }
   function handleChangeType(): void {
-    if (showIcon === false) {
-      setShowIcon(true);
+    if (showIcon === true) {
+      setShowIcon(false);
       setChangeType("text");
     } else {
-      setShowIcon(false);
+      setShowIcon(true);
       setChangeType("password");
     }
   }
@@ -177,9 +180,19 @@ export const ScreenContent = () => {
                 )}
               </div>
             </div>
-            <p className="text-xs text-right pt-1 cursor-pointer">
+            <p
+              className="text-xs text-right pt-1 cursor-pointer"
+              onClick={() => {
+                if (setShowForgottenPage !== undefined) {
+                  setShowSignIn(false);
+                  setBg("light-screen-mode");
+                  setShowForgottenPage(true);
+                }
+              }}
+            >
               Forget Password?
             </p>
+
             <div>
               <button className="bg-red-600 mt-3 w-32 h-8 rounded-sm ml-6">
                 Sign In
@@ -189,7 +202,7 @@ export const ScreenContent = () => {
           </form>
         </section>
       )}
-
+      {showForgottenPage && <ForgetPaswrd />}
       <div className="new text-xs flex justify-between mx-3 mt-20 md:mt-24">
         <p
           className="cursor-pointer"

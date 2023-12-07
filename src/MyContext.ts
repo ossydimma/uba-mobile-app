@@ -24,6 +24,8 @@ interface morePageType {
     setShowSignUp? : Dispatch<SetStateAction<boolean>>;
     showSignUpHomePage? : boolean;
     setShowSignUpHomePage?: Dispatch<SetStateAction<boolean>>;
+    showForgottenPage? : boolean;
+    setShowForgottenPage?: Dispatch<SetStateAction<boolean>>;
 }
 
 
