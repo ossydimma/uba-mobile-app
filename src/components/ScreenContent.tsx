@@ -8,6 +8,7 @@ import { SignUp } from "../pages/SignUp";
 import { SignUpHomePage } from "../pages/SignUpHomePage";
 import { EmptyPage } from "../pages/EmptyPage";
 import { ForgetPaswrd } from "../pages/ForgetPaswrd";
+import { Home } from "../pages/Home";
 
 export const ScreenContent = () => {
   // contexts
@@ -20,6 +21,8 @@ export const ScreenContent = () => {
     setShowSignUpHomePage,
     showForgottenPage,
     setShowForgottenPage,
+    showHome,
+    setShowHome,
   } = useContext(MorePageContext);
   const { setBg } = useContext(BgContext);
 
@@ -194,7 +197,16 @@ export const ScreenContent = () => {
             </p>
 
             <div>
-              <button className="bg-red-600 mt-3 w-32 h-8 rounded-sm ml-6">
+              <button 
+                className="bg-red-600 mt-3 w-32 h-8 rounded-sm ml-6"
+                onClick={(e)=> {
+                  e.preventDefault()
+                  if(setShowHome !== undefined) {
+                    setBg('dark-screen-mode')
+                    setShowHome(true)
+                  }
+                }}
+              >
                 Sign In
               </button>
               <i className="fa-solid fa-fingerprint bg-red-600 p-2 rounded-md ml-2 cursor-pointer"></i>
@@ -216,7 +228,7 @@ export const ScreenContent = () => {
           className="cursor-pointer"
           onClick={() => {
             if (setShowSignUpHomePage !== undefined) {
-              setBg("light-screen-mode");
+              setBg('light-screen-mode')
               setShowSignUpHomePage(true);
             }
           }}
@@ -246,7 +258,7 @@ export const ScreenContent = () => {
               onClick={() => {
                 if (setShowSignUp !== undefined) {
                   setShowPrivacy(false);
-                  setBg("light-screen-mode");
+                  setBg('dark-screen-mode');
                   setShowSignUp(true);
                 }
               }}
@@ -264,6 +276,7 @@ export const ScreenContent = () => {
       )}
       {showSignUp && <SignUp />}
       {showSignUpHomePage && <SignUpHomePage />}
+      {showHome && <Home />}
     </div>
   );
 };

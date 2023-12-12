@@ -1,10 +1,13 @@
 import { useContext, useState } from "react";
-import { BgContext, MorePageContext } from "../MyContext";
+import { BgContext, MorePageContext, UserInfo } from "../MyContext";
+import { userInfo } from "os";
 
 export const SignUp = () => {
   // Contexts
   const { setBg } = useContext(BgContext);
-  const { setShowSignUp } = useContext(MorePageContext);
+  const { setShowSignUp, setShowHome } = useContext(MorePageContext);
+  const user = useContext(UserInfo)
+  
 
   // states
   const [showName, setshowName] = useState<boolean>(true);
@@ -44,6 +47,8 @@ export const SignUp = () => {
     ) {
       setshowName(false);
       setshowPassPage(true);
+      user.fullName = inputValue1;
+      user.contact = inputValue2;
     }
   }
   function handleNext2Btn(e: React.MouseEvent<HTMLButtonElement>) {
@@ -84,6 +89,7 @@ export const SignUp = () => {
     ) {
       setshowPassPage(false);
       setshowPinPage(true);
+      user.password = inputValue1;
     }
   }
 
@@ -116,7 +122,12 @@ export const SignUp = () => {
       /^[0-9]+$/.test(inputValue2) &&
       inputValue1.length === 4
     )
-      alert("correct my guy");
+      
+      if (setShowHome !== undefined) {
+        setShowHome(true)
+        
+        user.pin = inputValue1;
+      }
   }
 
   function handleChangeInput1(e: React.ChangeEvent<HTMLInputElement>) {

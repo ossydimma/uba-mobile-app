@@ -13,6 +13,7 @@ export function PhoneDisplay() {
   const [showNoti, setShowNoti] = useState<boolean>(false);
   const [showSignUp, setShowSignUp] = useState<boolean>(false);
   const [showSignUpHomePage, setShowSignUpHomePage] = useState<boolean>(false);
+  const [showHome, setShowHome] = useState<boolean>(false);
 
   // changing background
   const { bg, setBg } = useContext(BgContext);
@@ -40,11 +41,11 @@ export function PhoneDisplay() {
                 hour: "numeric",
                 minute: "2-digit",
                 hour12: true,
-              })}{" "}
+              })}
             </h1>
           </div>
           <div className="camera-container">
-            <div className="camera-spot w-16 h-6 rounded-full bg-black py-2 ml-1">
+            <div className="camera-spot w-16 h-6 rounded-full bg-[#1c1a1a] py-2 ml-1">
               <div className="camera w-2 h-2 bg-gray-900 rounded-full ml-12"></div>
             </div>
           </div>
@@ -76,6 +77,8 @@ export function PhoneDisplay() {
             setShowSignUpHomePage,
             showForgottenPage,
             setShowForgottenPage,
+            showHome,
+            setShowHome,
           }}
         >
           <ScreenContent />

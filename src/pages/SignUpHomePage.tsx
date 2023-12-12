@@ -11,6 +11,7 @@ export const SignUpHomePage = () => {
   function handleSignUpPage(): void {
     if (setShowSignUp !== undefined && setShowSignUpHomePage !== undefined) {
         setShowSignUpHomePage(false)
+        setBg('dark-screen-mode')
         setShowSignUp(true);
     }
   }

@@ -26,10 +26,18 @@ interface morePageType {
     setShowSignUpHomePage?: Dispatch<SetStateAction<boolean>>;
     showForgottenPage? : boolean;
     setShowForgottenPage?: Dispatch<SetStateAction<boolean>>;
+    showHome? : boolean;
+    setShowHome? :  Dispatch<SetStateAction<boolean>>;
 }
-
+interface userInfoType {
+    fullName : string | undefined;
+    contact : string | undefined;
+    password : string;
+    pin :  String
+}
 
 
 
 export const BgContext = createContext<bgType>({} as bgType);
 export const MorePageContext = createContext<morePageType>({})
+export const UserInfo = createContext<userInfoType>( {} as userInfoType)

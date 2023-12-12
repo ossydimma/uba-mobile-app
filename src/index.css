@@ -27,6 +27,9 @@
     border-radius: 40px;
     height: 80%;
 }
+.h {
+  height: 4000px;
+}
 .phone-deafult-screen {
   background: url('./assests/unsplash_60XLoOgwkfA.png') no-repeat;
   background-position: center;
@@ -34,6 +37,16 @@
 }
 .light-screen-mode {
   background: #fff;
+}
+.dark-screen-mode {
+  background: #000;
+  color: #fff;
+}
+.home-screen {
+  background: url(assests/uba-house.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
 }
 
 .new {
@@ -84,14 +97,24 @@
   height: 400px;
   overflow-y: scroll;
 }
-
-.countries-wrapper::-webkit-scrollbar, .questions-wrapper::-webkit-scrollbar {
-  width: 10px;
+.home-wrapper {
+  height: 454px;
+  overflow-y: scroll;
 }
 
-.countries-wrapper::-webkit-scrollbar-thumb, .questions-wrapper::-webkit-scrollbar-thumb {
+
+.countries-wrapper::-webkit-scrollbar, .questions-wrapper::-webkit-scrollbar, .home-wrapper::-webkit-scrollbar {
+  width: 8px;
+}
+
+
+.countries-wrapper::-webkit-scrollbar-thumb, .questions-wrapper::-webkit-scrollbar-thumb, .home-wrapper::-webkit-scrollbar-thumb {
   background-color: #ccc;
   border-radius: 10px;
+}
+
+.home-wrapper::-webkit-scrollbar-track {
+  background-color: #292727;
 }
 
 .countries-wrapper::-webkit-scrollbar-track, .questions-wrapper::-webkit-scrollbar-track {
@@ -111,3 +134,39 @@
   transform: rotate(360deg);
   transition-duration: 1s ;
 }
+.my-class {
+  -webkit-text-security: disc;
+}
+.small-font {
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.loader {
+  width: 20px;
+  height: 20px;
+  border: 3px solid red;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+  }
+
+  @keyframes rotation {
+  0% {
+      transform: rotate(0deg);
+  }
+  100% {
+      transform: rotate(360deg);
+  }
+  } 
+  
+  .sec-height {
+    height: 105px;
+  }
+  .nav {
+    box-shadow: 0px -5px 2px -5px rgba(0, 0, 0, 0.5);
+  }
