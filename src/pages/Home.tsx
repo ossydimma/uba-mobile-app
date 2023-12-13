@@ -3,7 +3,9 @@ import { BgContext, MorePageContext, UserInfo } from "../MyContext";
 import sendSvg from "../assests/money-cash-svgrepo-com.svg";
 import billSvg from "../assests/money-cash-svgrepo-com (1).svg";
 import loadSvg from "../assests/history-svgrepo-com.svg"
-// import { setTimeout } from "timers/promises";
+import mobileSvg from "../assests/mobile2-svgrepo-com.svg"
+import loanImage from "../assests/loan.jpeg";
+import eNaeriaImage from "https://enaira.gov.ng/wp-content/uploads/2023/04/enaira-logo.jpg"
 
 export const Home = () => {
   // states
@@ -147,46 +149,68 @@ export const Home = () => {
             </div>
           )}
         </section>
-        <div className="bg-[#f1f1f1] w-full text-black h pt-20 overflow-hidden">
+        <div className="bg-[#f1f1f1] w-full text-black h-[1000px] pt-20 overflow-hidden">
           <div className="bg-red-600 w-2.5 h-2.5 mx-auto rounded-full -mt-4 "></div>
-          <section className="sec-height mx-auto  w-48 bg-white rounded-lg drop-shadow-xl mt-2  pl-1.5 pt-2 overflow-hidden ">
+          <section className="sec-height mx-auto  w-48 bg-white rounded-lg drop-shadow-xl mt-2  pl-1.5 pt-2 ">
             <h2 className="text-sm font-[600]">Service</h2>
-            <ul className="w-full h-full flex items-center gap-1.5 -mt-3 pl-1">
+            <ul className="w-full h-full flex items-center justify-center gap-1.5 -mt-3">
               <li className="flex flex-col items-center gap-1 cursor-pointer">
-                <div className="border-2 p-1.5 drop-shadow-lg">
+                <div className="border-2 p-1.5 drop-shadow-lg bg-white">
                   <img src={sendSvg} alt="icon" />
                 </div>
                 <p className="text-[9px]">Transfer</p>
               </li>
 
               <li className="flex flex-col items-center gap-1 cursor-pointer ">
-                <div className="border-2 p-1.5   drop-shadow-lg">
+                <div className="border-2 p-1.5   drop-shadow-lg bg-white">
                   <img src={loadSvg} alt="icon" />
                 </div>
                 <p className="text-[8px] text-center">History</p>
               </li>
 
               <li className="flex flex-col items-center gap-1 cursor-pointer">
-                <div className="border-2 p-1.5 drop-shadow-lg">
+                <div className="border-2 p-1.5 drop-shadow-lg bg-white ">
                   <img src={billSvg} alt="icon" />
                 </div>
                 <p className="text-[8px]">Pay Bill</p>
               </li>
 
               <li className="flex flex-col items-center gap-1 cursor-pointer">
-                <div className="border-2 p-1.5 drop-shadow-lg">
-                  <img src={billSvg} alt="icon" />
+                <div className="border-2 p-1.5 drop-shadow-lg bg-white">
+                  <img src={mobileSvg} alt="icon" />
                 </div>
-                <p className="text-[8px]">Pay Bill</p>
+                <p className="text-[8px]">Mobile</p>
               </li>
 
             </ul>
           </section>
-          <section className="sec-height mx-auto  w-48 bg-white rounded-lg drop-shadow-xl mt-4">
-
+          <section className="sec-height mx-auto  w-48 bg-white rounded-lg drop-shadow-xl mt-4 pl-1.5 pt-2">
+            <h2 className="text-sm font-[600]">Loan</h2>
+            <div className="w-24  mt-0.5 ml-1 cursor-pointer">
+              <img src={loanImage} alt="loan image" className="rounded-md h-[50px]" />
+              <p className="text-[11px] mt-[2px] ml-0.5">Quick Loans</p>
+            </div>
           </section>
+          <section className=" relative mx-auto pb-4 w-48 bg-white rounded-lg drop-shadow-xl mt-4  pt-2">
+            <img src='https://enaira.gov.ng/wp-content/uploads/2023/04/enaira-logo.jpg' alt="eNaria image"  className="h-10 w-24 ml-1.5"/>  
+            <div className=" absolute top-0 left-[49px] w-24 h-10 bg-white pt-2">
+             <p className="text-gray-600 text-lg font-[500] -mt-1">eNaira</p> 
+             <div className="text-[8px] flex flex-col -mt-[8px] gap-[-4px] text-green-900">
+              <p>Same Naira</p>
+              <p className="-mt-1">More possibilities</p>
+             </div>
+            </div>
+            <div  className="mx-[4px] mt-1">
+              <p className="text-[10px] font-semibold">Access your eNaria Wallet from UBA App</p>
+              <p className="text-[9px] mt-0.5">Secure,fast & easy way to deposit & withdraw & funds from / to your UBA app</p>
+            </div>
+            <div className="flex justify-center mt-3">
+              <button className="bg-red-600 w-[90%] h-8 rounded-md">Get Started</button>
+            </div>
+          </section>
+            
 
-          <div className=" absolute ">
+          <div className="fixed-footer absolute ">
             <nav className="nav fixed w-[232px] h-10 bg-[#F1f1f1]  border-black rounded-[18px] bottom-[71px] text-red-600 text-xl flex justify-around items-center  gap-4 left-[26.5%] md:bottom-[72px] md:left-[41.5%]">
               <i className="fa-solid fa-house cursor-pointer"></i>
               <i className="fa-solid fa-bars cursor-pointer"></i>
