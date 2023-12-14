@@ -17,7 +17,7 @@ export const Home = () => {
   const [showEnaira, setShowEnaira] = useState<boolean>(true);
   const [showService, setShowService] = useState<boolean>(true);
   const [showMobile, setShowMobile] = useState<boolean>(true);
-  const [showAccount, setShowAccount] = useState<boolean>(true);
+  const [showCustomize, setShowCustomize] = useState<boolean>(true);
 
 
   // contexts
@@ -147,7 +147,7 @@ export const Home = () => {
           )}
         </section>
 
-        <div className="bg-[#f1f1f1] w-full text-black h-[920px] pt-20 overflow-hidden">
+        <div className="bg-[#f1f1f1] w-full text-black h-[900px] pt-20 overflow-hidden">
           <div className="bg-red-600 w-2.5 h-2.5 mx-auto rounded-full -mt-4 "></div>
 
           {showService && <section className="sec-height mx-auto  w-48 bg-white rounded-lg drop-shadow-xl mt-2  pl-1.5 pt-2 ">
@@ -245,6 +245,9 @@ export const Home = () => {
             <p className=" text-sm">Customize Your Home</p>
             <i className="fa-solid fa-plus bg-gray-300 py-2 px-2.5 text-red-600 text-sm rounded-md cursor-pointer"></i>
           </section>
+          
+
+           
             
 
 
@@ -262,6 +265,22 @@ export const Home = () => {
               </ul>
             </nav>
           </div>
+          <div className=" relative"> 
+            <section className="showCountries bg-white px-2.5 py-2 absolute w-full h-[280px] bottom-[-40px] z-10 rounded-lg">
+              <div className="flex justify-between items-center" >
+                <p className=" text-sm text-gray-400 pl-2">Customize Your Home</p>
+                <button className="  bg-red-600 text-white text-xs py-1.5 px-3 rounded">Done</button>
+              </div>
+              <ul className=" mr-3 ml-1 mt-5">
+                <li className="flex justify-between">
+                  <p className=" text-gray-800">Services</p>
+                  <input type="checkbox" className=" w-6 rounded-full" />
+                </li>
+                
+              </ul>
+            </section>
+          </div> 
+
         </div>
       </main>
     </div>
