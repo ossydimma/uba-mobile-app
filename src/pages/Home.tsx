@@ -6,8 +6,19 @@ import loadSvg from "../assests/history-svgrepo-com.svg";
 import mobileSvg from "../assests/mobile2-svgrepo-com.svg";
 import loanImage from "../assests/loan.jpeg";
 
+interface selectType {
+  item1 ?: boolean
+  item2 ?: boolean
+}
+interface selectedType {
+  account? : string;
+  service? : string
+}
+
 
 export const Home = () => {
+
+
   // states
   const [showIcon, setShowIcon] = useState<boolean>(true);
   const [reload, setReload] = useState<boolean>(true);
@@ -23,6 +34,15 @@ export const Home = () => {
   const [checkLoan, setCheckLoan] = useState<boolean>(true);
   const [checkNaira, setCheckNaira] = useState<boolean>(true);
   const [checkMobile, setCheckMobile] = useState<boolean>(true);
+  const [select, setSelect] = useState<selectType>({
+    item1 : false,
+    item2 : false
+  });
+  const [selected, setSelected] = useState<selectedType>({
+    account :  "Select Account",
+    service : "Select Service"
+  })
+
 
   // contexts
   const { bg } = useContext(BgContext);
@@ -245,6 +265,7 @@ export const Home = () => {
               </section>
             )}
 
+            {/* --------------------------------mobile sec------------------------------- */}
             {showMobile && (
               <section className="relative mx-auto pb-4 pl-2 pr-2 w-48 bg-white rounded-lg drop-shadow-xl mt-4  pt-3">
                 <h2 className=" text-sm font-bold mb-2">Mobile Top up</h2>
@@ -262,11 +283,11 @@ export const Home = () => {
                     {" "}
                   </i>
                   <div className=" w-44 h-9 border text-xs flex items-center px-3 justify-between rounded-[4px]">
-                    <p className="text-gray-400"> Select Account</p>
+                    <p className="text-gray-400">{selected.account}</p>
                     <i className="fa-solid fa-caret-down text-gray-600 cursor-pointer"></i>
                   </div>
                   <div className=" w-44 h-9 border text-xs flex items-center px-3 justify-between rounded-[4px]">
-                    <p className="text-gray-400"> Select Service</p>
+                    <p className="text-gray-400">{selected.service}</p>
                     <i className="fa-solid fa-caret-down text-gray-600 cursor-pointer"></i>
                   </div>
                   <button className="bg-red-600 py-2 text-sm text-white  w-44 rounded-[4px]">
@@ -302,6 +323,8 @@ export const Home = () => {
               </nav>
             </div>
 
+
+            {/*------------------------------------ customize section-------------------- */}
             {!showCustomize && <section className="showCountries bg-white px-2.5 py-2 absolute w-full h-[280px] top-0  z-10 rounded-lg">
               <div className="flex justify-between items-center">
                 <p className=" text-sm text-gray-400 pl-2">
@@ -357,6 +380,21 @@ export const Home = () => {
                 </li>
               </ul>
             </section>}
+
+            {/*---------------------------- mobile service section--------------------------- */}
+            <section  className="showCountries bg-white px-2.5 py-3 absolute w-full h-[80px] bottom-[-40px]  z-10 rounded-lg">
+              <ul className=" ">
+                <li className="flex justify-between pb-3 cursor-pointer" onClick={()=> {setSelect({item1: true, item2: false}); setSelected({service : "Buy Airtime"}) }}>
+                  <p className=" text-sm ">Buy Airtime</p>
+                  {select.item1 && <i className="fa-solid fa-check text-red-600"></i>}
+                </li>
+                <li className="flex justify-between cursor-pointer" onClick={()=> {setSelect({item1: false, item2: true}); setSelected({service : "Buy Data"})}}>
+                  <p className=" text-sm ">Buy Data</p>
+                  {select.item2 &&<i className="fa-solid fa-check text-red-600"></i>}
+                </li>
+                
+              </ul>
+            </section>
           </div>
         </div>
       </main>
