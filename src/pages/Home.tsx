@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { BgContext, MorePageContext, UserInfo } from "../MyContext";
 import sendSvg from "../assests/money-cash-svgrepo-com.svg";
 import billSvg from "../assests/money-cash-svgrepo-com (1).svg";
@@ -7,42 +13,66 @@ import mobileSvg from "../assests/mobile2-svgrepo-com.svg";
 import loanImage from "../assests/loan.jpeg";
 
 interface selectType {
-  item1 ?: boolean
-  item2 ?: boolean
+  item1?: boolean;
+  item2?: boolean;
+  item3?: boolean;
 }
 interface selectedType {
-  account? : string;
-  service? : string
+  account?: string;
+  service?: string;
+}
+interface displaySectionType {
+  showLoan: boolean;
+  showEnaira: boolean;
+  showService: boolean;
+  showMobile: boolean;
+  showCustomize: boolean;
+  showBuySec : boolean;
+  showAccDetailSec : boolean;
+}
+interface checkSectionType {
+  checkLoan: boolean;
+  checkEnaira: boolean;
+  checkService: boolean;
+  checkMobile: boolean;
 }
 
-
 export const Home = () => {
-
-
   // states
   const [showIcon, setShowIcon] = useState<boolean>(true);
   const [reload, setReload] = useState<boolean>(true);
   const [changeType, setChangeType] = useState<string>("");
   const [clickTime, setClickTime] = useState<string>("");
   const [scroll, setScroll] = useState<string>("home-wrapper");
-  const [showLoan, setShowLoan] = useState<boolean>(true);
-  const [showEnaira, setShowEnaira] = useState<boolean>(true);
-  const [showService, setShowService] = useState<boolean>(true);
-  const [showMobile, setShowMobile] = useState<boolean>(true);
-  const [showCustomize, setShowCustomize] = useState<boolean>(true);
+  const [balance, setBalance] = useState<string>("44444400.00")
+  // const [showLoan, setShowLoan] = useState<boolean>(true);
+  // const [showEnaira, setShowEnaira] = useState<boolean>(true);
+  // const [showService, setShowService] = useState<boolean>(true);
+  // const [showMobile, setShowMobile] = useState<boolean>(true);
+  // const [showCustomize, setShowCustomize] = useState<boolean>(true);
+  // const [showBuySec, setShowBuySec] = useState<boolean>(false);
   const [checkService, setCheckService] = useState<boolean>(true);
   const [checkLoan, setCheckLoan] = useState<boolean>(true);
   const [checkNaira, setCheckNaira] = useState<boolean>(true);
   const [checkMobile, setCheckMobile] = useState<boolean>(true);
   const [select, setSelect] = useState<selectType>({
-    item1 : false,
-    item2 : false
+    item1: false,
+    item2: false,
+    item3 : false,
   });
   const [selected, setSelected] = useState<selectedType>({
-    account :  "Select Account",
-    service : "Select Service"
-  })
-
+    account: "Select Account",
+    service: "Select Service",
+  });
+  const [displaySection, setDisplaysection] = useState<displaySectionType>({
+    showLoan: true,
+    showMobile: true,
+    showCustomize: true,
+    showService: true,
+    showEnaira: true,
+    showBuySec: false,
+    showAccDetailSec : false
+  });
 
   // contexts
   const { bg } = useContext(BgContext);
@@ -80,13 +110,21 @@ export const Home = () => {
   }
 
   function handleCustomize() {
-    checkService === false ? setShowService(false) : setShowService(true)
-    checkLoan === false  ? setShowLoan(false) : setShowLoan(true) 
-    checkNaira === false ? setShowEnaira(false) : setShowEnaira(true)
-    checkMobile === false ? setShowMobile(false) :  setShowMobile(true)
+    checkService === false
+      ? setDisplaysection((prev) => ({ ...prev, showService: false }))
+      :  setDisplaysection((prev) => ({ ...prev, showService: true }))
+    checkLoan === false
+      ? setDisplaysection((prev) =>({...prev, showLoan: false }))
+      : setDisplaysection((prev) =>({...prev, showLoan: true }))
+    checkNaira === false
+      ? setDisplaysection((prev) =>({...prev, showEnaira: false }))
+      : setDisplaysection((prev) =>({...prev, showEnaira: true }));
+    checkMobile === false
+      ? setDisplaysection((prev) =>({...prev, showMobile: false }))
+      : setDisplaysection((prev) =>({...prev, showMobile: false }));
 
-    setShowCustomize(true)
-    setScroll('home-wrapper')
+    setDisplaysection((prev) =>({...prev, showCustomize: true }));
+    setScroll("home-wrapper");
   }
   return (
     <div
@@ -139,7 +177,7 @@ export const Home = () => {
                   NGN{" "}
                   <span
                     className={`${changeType} text-xs `}
-                  >{`44444400.00`}</span>
+                  >{balance}</span>
                 </h1>
                 <div
                   className="cursor-pointer"
@@ -184,7 +222,7 @@ export const Home = () => {
         <div className="bg-[#f1f1f1] w-full text-black h-[auto] pt-20 pb-[50px] overflow-hidden  min-h-full">
           <div className="bg-red-600 w-2.5 h-2.5 mx-auto rounded-full -mt-4 "></div>
           <div className=" relative">
-            {showService && (
+            {displaySection.showService && (
               <section className="sec-height mx-auto  w-48 bg-white rounded-lg drop-shadow-xl mt-2  pl-1.5 pt-2 ">
                 <h2 className="text-sm font-[600]">Service</h2>
                 <ul className="w-full h-full flex items-center justify-center gap-1.5 -mt-3">
@@ -219,7 +257,7 @@ export const Home = () => {
               </section>
             )}
 
-            {showLoan && (
+            {displaySection.showLoan && (
               <section className="sec-height mx-auto  w-48 bg-white rounded-lg drop-shadow-xl mt-4 pl-1.5 pt-2">
                 <h2 className="text-sm font-[600]">Loans</h2>
                 <div className="w-24  mt-0.5 ml-1 cursor-pointer">
@@ -232,7 +270,7 @@ export const Home = () => {
                 </div>
               </section>
             )}
-            {showEnaira && (
+            {displaySection.showEnaira && (
               <section className=" relative mx-auto pb-4 w-48 bg-white rounded-lg drop-shadow-xl mt-4  pt-2">
                 <img
                   src="https://enaira.gov.ng/wp-content/uploads/2023/04/enaira-logo.jpg"
@@ -266,7 +304,7 @@ export const Home = () => {
             )}
 
             {/* --------------------------------mobile sec------------------------------- */}
-            {showMobile && (
+            {displaySection.showMobile && (
               <section className="relative mx-auto pb-4 pl-2 pr-2 w-48 bg-white rounded-lg drop-shadow-xl mt-4  pt-3">
                 <h2 className=" text-sm font-bold mb-2">Mobile Top up</h2>
                 <p className="text-[11px]">Customer Mobile Number</p>
@@ -280,15 +318,42 @@ export const Home = () => {
                     NG +234
                   </p>
                   <i className="fa-solid fa-xmark bg-gray-300 py-[4px] px-[6px] rounded-full text-white text-[10px] absolute top-2 right-[-26px] cursor-pointer">
-                    {" "}
                   </i>
-                  <div className=" w-44 h-9 border text-xs flex items-center px-3 justify-between rounded-[4px]">
-                    <p className="text-gray-400">{selected.account}</p>
-                    <i className="fa-solid fa-caret-down text-gray-600 cursor-pointer"></i>
+                  <div 
+                    className=" w-44 h-9 border text-xs flex items-center px-3 justify-between rounded-[4px] cursor-pointer"
+                    onClick={()=> {
+                      setDisplaysection((prev)=> ({...prev, showAccDetailSec : true}))
+                    }}
+                    >
+                      {/*  */}
+                    <p className="text-gray-400">{ select.item3 ? 
+                    <div className=" -mx-2 text-gray-700">
+                      <div className="flex justify-between items-center">
+                        <p className=" uppercase text-[8px] ">{user.fullName}</p>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <p className="text-[8px]">
+                          Account: <span className="tracking-wider">2763732737</span>
+                        </p>
+                        <p className="text-[8px] font-semibold ml-2">
+                          NGN{" "}
+                          <span
+                            className={`  `}
+                          >{balance}</span>
+                        </p>
+                      </div>
+
+                    </div> : selected.account}</p>
+                    <i className="fa-solid fa-caret-down text-gray-600"></i>
                   </div>
-                  <div className=" w-44 h-9 border text-xs flex items-center px-3 justify-between rounded-[4px]">
+                  <div 
+                    className=" w-44 h-9 border text-xs flex items-center px-3 justify-between rounded-[4px] cursor-pointer"
+                    onClick={()=> {
+                      displaySection.showBuySec === false ? setDisplaysection((prev) => ({...prev, showBuySec: true}))  : setDisplaysection((prev) => ({...prev, showBuySec: false}))
+                    }}
+                    >
                     <p className="text-gray-400">{selected.service}</p>
-                    <i className="fa-solid fa-caret-down text-gray-600 cursor-pointer"></i>
+                    <i className="fa-solid fa-caret-down text-gray-600"></i>
                   </div>
                   <button className="bg-red-600 py-2 text-sm text-white  w-44 rounded-[4px]">
                     Continue
@@ -296,18 +361,20 @@ export const Home = () => {
                 </div>
               </section>
             )}
-            {showCustomize && <section className="flex  justify-between items-center gap-1 mx-auto pb-4 pl-2 pr-2 w-48 bg-white rounded-lg drop-shadow-xl mt-4  pt-4">
-              <p className=" text-sm">Customize Your Home</p>
-              <i 
-                className="fa-solid fa-plus bg-gray-300 py-2 px-2.5 text-red-600 text-sm rounded-md cursor-pointer"
-                onClick={()=> {
-                  setShowCustomize(false)
-                  setScroll('')
-                }}
+            {displaySection.showCustomize && (
+              <section className="flex  justify-between items-center gap-1 mx-auto pb-4 pl-2 pr-2 w-48 bg-white rounded-lg drop-shadow-xl mt-4  pt-4">
+                <p className=" text-sm">Customize Your Home</p>
+                <i
+                  className="fa-solid fa-plus bg-gray-300 py-2 px-2.5 text-red-600 text-sm rounded-md cursor-pointer"
+                  onClick={() => {
+                    setDisplaysection((prev) =>({...prev, showCustomize: false }));
+                    setScroll("");
+                  }}
                 ></i>
-            </section>}
+              </section>
+            )}
 
-              {/* ------------------footer----------------------------- */}
+            {/* ------------------footer----------------------------- */}
             <div className=" absolute ">
               <nav className="nav fixed w-[232px] h-10 bg-[#F1f1f1] border-b-[4px] border-black rounded-[18px] bottom-[67px] text-red-600   left-[26.5%] md:bottom-[67px] md:left-[41.5%]">
                 <ul className="flex justify-around items-center gap-4 mt-1">
@@ -323,78 +390,150 @@ export const Home = () => {
               </nav>
             </div>
 
-
             {/*------------------------------------ customize section-------------------- */}
-            {!showCustomize && <section className="showCountries bg-white px-2.5 py-2 absolute w-full h-[280px] top-0  z-10 rounded-lg">
-              <div className="flex justify-between items-center">
-                <p className=" text-sm text-gray-400 pl-2">
-                  Customize Your Home
-                </p>
-                <button 
-                  className="  bg-red-600 text-white text-xs py-1.5 px-3 rounded"
-                  onClick={handleCustomize}
+            {!displaySection.showCustomize && (
+              <section className="showCountries bg-white px-2.5 py-2 absolute w-full h-[280px] top-0  z-10 rounded-lg">
+                <div className="flex justify-between items-center">
+                  <p className=" text-sm text-gray-400 pl-2">
+                    Customize Your Home
+                  </p>
+                  <button
+                    className="  bg-red-600 text-white text-xs py-1.5 px-3 rounded"
+                    onClick={handleCustomize}
                   >
-                  Done
-                </button>
-              </div>
-              <ul className=" mr-3 ml-1 mt-8 flex flex-col gap-7">
-                <li className="flex justify-between" onClick={()=>
-                  checkService === true ? setCheckService(false): setCheckService(true)
-                }>
-                  <label className=" text-gray-800">Services</label>
-                  <input
-                    type="checkbox"
-                    className="custom-checkbox"
-                    checked={checkService}
-                  />
-                </li>
-                <li className="flex justify-between" onClick={()=>
-                  checkLoan === true ? setCheckLoan(false): setCheckLoan(true)
-                }>
-                  <label className=" text-gray-800">Loan</label>
-                  <input
-                    type="checkbox"
-                    className="custom-checkbox"
-                    checked={checkLoan}
-                  />
-                </li>
-                <li className="flex justify-between" onClick={()=>
-                  checkNaira === true ? setCheckNaira(false): setCheckNaira(true)
-                }>
-                  <label className=" text-gray-800">eNaira</label>
-                  <input
-                    type="checkbox"
-                    className="custom-checkbox"
-                    checked={checkNaira}
-                  />
-                </li>
-                <li className="flex justify-between" onClick={()=>
-                  checkMobile === true ? setCheckMobile(false): setCheckMobile(true)
-                }>
-                  <label className=" text-gray-800">Mobile Top Up</label>
-                  <input
-                    type="checkbox"
-                    className="custom-checkbox"
-                    checked={checkMobile}
-                  />
-                </li>
-              </ul>
-            </section>}
+                    Done
+                  </button>
+                </div>
+                <ul className=" mr-3 ml-1 mt-8 flex flex-col gap-7">
+                  <li
+                    className="flex justify-between"
+                    onClick={() =>
+                      checkService === true
+                        ? setCheckService(false)
+                        : setCheckService(true)
+                    }
+                  >
+                    <label className=" text-gray-800">Services</label>
+                    <input
+                      type="checkbox"
+                      className="custom-checkbox"
+                      checked={checkService}
+                    />
+                  </li>
+                  <li
+                    className="flex justify-between"
+                    onClick={() =>
+                      checkLoan === true
+                        ? setCheckLoan(false)
+                        : setCheckLoan(true)
+                    }
+                  >
+                    <label className=" text-gray-800">Loan</label>
+                    <input
+                      type="checkbox"
+                      className="custom-checkbox"
+                      checked={checkLoan}
+                    />
+                  </li>
+                  <li
+                    className="flex justify-between"
+                    onClick={() =>
+                      checkNaira === true
+                        ? setCheckNaira(false)
+                        : setCheckNaira(true)
+                    }
+                  >
+                    <label className=" text-gray-800">eNaira</label>
+                    <input
+                      type="checkbox"
+                      className="custom-checkbox"
+                      checked={checkNaira}
+                    />
+                  </li>
+                  <li
+                    className="flex justify-between"
+                    onClick={() =>
+                      checkMobile === true
+                        ? setCheckMobile(false)
+                        : setCheckMobile(true)
+                    }
+                  >
+                    <label className=" text-gray-800">Mobile Top Up</label>
+                    <input
+                      type="checkbox"
+                      className="custom-checkbox"
+                      checked={checkMobile}
+                    />
+                  </li>
+                </ul>
+              </section>
+            )}
 
             {/*---------------------------- mobile service section--------------------------- */}
-            <section  className="showCountries bg-white px-2.5 py-3 absolute w-full h-[80px] bottom-[-40px]  z-10 rounded-lg">
-              <ul className=" ">
-                <li className="flex justify-between pb-3 cursor-pointer" onClick={()=> {setSelect({item1: true, item2: false}); setSelected({service : "Buy Airtime"}) }}>
-                  <p className=" text-sm ">Buy Airtime</p>
-                  {select.item1 && <i className="fa-solid fa-check text-red-600"></i>}
-                </li>
-                <li className="flex justify-between cursor-pointer" onClick={()=> {setSelect({item1: false, item2: true}); setSelected({service : "Buy Data"})}}>
-                  <p className=" text-sm ">Buy Data</p>
-                  {select.item2 &&<i className="fa-solid fa-check text-red-600"></i>}
-                </li>
-                
-              </ul>
-            </section>
+
+            {displaySection.showBuySec && <ul className=" showCountries bg-white px-2.5 py-3 absolute w-full h-[80px] bottom-[-40px]  z-10 rounded-lg">
+              <li
+                className="flex justify-between pb-3 cursor-pointer"
+                onClick={() => {
+                  setSelect({ item1: true, item2: false });
+                  setSelected((prev) => ({
+                    ...prev,
+                    service: "Buy Airtime",
+                  }))
+                  setDisplaysection((prev) => ({...prev, showBuySec: false}))
+                }}
+              >
+                <p className=" text-sm ">Buy Airtime</p>
+                {select.item1 && (
+                  <i className="fa-solid fa-check text-red-600"></i>
+                )}
+              </li>
+              <li
+                className="flex justify-between cursor-pointer"
+                onClick={() => {
+                  setSelect({ item1: false, item2: true });
+                  setSelected((prev) => ({
+                    ...prev,
+                    service: "Buy Data",
+                  }))
+                  setDisplaysection((prev) => ({...prev, showBuySec: false}))
+                }}
+              >
+                <p className=" text-sm ">Buy Data</p>
+                {select.item2 && (
+                  <i className="fa-solid fa-check text-red-600"></i>
+                )}
+              </li>
+            </ul>}
+
+            {/* **************************************mobile select Account******************* */}
+            {displaySection.showAccDetailSec && <section 
+              className=" showCountries bg-white px-2.5 pt-5 absolute w-full h-[80px] bottom-[-40px]  z-10 rounded-lg"
+              onClick={()=> {
+                setSelect((prev)=> ({...prev, item3 : true}));
+                setDisplaysection((prev)=> ({...prev, showAccDetailSec : false}))
+              }}
+              >
+              <div>
+                <div className="flex justify-between items-center">
+                  <p className=" uppercase text-xs mb-1">{user.fullName}</p>
+                  {select.item3 && (
+                    <i className="fa-solid fa-check text-red-600"></i>
+                  )}
+                </div>
+                <div className="flex justify-between items-center">
+                  <p className="text-[10px]">
+                    Account: <span className="tracking-wider">2763732737</span>
+                  </p>
+                  <p className="text-[10px] font-semibold">
+                    NGN{" "}
+                    <span
+                      className={`  `}
+                    >{balance}</span>
+                  </p>
+                </div>
+              </div>
+            </section>}
           </div>
         </div>
       </main>
