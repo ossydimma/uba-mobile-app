@@ -1,5 +1,7 @@
 import React, {
   Dispatch,
+  HTMLInputTypeAttribute,
+  ReactNode,
   SetStateAction,
   useContext,
   useEffect,
@@ -11,6 +13,8 @@ import billSvg from "../assests/money-cash-svgrepo-com (1).svg";
 import loadSvg from "../assests/history-svgrepo-com.svg";
 import mobileSvg from "../assests/mobile2-svgrepo-com.svg";
 import loanImage from "../assests/loan.jpeg";
+import { ErrorPage } from "../components/ErrorPage";
+
 
 interface selectType {
   item1?: boolean;
@@ -18,7 +22,8 @@ interface selectType {
   item3?: boolean;
 }
 interface selectedType {
-  account?: string;
+  number: string
+  account?: string | ReactNode;
   service?: string;
 }
 interface displaySectionType {
@@ -27,8 +32,10 @@ interface displaySectionType {
   showService: boolean;
   showMobile: boolean;
   showCustomize: boolean;
-  showBuySec : boolean;
-  showAccDetailSec : boolean;
+  showBuySec: boolean;
+  showAccDetailSec: boolean;
+  showError : boolean;
+  showLoader : boolean;
 }
 interface checkSectionType {
   checkLoan: boolean;
@@ -44,13 +51,8 @@ export const Home = () => {
   const [changeType, setChangeType] = useState<string>("");
   const [clickTime, setClickTime] = useState<string>("");
   const [scroll, setScroll] = useState<string>("home-wrapper");
-  const [balance, setBalance] = useState<string>("44444400.00")
-  // const [showLoan, setShowLoan] = useState<boolean>(true);
-  // const [showEnaira, setShowEnaira] = useState<boolean>(true);
-  // const [showService, setShowService] = useState<boolean>(true);
-  // const [showMobile, setShowMobile] = useState<boolean>(true);
-  // const [showCustomize, setShowCustomize] = useState<boolean>(true);
-  // const [showBuySec, setShowBuySec] = useState<boolean>(false);
+  const [addOpacity, setAddOpacity] = useState<string>('')
+  const [balance, setBalance] = useState<string>("44444400.00");
   const [checkService, setCheckService] = useState<boolean>(true);
   const [checkLoan, setCheckLoan] = useState<boolean>(true);
   const [checkNaira, setCheckNaira] = useState<boolean>(true);
@@ -58,9 +60,10 @@ export const Home = () => {
   const [select, setSelect] = useState<selectType>({
     item1: false,
     item2: false,
-    item3 : false,
+    item3: false,
   });
   const [selected, setSelected] = useState<selectedType>({
+    number : "07031690110",
     account: "Select Account",
     service: "Select Service",
   });
@@ -71,7 +74,9 @@ export const Home = () => {
     showService: true,
     showEnaira: true,
     showBuySec: false,
-    showAccDetailSec : false
+    showAccDetailSec: false,
+    showError : false,
+    showLoader : false
   });
 
   // contexts
@@ -108,22 +113,36 @@ export const Home = () => {
   function handleClick(): void {
     setTime();
   }
+  
+  function handleMobileBtn() {
+    if (/^[0-9]+$/.test(selected.number) && selected.number.length === 11 && selected.account !== "Select Account" && selected.service !== "Select Service") {
+      setAddOpacity('opacity-0');
+      setDisplaysection((prev)=> ({...prev, showLoader : true}))
+      setScroll('')
+      setTimeout(()=> {
+        setDisplaysection((prev) => ({...prev, showError : true}))
+      },4000)
+    } else {
+      alert('Not done')
+    }
+    
+  }
 
   function handleCustomize() {
     checkService === false
       ? setDisplaysection((prev) => ({ ...prev, showService: false }))
-      :  setDisplaysection((prev) => ({ ...prev, showService: true }))
+      : setDisplaysection((prev) => ({ ...prev, showService: true }));
     checkLoan === false
-      ? setDisplaysection((prev) =>({...prev, showLoan: false }))
-      : setDisplaysection((prev) =>({...prev, showLoan: true }))
+      ? setDisplaysection((prev) => ({ ...prev, showLoan: false }))
+      : setDisplaysection((prev) => ({ ...prev, showLoan: true }));
     checkNaira === false
-      ? setDisplaysection((prev) =>({...prev, showEnaira: false }))
-      : setDisplaysection((prev) =>({...prev, showEnaira: true }));
+      ? setDisplaysection((prev) => ({ ...prev, showEnaira: false }))
+      : setDisplaysection((prev) => ({ ...prev, showEnaira: true }));
     checkMobile === false
-      ? setDisplaysection((prev) =>({...prev, showMobile: false }))
-      : setDisplaysection((prev) =>({...prev, showMobile: false }));
+      ? setDisplaysection((prev) => ({ ...prev, showMobile: false }))
+      : setDisplaysection((prev) => ({ ...prev, showMobile: false }));
 
-    setDisplaysection((prev) =>({...prev, showCustomize: true }));
+    setDisplaysection((prev) => ({ ...prev, showCustomize: true }));
     setScroll("home-wrapper");
   }
   return (
@@ -166,6 +185,7 @@ export const Home = () => {
             </span>
           </div>
         </header>
+
         <section className=" absolute top-10 left-7 h-28 w-48 bg-white rounded-lg drop-shadow-xl">
           {reload && (
             <div>
@@ -175,9 +195,7 @@ export const Home = () => {
               <div className="flex justify-center items-center gap-5 font-semibold mr-1 mt-2">
                 <h1 className="ml-6 ">
                   NGN{" "}
-                  <span
-                    className={`${changeType} text-xs `}
-                  >{balance}</span>
+                  <span className={`${changeType} text-xs `}>{balance}</span>
                 </h1>
                 <div
                   className="cursor-pointer"
@@ -221,7 +239,7 @@ export const Home = () => {
 
         <div className="bg-[#f1f1f1] w-full text-black h-[auto] pt-20 pb-[50px] overflow-hidden  min-h-full">
           <div className="bg-red-600 w-2.5 h-2.5 mx-auto rounded-full -mt-4 "></div>
-          <div className=" relative">
+          <div className={`relative ${addOpacity}`} >
             {displaySection.showService && (
               <section className="sec-height mx-auto  w-48 bg-white rounded-lg drop-shadow-xl mt-2  pl-1.5 pt-2 ">
                 <h2 className="text-sm font-[600]">Service</h2>
@@ -311,63 +329,66 @@ export const Home = () => {
                 <div className="mr-8 relative flex flex-col gap-4">
                   <input
                     type="text"
-                    placeholder="07031690110"
-                    className="rounded-[4px] outline-none border py-2 pl-[60px] pr- text-xs w-44"
+                    defaultValue={selected.number}
+                    className="rounded-[4px] outline-none border py-2 pl-[60px] pr- text-xs w-44 text-gray-600"
+                    onChange={(e : React.ChangeEvent<HTMLInputElement>)=> {
+                      setSelected((prev)=> ({...prev, number : e.target.value}))
+                    }}
                   />
                   <p className=" bg-red-600 w-[53px] py-[8.3px] px-1 text-[11px] text-white absolute top-0">
                     NG +234
                   </p>
-                  <i className="fa-solid fa-xmark bg-gray-300 py-[4px] px-[6px] rounded-full text-white text-[10px] absolute top-2 right-[-26px] cursor-pointer">
-                  </i>
-                  <div 
+                  <i className="fa-solid fa-xmark bg-gray-300 py-[4px] px-[6px] rounded-full text-white text-[10px] absolute top-2 right-[-26px] cursor-pointer"></i>
+                  <div
                     className=" w-44 h-9 border text-xs flex items-center px-3 justify-between rounded-[4px] cursor-pointer"
-                    onClick={()=> {
-                      setDisplaysection((prev)=> ({...prev, showAccDetailSec : true}))
+                    onClick={() => {
+                      setDisplaysection((prev) => ({
+                        ...prev,
+                        showAccDetailSec: true,
+                      }));
                     }}
-                    >
-                      {/*  */}
-                    <p className="text-gray-400">{ select.item3 ? 
-                    <div className=" -mx-2 text-gray-700">
-                      <div className="flex justify-between items-center">
-                        <p className=" uppercase text-[8px] ">{user.fullName}</p>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <p className="text-[8px]">
-                          Account: <span className="tracking-wider">2763732737</span>
-                        </p>
-                        <p className="text-[8px] font-semibold ml-2">
-                          NGN{" "}
-                          <span
-                            className={`  `}
-                          >{balance}</span>
-                        </p>
-                      </div>
-
-                    </div> : selected.account}</p>
+                  >
+                    <p className="text-gray-600">{selected.account}</p>
                     <i className="fa-solid fa-caret-down text-gray-600"></i>
                   </div>
-                  <div 
+                  <div
                     className=" w-44 h-9 border text-xs flex items-center px-3 justify-between rounded-[4px] cursor-pointer"
-                    onClick={()=> {
-                      displaySection.showBuySec === false ? setDisplaysection((prev) => ({...prev, showBuySec: true}))  : setDisplaysection((prev) => ({...prev, showBuySec: false}))
+                    onClick={() => {
+                      displaySection.showBuySec === false
+                        ? setDisplaysection((prev) => ({
+                            ...prev,
+                            showBuySec: true,
+                          }))
+                        : setDisplaysection((prev) => ({
+                            ...prev,
+                            showBuySec: false,
+                          }));
                     }}
-                    >
-                    <p className="text-gray-400">{selected.service}</p>
+                  >
+                    <p className="text-gray-600">{selected.service}</p>
                     <i className="fa-solid fa-caret-down text-gray-600"></i>
                   </div>
-                  <button className="bg-red-600 py-2 text-sm text-white  w-44 rounded-[4px]">
+                  <button 
+                    className="bg-red-600 py-2 text-sm text-white  w-44 rounded-[4px]"
+                    onClick={handleMobileBtn}
+                    >
                     Continue
                   </button>
                 </div>
               </section>
             )}
+           
+            {/* -------------------------customize sec ---------------------- */}
             {displaySection.showCustomize && (
               <section className="flex  justify-between items-center gap-1 mx-auto pb-4 pl-2 pr-2 w-48 bg-white rounded-lg drop-shadow-xl mt-4  pt-4">
                 <p className=" text-sm">Customize Your Home</p>
                 <i
                   className="fa-solid fa-plus bg-gray-300 py-2 px-2.5 text-red-600 text-sm rounded-md cursor-pointer"
                   onClick={() => {
-                    setDisplaysection((prev) =>({...prev, showCustomize: false }));
+                    setDisplaysection((prev) => ({
+                      ...prev,
+                      showCustomize: false,
+                    }));
                     setScroll("");
                   }}
                 ></i>
@@ -471,71 +492,111 @@ export const Home = () => {
 
             {/*---------------------------- mobile service section--------------------------- */}
 
-            {displaySection.showBuySec && <ul className=" showCountries bg-white px-2.5 py-3 absolute w-full h-[80px] bottom-[-40px]  z-10 rounded-lg">
-              <li
-                className="flex justify-between pb-3 cursor-pointer"
-                onClick={() => {
-                  setSelect({ item1: true, item2: false });
-                  setSelected((prev) => ({
-                    ...prev,
-                    service: "Buy Airtime",
-                  }))
-                  setDisplaysection((prev) => ({...prev, showBuySec: false}))
-                }}
-              >
-                <p className=" text-sm ">Buy Airtime</p>
-                {select.item1 && (
-                  <i className="fa-solid fa-check text-red-600"></i>
-                )}
-              </li>
-              <li
-                className="flex justify-between cursor-pointer"
-                onClick={() => {
-                  setSelect({ item1: false, item2: true });
-                  setSelected((prev) => ({
-                    ...prev,
-                    service: "Buy Data",
-                  }))
-                  setDisplaysection((prev) => ({...prev, showBuySec: false}))
-                }}
-              >
-                <p className=" text-sm ">Buy Data</p>
-                {select.item2 && (
-                  <i className="fa-solid fa-check text-red-600"></i>
-                )}
-              </li>
-            </ul>}
-
-            {/* **************************************mobile select Account******************* */}
-            {displaySection.showAccDetailSec && <section 
-              className=" showCountries bg-white px-2.5 pt-5 absolute w-full h-[80px] bottom-[-40px]  z-10 rounded-lg"
-              onClick={()=> {
-                setSelect((prev)=> ({...prev, item3 : true}));
-                setDisplaysection((prev)=> ({...prev, showAccDetailSec : false}))
-              }}
-              >
-              <div>
-                <div className="flex justify-between items-center">
-                  <p className=" uppercase text-xs mb-1">{user.fullName}</p>
-                  {select.item3 && (
+            {displaySection.showBuySec && (
+              <ul className=" showCountries bg-white px-2.5 py-3 absolute w-full h-[80px] bottom-[-40px]  z-10 rounded-lg">
+                <li
+                  className="flex justify-between pb-3 cursor-pointer"
+                  onClick={() => {
+                    // setSelect({ item1: true, item2: false });
+                    setSelect((prev)=> ({...prev, item1 : true, item2: false}));
+                    setSelected((prev) => ({
+                      ...prev,
+                      service: "Buy Airtime",
+                    }));
+                    setDisplaysection((prev) => ({
+                      ...prev,
+                      showBuySec: false,
+                    }));
+                  }}
+                >
+                  <p className=" text-sm ">Buy Airtime</p>
+                  {select.item1 && (
                     <i className="fa-solid fa-check text-red-600"></i>
                   )}
+                </li>
+                <li
+                  className="flex justify-between cursor-pointer"
+                  onClick={() => {
+                    setSelect((prev)=> ({...prev, item1: false, item2 : true}));
+                    setSelected((prev) => ({
+                      ...prev,
+                      service: "Buy Data",
+                    }));
+                    setDisplaysection((prev) => ({
+                      ...prev,
+                      showBuySec: false,
+                    }));
+                  }}
+                >
+                  <p className=" text-sm ">Buy Data</p>
+                  {select.item2 && (
+                    <i className="fa-solid fa-check text-red-600"></i>
+                  )}
+                </li>
+              </ul>
+            )}
+
+            {/* **************************************mobile select Account******************* */}
+            {displaySection.showAccDetailSec && (
+              <section
+                className=" showCountries bg-white px-2.5 pt-5 absolute w-full h-[80px] bottom-[-40px]  z-10 rounded-lg"
+                onClick={() => {
+                  setSelect((prev) => ({ ...prev, item3: true }));
+                  setSelected((prev) => ({...prev,
+                    account: (
+                      <div className=" -mx-2 text-gray-700">
+                        <div className="flex justify-between items-center">
+                          <p className=" uppercase text-[8px] ">
+                            {user.fullName}
+                          </p>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <p className="text-[8px]">
+                            Account:{" "}
+                            <span className="tracking-wider">2763732737</span>
+                          </p>
+                          <p className="text-[8px] font-semibold ml-2">
+                            NGN <span className={`  `}>{balance}</span>
+                          </p>
+                        </div>
+                      </div>
+                    ),
+                  }));
+                  setDisplaysection((prev) => ({
+                    ...prev,
+                    showAccDetailSec: false,
+                  }));
+                }}
+              >
+                <div>
+                  <div className="flex justify-between items-center">
+                    <p className=" uppercase text-xs mb-1">{user.fullName}</p>
+                    {select.item3 && (
+                      <i className="fa-solid fa-check text-red-600"></i>
+                    )}
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <p className="text-[10px]">
+                      Account:{" "}
+                      <span className="tracking-wider">2763732737</span>
+                    </p>
+                    <p className="text-[10px] font-semibold">
+                      NGN <span className={`  `}>{balance}</span>
+                    </p>
+                  </div>
                 </div>
-                <div className="flex justify-between items-center">
-                  <p className="text-[10px]">
-                    Account: <span className="tracking-wider">2763732737</span>
-                  </p>
-                  <p className="text-[10px] font-semibold">
-                    NGN{" "}
-                    <span
-                      className={`  `}
-                    >{balance}</span>
-                  </p>
-                </div>
-              </div>
-            </section>}
+              </section>
+            )}
           </div>
         </div>
+        {displaySection.showLoader && <div className="absolute top-[750px] left-4 w-52 h-auto py-4  rounded-2xl mx-auto">
+          <div className="flex flex-row gap-2 justify-center">
+            <div className="w-4 h-4 rounded-full bg-red-600 animate-bounce [animation-delay:.3s]"></div>
+            <div className="w-4 h-4 rounded-full bg-red-600 animate-bounce [animation-delay:.1s]"></div>
+            <div className="w-4 h-4 rounded-full bg-red-600 animate-bounce [animation-delay:.3s]"></div>
+          </div>
+        </div>}
+        {displaySection.showError && <ErrorPage msg = 'Invalid mobile number, please use the right phone number format and retry'  />}
       </main>
     </div>
   );
