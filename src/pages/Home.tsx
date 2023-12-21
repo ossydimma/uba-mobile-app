@@ -1,20 +1,15 @@
-import React, {
-  Dispatch,
-  HTMLInputTypeAttribute,
-  ReactNode,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import React, { ChangeEvent, HTMLInputTypeAttribute, ReactNode, useContext, useEffect, useState } from "react";
 import { BgContext, MorePageContext, UserInfo } from "../MyContext";
 import sendSvg from "../assests/money-cash-svgrepo-com.svg";
 import billSvg from "../assests/money-cash-svgrepo-com (1).svg";
 import loadSvg from "../assests/history-svgrepo-com.svg";
 import mobileSvg from "../assests/mobile2-svgrepo-com.svg";
 import loanImage from "../assests/loan.jpeg";
-import { ErrorPage } from "../components/ErrorPage";
-
+import flag from "../assests/flag.jpeg";
+import { Slider } from "../components/Slider";
+import { SwiperSlide } from "swiper/react";
+import { PopUP } from "../components/PopUP";
+import successImg from "../assests/leo_uba_thubs_up.png";
 
 interface selectType {
   item1?: boolean;
@@ -22,11 +17,13 @@ interface selectType {
   item3?: boolean;
 }
 interface selectedType {
-  number: string
-  account?: string | ReactNode;
-  service?: string;
+  number: string;
+  account: string | ReactNode;
+  service: string;
+  btnText: string | ReactNode;
 }
-interface displaySectionType {
+export interface displaySectionType {
+  showIcon: boolean;
   showLoan: boolean;
   showEnaira: boolean;
   showService: boolean;
@@ -34,40 +31,50 @@ interface displaySectionType {
   showCustomize: boolean;
   showBuySec: boolean;
   showAccDetailSec: boolean;
-  showError : boolean;
-  showLoader : boolean;
+  showError: boolean;
+  showLoader: boolean;
+  showMobileSec2: boolean;
+  showSucess: boolean;
+  showFeedBack: boolean;
 }
-interface checkSectionType {
+interface checkedType {
   checkLoan: boolean;
-  checkEnaira: boolean;
+  checkNaira: boolean;
   checkService: boolean;
   checkMobile: boolean;
+}
+export interface stylesType {
+  changeType: string;
+  scroll: string;
+  addHeight: string;
+  addOpacity: string;
 }
 
 export const Home = () => {
   // states
-  const [showIcon, setShowIcon] = useState<boolean>(true);
   const [reload, setReload] = useState<boolean>(true);
-  const [changeType, setChangeType] = useState<string>("");
   const [clickTime, setClickTime] = useState<string>("");
-  const [scroll, setScroll] = useState<string>("home-wrapper");
-  const [addOpacity, setAddOpacity] = useState<string>('')
   const [balance, setBalance] = useState<string>("44444400.00");
-  const [checkService, setCheckService] = useState<boolean>(true);
-  const [checkLoan, setCheckLoan] = useState<boolean>(true);
-  const [checkNaira, setCheckNaira] = useState<boolean>(true);
-  const [checkMobile, setCheckMobile] = useState<boolean>(true);
+  let [mobileAmount, setMobileAmount] = useState<number | undefined>(undefined);
+  const [styles, setStyles] = useState<stylesType>({
+    changeType: "",
+    scroll: "home-wrapper",
+    addHeight: "h-auto",
+    addOpacity: "",
+  });
   const [select, setSelect] = useState<selectType>({
     item1: false,
     item2: false,
     item3: false,
   });
   const [selected, setSelected] = useState<selectedType>({
-    number : "07031690110",
+    number: "07031690110",
     account: "Select Account",
     service: "Select Service",
+    btnText: "Continue",
   });
   const [displaySection, setDisplaysection] = useState<displaySectionType>({
+    showIcon: true,
     showLoan: true,
     showMobile: true,
     showCustomize: true,
@@ -75,8 +82,18 @@ export const Home = () => {
     showEnaira: true,
     showBuySec: false,
     showAccDetailSec: false,
-    showError : false,
-    showLoader : false
+    showError: false,
+    showLoader: false,
+    showMobileSec2: false,
+    showSucess: false,
+    showFeedBack: false,
+  });
+
+  const [checked, setChecked] = useState<checkedType>({
+    checkLoan: true,
+    checkMobile: true,
+    checkNaira: true,
+    checkService: true,
   });
 
   // contexts
@@ -113,41 +130,84 @@ export const Home = () => {
   function handleClick(): void {
     setTime();
   }
-  
+  function updateInputValueHandler(e : ChangeEvent<HTMLInputElement>) {
+    const newValue = parseFloat(e.target.value);
+    const displayValue = isNaN(newValue) ? undefined : newValue;
+    setMobileAmount(displayValue);
+  }
+
   function handleMobileBtn() {
-    if (/^[0-9]+$/.test(selected.number) && selected.number.length === 11 && selected.account !== "Select Account" && selected.service !== "Select Service") {
-      setAddOpacity('opacity-0');
-      setDisplaysection((prev)=> ({...prev, showLoader : true}))
-      setScroll('')
-      setTimeout(()=> {
-        setDisplaysection((prev) => ({...prev, showError : true}))
-      },4000)
-    } else {
-      alert('Not done')
+    if (selected.btnText === "Continue") {
+      if (
+        /^[0-9]+$/.test(selected.number) &&
+        selected.number.length === 11 &&
+        selected.account !== "Select Account" &&
+        selected.service !== "Select Service"
+      ) {
+        setDisplaysection((prev) => ({ ...prev, showLoader: true }));
+        setSelected((prev) => ({
+          ...prev,
+          btnText: (
+            <div className="flex justify-center items-center h-full">
+              <span className="loader"></span>
+            </div>
+          ),
+        }));
+        setTimeout(() => {
+          setDisplaysection((prev) => ({ ...prev, showMobileSec2: true }));
+          setSelected((prev) => ({ ...prev, btnText: "Confirm" }));
+        }, 2000);
+      } else if (
+        /^[0-9]+$/.test(selected.number) &&
+        selected.number.length !== 11 &&
+        selected.account !== "Select Account" &&
+        selected.service !== "Select Service"
+      ) {
+        setStyles((prev) => ({ ...prev, addOpacity: "opacity-0" }));
+        setDisplaysection((prev) => ({ ...prev, showLoader: true }));
+        setStyles((prev) => ({ ...prev, addHeight: "h-[600px]" }));
+        setTimeout(() => {
+          setDisplaysection((prev) => ({ ...prev, showLoader: false }));
+          setDisplaysection((prev) => ({ ...prev, showError: true }));
+        }, 4000);
+      }
     }
-    
+    if (selected.btnText === "Confirm") {
+      if (mobileAmount !== undefined &&( mobileAmount > 4 && mobileAmount <= 50000))  {
+        setStyles((prev) => ({ ...prev, addOpacity: "opacity-0" }));
+        setDisplaysection((prev) => ({ ...prev, showLoader: true }));
+        setStyles((prev) => ({ ...prev, addHeight: "h-[600px]" }));
+        setTimeout(() => {
+          setDisplaysection((prev) => ({ ...prev, showLoader: false }));
+          setDisplaysection((prev) => ({ ...prev, showSucess: true }));
+        }, 4000);
+      }
+      if (mobileAmount === undefined || mobileAmount < 5 || mobileAmount > 50000) {
+        setDisplaysection((prev)=>({...prev, showFeedBack : true}))
+      }
+    }
   }
 
   function handleCustomize() {
-    checkService === false
+    checked.checkService === false
       ? setDisplaysection((prev) => ({ ...prev, showService: false }))
       : setDisplaysection((prev) => ({ ...prev, showService: true }));
-    checkLoan === false
+    checked.checkLoan === false
       ? setDisplaysection((prev) => ({ ...prev, showLoan: false }))
       : setDisplaysection((prev) => ({ ...prev, showLoan: true }));
-    checkNaira === false
+    checked.checkNaira === false
       ? setDisplaysection((prev) => ({ ...prev, showEnaira: false }))
       : setDisplaysection((prev) => ({ ...prev, showEnaira: true }));
-    checkMobile === false
+    checked.checkMobile === false
       ? setDisplaysection((prev) => ({ ...prev, showMobile: false }))
       : setDisplaysection((prev) => ({ ...prev, showMobile: false }));
 
     setDisplaysection((prev) => ({ ...prev, showCustomize: true }));
-    setScroll("home-wrapper");
+    setStyles((prev) => ({ ...prev, scroll: "home-wrapper" }));
   }
   return (
     <div
-      className={`text-white w-full h-full top-0 absolute left-0 showMorePage bg-[#000] ${scroll} scroll-smooth md:h-[465px]`}
+      className={`text-white w-full h-full top-0 absolute left-0 showMorePage bg-[#000] ${styles.scroll} scroll-smooth md:h-[465px]`}
     >
       <main className=" h-full relative text-black">
         <header className="h-24  bg-black ">
@@ -195,24 +255,35 @@ export const Home = () => {
               <div className="flex justify-center items-center gap-5 font-semibold mr-1 mt-2">
                 <h1 className="ml-6 ">
                   NGN{" "}
-                  <span className={`${changeType} text-xs `}>{balance}</span>
+                  <span className={`${styles.changeType} text-xs `}>
+                    {balance}
+                  </span>
                 </h1>
                 <div
                   className="cursor-pointer"
                   onClick={() => {
-                    if (showIcon === true) {
-                      setChangeType("my-class");
-                      setShowIcon(false);
+                    if (displaySection.showIcon === true) {
+                      setStyles((prev) => ({
+                        ...prev,
+                        changeType: "my-class",
+                      }));
+                      setDisplaysection((prev) => ({
+                        ...prev,
+                        showIcon: false,
+                      }));
                     } else {
-                      setChangeType("");
-                      setShowIcon(true);
+                      setStyles((prev) => ({ ...prev, changeType: "" }));
+                      setDisplaysection((prev) => ({
+                        ...prev,
+                        showIcon: true,
+                      }));
                     }
                   }}
                 >
-                  {showIcon && (
+                  {displaySection.showIcon && (
                     <i className="fa-solid fa-eye fa-xs  text-gray-700"></i>
                   )}
-                  {!showIcon && (
+                  {!displaySection.showIcon && (
                     <i className="fa-solid fa-eye-slash fa-xs  text-gray-700"></i>
                   )}
                 </div>
@@ -237,9 +308,11 @@ export const Home = () => {
           )}
         </section>
 
-        <div className="bg-[#f1f1f1] w-full text-black h-[auto] pt-20 pb-[50px] overflow-hidden  min-h-full">
+        <div
+          className={`bg-[#f1f1f1] w-full text-black ${styles.addHeight} pt-20 pb-[50px] overflow-hidden  min-h-full`}
+        >
           <div className="bg-red-600 w-2.5 h-2.5 mx-auto rounded-full -mt-4 "></div>
-          <div className={`relative ${addOpacity}`} >
+          <div className={`relative ${styles.addOpacity}`}>
             {displaySection.showService && (
               <section className="sec-height mx-auto  w-48 bg-white rounded-lg drop-shadow-xl mt-2  pl-1.5 pt-2 ">
                 <h2 className="text-sm font-[600]">Service</h2>
@@ -331,8 +404,11 @@ export const Home = () => {
                     type="text"
                     defaultValue={selected.number}
                     className="rounded-[4px] outline-none border py-2 pl-[60px] pr- text-xs w-44 text-gray-600"
-                    onChange={(e : React.ChangeEvent<HTMLInputElement>)=> {
-                      setSelected((prev)=> ({...prev, number : e.target.value}))
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      setSelected((prev) => ({
+                        ...prev,
+                        number: e.target.value,
+                      }));
                     }}
                   />
                   <p className=" bg-red-600 w-[53px] py-[8.3px] px-1 text-[11px] text-white absolute top-0">
@@ -348,7 +424,7 @@ export const Home = () => {
                       }));
                     }}
                   >
-                    <p className="text-gray-600">{selected.account}</p>
+                    <div className="text-gray-600">{selected.account}</div>
                     <i className="fa-solid fa-caret-down text-gray-600"></i>
                   </div>
                   <div
@@ -368,16 +444,68 @@ export const Home = () => {
                     <p className="text-gray-600">{selected.service}</p>
                     <i className="fa-solid fa-caret-down text-gray-600"></i>
                   </div>
-                  <button 
+                  {displaySection.showMobileSec2 && (
+                    <div>
+                      <div className=" flex justify-center items-center gap-4 ml-6 -mt-3">
+                        <img src={flag} alt="flag" className=" w-5 h-3 " />
+                        <p className=" text-xs">Nigeria</p>
+                      </div>
+                      <Slider>
+                        <SwiperSlide>Nigeria MTN</SwiperSlide>
+                        <SwiperSlide>Nigeria Airtel</SwiperSlide>
+                        <SwiperSlide>Nigeria Glo</SwiperSlide>
+                        <SwiperSlide>Nigeria 9Mobile</SwiperSlide>
+                      </Slider>
+                      <div className=" text-xs  ml-9 my-4 text-center">
+                        Enter Amount From <p>5 to 50000 NGN</p>
+                      </div>
+
+                      <div className=" flex w-4 h-10 item-center gap-2 mx-1.5 mt-5">
+                        <i
+                          className="fa-solid fa-minus  border-red-600 border px-3 pt-1 mt-1 h-6 rounded-lg text-xs hover:bg-gray-200 cursor-pointer"
+                          onClick={() => {
+                            if (
+                              mobileAmount !== undefined &&
+                              mobileAmount !== 0
+                            )
+                              setMobileAmount(mobileAmount--);
+                          }}
+                        ></i>
+                        <input
+                          type="text"
+                          className=" w-20 h-8 border rounded-sm border-gray-300 outline-none text-xs px-1 text-center"
+                          value={mobileAmount}
+                          placeholder="Amount"
+                          onChange={updateInputValueHandler}
+                        />
+                        <i
+                          className="fa-solid fa-plus  border-red-600 border px-3 pt-1 mt-1 h-6 rounded-lg text-xs hover:bg-gray-200 cursor-pointer"
+                          onClick={() => {
+                            setMobileAmount(0);
+                            if (mobileAmount !== undefined)
+                              setMobileAmount(mobileAmount++);
+                          }}
+                        ></i>
+                      </div>
+                      {displaySection.showFeedBack && <div className=" text-[10px] text-red-600 text-center w-28 ml-9 leading-3 -mt-1">
+                        {mobileAmount === undefined ? (
+                          <p>please enter correct amount number</p>
+                        ) : mobileAmount !== undefined && mobileAmount < 5 || mobileAmount > 50000 ? (
+                          <p>please Enter Amount From 5.0 to 50000.0 NGN </p>
+                        ) : ""}
+                      </div>}
+                    </div>
+                  )}
+                  <button
                     className="bg-red-600 py-2 text-sm text-white  w-44 rounded-[4px]"
                     onClick={handleMobileBtn}
-                    >
-                    Continue
+                  >
+                    {selected.btnText}
                   </button>
                 </div>
               </section>
             )}
-           
+
             {/* -------------------------customize sec ---------------------- */}
             {displaySection.showCustomize && (
               <section className="flex  justify-between items-center gap-1 mx-auto pb-4 pl-2 pr-2 w-48 bg-white rounded-lg drop-shadow-xl mt-4  pt-4">
@@ -389,7 +517,7 @@ export const Home = () => {
                       ...prev,
                       showCustomize: false,
                     }));
-                    setScroll("");
+                    setStyles((prev) => ({ ...prev, scroll: "" }));
                   }}
                 ></i>
               </section>
@@ -411,7 +539,7 @@ export const Home = () => {
               </nav>
             </div>
 
-            {/*------------------------------------ customize section-------------------- */}
+            {/*------------------------------------ customize select section-------------------- */}
             {!displaySection.showCustomize && (
               <section className="showCountries bg-white px-2.5 py-2 absolute w-full h-[280px] top-0  z-10 rounded-lg">
                 <div className="flex justify-between items-center">
@@ -429,61 +557,70 @@ export const Home = () => {
                   <li
                     className="flex justify-between"
                     onClick={() =>
-                      checkService === true
-                        ? setCheckService(false)
-                        : setCheckService(true)
+                      checked.checkService === true
+                        ? setChecked((prev) => ({
+                            ...prev,
+                            checkService: false,
+                          }))
+                        : setChecked((prev) => ({
+                            ...prev,
+                            checkService: true,
+                          }))
                     }
                   >
                     <label className=" text-gray-800">Services</label>
                     <input
                       type="checkbox"
                       className="custom-checkbox"
-                      checked={checkService}
+                      checked={checked.checkService}
                     />
                   </li>
                   <li
                     className="flex justify-between"
                     onClick={() =>
-                      checkLoan === true
-                        ? setCheckLoan(false)
-                        : setCheckLoan(true)
+                      checked.checkLoan === true
+                        ? setChecked((prev) => ({ ...prev, checkLoan: false }))
+                        : setChecked((prev) => ({ ...prev, checkLoan: true }))
                     }
                   >
                     <label className=" text-gray-800">Loan</label>
                     <input
                       type="checkbox"
                       className="custom-checkbox"
-                      checked={checkLoan}
+                      checked={checked.checkLoan}
                     />
                   </li>
                   <li
                     className="flex justify-between"
                     onClick={() =>
-                      checkNaira === true
-                        ? setCheckNaira(false)
-                        : setCheckNaira(true)
+                      checked.checkNaira === true
+                        ? setChecked((prev) => ({ ...prev, checkNaira: false }))
+                        : setChecked((prev) => ({ ...prev, checkNaira: true }))
                     }
                   >
                     <label className=" text-gray-800">eNaira</label>
                     <input
                       type="checkbox"
                       className="custom-checkbox"
-                      checked={checkNaira}
+                      checked={checked.checkNaira}
                     />
                   </li>
                   <li
                     className="flex justify-between"
                     onClick={() =>
-                      checkMobile === true
-                        ? setCheckMobile(false)
-                        : setCheckMobile(true)
+                      checked.checkMobile === true
+                        ? setChecked((prev) => ({
+                            ...prev,
+                            checkMobile: false,
+                          }))
+                        : setChecked((prev) => ({ ...prev, checkMobile: true }))
                     }
                   >
                     <label className=" text-gray-800">Mobile Top Up</label>
                     <input
                       type="checkbox"
                       className="custom-checkbox"
-                      checked={checkMobile}
+                      checked={checked.checkMobile}
                     />
                   </li>
                 </ul>
@@ -498,7 +635,11 @@ export const Home = () => {
                   className="flex justify-between pb-3 cursor-pointer"
                   onClick={() => {
                     // setSelect({ item1: true, item2: false });
-                    setSelect((prev)=> ({...prev, item1 : true, item2: false}));
+                    setSelect((prev) => ({
+                      ...prev,
+                      item1: true,
+                      item2: false,
+                    }));
                     setSelected((prev) => ({
                       ...prev,
                       service: "Buy Airtime",
@@ -517,7 +658,11 @@ export const Home = () => {
                 <li
                   className="flex justify-between cursor-pointer"
                   onClick={() => {
-                    setSelect((prev)=> ({...prev, item1: false, item2 : true}));
+                    setSelect((prev) => ({
+                      ...prev,
+                      item1: false,
+                      item2: true,
+                    }));
                     setSelected((prev) => ({
                       ...prev,
                       service: "Buy Data",
@@ -542,7 +687,8 @@ export const Home = () => {
                 className=" showCountries bg-white px-2.5 pt-5 absolute w-full h-[80px] bottom-[-40px]  z-10 rounded-lg"
                 onClick={() => {
                   setSelect((prev) => ({ ...prev, item3: true }));
-                  setSelected((prev) => ({...prev,
+                  setSelected((prev) => ({
+                    ...prev,
                     account: (
                       <div className=" -mx-2 text-gray-700">
                         <div className="flex justify-between items-center">
@@ -589,15 +735,43 @@ export const Home = () => {
             )}
           </div>
         </div>
-        {displaySection.showLoader && <div className="absolute top-[750px] left-4 w-52 h-auto py-4  rounded-2xl mx-auto">
-          <div className="flex flex-row gap-2 justify-center">
-            <div className="w-4 h-4 rounded-full bg-red-600 animate-bounce [animation-delay:.3s]"></div>
-            <div className="w-4 h-4 rounded-full bg-red-600 animate-bounce [animation-delay:.1s]"></div>
-            <div className="w-4 h-4 rounded-full bg-red-600 animate-bounce [animation-delay:.3s]"></div>
+        {displaySection.showLoader && (
+          <div className="absolute top-[480px] left-4 w-52 h-auto py-4  rounded-2xl mx-auto">
+            <div className="flex flex-row gap-2 justify-center">
+              <div className="w-2 h-2 rounded-full bg-red-600 animate-bounce [animation-delay:.3s]"></div>
+              <div className="w-2 h-2 rounded-full bg-red-600 animate-bounce [animation-delay:.1s]"></div>
+              <div className="w-2 h-2 rounded-full bg-red-600 animate-bounce [animation-delay:.3s]"></div>
+            </div>
           </div>
-        </div>}
-        {displaySection.showError && <ErrorPage msg = 'Invalid mobile number, please use the right phone number format and retry'  />}
-      </main>
+        )}
+        {displaySection.showError && (
+          <PopUP
+            icon={
+              <i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>
+            }
+            title="Failed"
+            msg="Invalid mobile number, please use the right phone number format and retry"
+            setDisplaysection={setDisplaysection}
+            setStyles={setStyles}
+          />
+        )}
+
+        {displaySection.showSucess && (
+          <PopUP
+            icon={
+              <div className="successImg">
+                <img src={successImg} alt="thumb up" />
+              </div>
+            }
+            title="Success"
+            msg={`Your ${
+              selected.service === "Buy Airtime" ? "Airtime" : "Data"
+            } topup was Successful`}
+            setDisplaysection={setDisplaysection}
+            setStyles={setStyles}
+          />
+        )}
+        </main>
     </div>
   );
 };

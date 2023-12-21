@@ -35,9 +35,13 @@ interface userInfoType {
     password : string;
     pin :  String
 }
+interface homeType {
+    
+}
 
 
 
 export const BgContext = createContext<bgType>({} as bgType);
-export const MorePageContext = createContext<morePageType>({})
-export const UserInfo = createContext<userInfoType>( {} as userInfoType)
+export const MorePageContext = createContext<morePageType>({});
+export const UserInfo = createContext<userInfoType>( {} as userInfoType);
+export const HomeContext = createContext
