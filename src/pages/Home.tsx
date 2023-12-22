@@ -200,7 +200,7 @@ export const Home = () => {
       : setDisplaysection((prev) => ({ ...prev, showEnaira: true }));
     checked.checkMobile === false
       ? setDisplaysection((prev) => ({ ...prev, showMobile: false }))
-      : setDisplaysection((prev) => ({ ...prev, showMobile: false }));
+      : setDisplaysection((prev) => ({ ...prev, showMobile: true }));
 
     setDisplaysection((prev) => ({ ...prev, showCustomize: true }));
     setStyles((prev) => ({ ...prev, scroll: "home-wrapper" }));
@@ -420,7 +420,16 @@ export const Home = () => {
                     onClick={() => {
                       setDisplaysection((prev) => ({
                         ...prev,
-                        showAccDetailSec: true,
+                        showBuySec: false
+                      }))
+                      displaySection.showAccDetailSec === false
+                      ? setDisplaysection((prev) => ({
+                        ...prev,
+                        showAccDetailSec: true
+                      }))
+                      : setDisplaysection((prev) => ({
+                        ...prev,
+                        showAccDetailSec: false
                       }));
                     }}
                   >
@@ -524,8 +533,8 @@ export const Home = () => {
             )}
 
             {/* ------------------footer----------------------------- */}
-            <div className=" absolute ">
-              <nav className="nav fixed w-[232px] h-10 bg-[#F1f1f1] border-b-[4px] border-black rounded-[18px] bottom-[67px] text-red-600   left-[26.5%] md:bottom-[67px] md:left-[41.5%]">
+            <div className=" relative ">
+              <nav className="nav fixed w-[232px] h-10 bg-[#F1f1f1] border-b-[4px] border-black rounded-[18px] bottom-[67px] text-red-600  -ml-[115px] left-[50%] ">
                 <ul className="flex justify-around items-center gap-4 mt-1">
                   <li className="flex flex-col items-center">
                     <i className="fa-solid fa-house cursor-pointer"></i>
@@ -630,11 +639,10 @@ export const Home = () => {
             {/*---------------------------- mobile service section--------------------------- */}
 
             {displaySection.showBuySec && (
-              <ul className=" showCountries bg-white px-2.5 py-3 absolute w-full h-[80px] bottom-[-40px]  z-10 rounded-lg">
+              <ul className=" showCountries bg-white px-2.5 py-3 absolute w-full h-[70px] bottom-[75px]  z-10 rounded-lg ">
                 <li
                   className="flex justify-between pb-3 cursor-pointer"
                   onClick={() => {
-                    // setSelect({ item1: true, item2: false });
                     setSelect((prev) => ({
                       ...prev,
                       item1: true,
@@ -650,7 +658,7 @@ export const Home = () => {
                     }));
                   }}
                 >
-                  <p className=" text-sm ">Buy Airtime</p>
+                  <p className=" text-xs ">Buy Airtime</p>
                   {select.item1 && (
                     <i className="fa-solid fa-check text-red-600"></i>
                   )}
@@ -673,7 +681,7 @@ export const Home = () => {
                     }));
                   }}
                 >
-                  <p className=" text-sm ">Buy Data</p>
+                  <p className=" text-xs ">Buy Data</p>
                   {select.item2 && (
                     <i className="fa-solid fa-check text-red-600"></i>
                   )}
@@ -684,7 +692,7 @@ export const Home = () => {
             {/* **************************************mobile select Account******************* */}
             {displaySection.showAccDetailSec && (
               <section
-                className=" showCountries bg-white px-2.5 pt-5 absolute w-full h-[80px] bottom-[-40px]  z-10 rounded-lg"
+                className=" showCountries bg-white px-2.5 flex items-center absolute w-full h-[105px] bottom-[88px]  z-10 rounded-lg cursor-pointer"
                 onClick={() => {
                   setSelect((prev) => ({ ...prev, item3: true }));
                   setSelected((prev) => ({
@@ -714,14 +722,14 @@ export const Home = () => {
                   }));
                 }}
               >
-                <div>
+                <div className=" flex flex-col gap-3 ">
                   <div className="flex justify-between items-center">
                     <p className=" uppercase text-xs mb-1">{user.fullName}</p>
                     {select.item3 && (
                       <i className="fa-solid fa-check text-red-600"></i>
                     )}
                   </div>
-                  <div className="flex justify-between items-center">
+                  <div className="flex justify-between gap-6 items-center">
                     <p className="text-[10px]">
                       Account:{" "}
                       <span className="tracking-wider">2763732737</span>
