@@ -806,7 +806,7 @@ export const Home = () => {
           )}
           </main>
       </div>
-        {showNairaSec && <Enaira />}
+        {showNairaSec && <Enaira setDisplaysection={setDisplaysection} setStyles={setStyles} />}
     </div>
 
   );

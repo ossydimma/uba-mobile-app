@@ -1,7 +1,7 @@
 
 import type {displaySectionType, stylesType} from "../pages/Home"
 
-interface childPropType {
+export interface childPropType {
     icon : React.ReactNode;
     title : string;
     msg : String | React.ReactNode;
