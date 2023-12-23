@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { ScreenContent } from "./ScreenContent";
-import { BgContext, MorePageContext } from "../MyContext";
+import { BgContext, MorePageContext} from "../MyContext";
+
 
 export function PhoneDisplay() {
   const [showMorePage, setShowMorePage] = useState<boolean>(false);
@@ -14,6 +15,23 @@ export function PhoneDisplay() {
   const [showSignUp, setShowSignUp] = useState<boolean>(false);
   const [showSignUpHomePage, setShowSignUpHomePage] = useState<boolean>(false);
   const [showHome, setShowHome] = useState<boolean>(false);
+  const [hideHome, setHideHome] = useState<boolean>(true);
+  const [showNairaSec, setShowNairaSec] = useState<boolean>(false);
+
+  // const [pages, setPages] = useState<morePageType> ({
+  //   showMorePage : false,
+  //   showContact : false,
+  //   showNews : false,
+  //   showInbox: false,
+  //   showFaq: false,
+  //   showAbout: false,
+  //   showForgottenPage: false,
+  //   showNoti: false,
+  //   showSignUp: false,
+  //   showSignUpHomePage: false,
+  //   showHome: false,
+
+  // })
 
   // changing background
   const { bg, setBg } = useContext(BgContext);
@@ -79,6 +97,10 @@ export function PhoneDisplay() {
             setShowForgottenPage,
             showHome,
             setShowHome,
+            hideHome,
+            setHideHome,
+            showNairaSec,
+            setShowNairaSec,
           }}
         >
           <ScreenContent />

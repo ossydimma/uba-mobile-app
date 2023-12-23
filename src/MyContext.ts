@@ -28,6 +28,10 @@ interface morePageType {
     setShowForgottenPage?: Dispatch<SetStateAction<boolean>>;
     showHome? : boolean;
     setShowHome? :  Dispatch<SetStateAction<boolean>>;
+    hideHome? : boolean;
+    setHideHome? : Dispatch<SetStateAction<boolean>>;
+    showNairaSec?: boolean;
+    setShowNairaSec? : Dispatch<SetStateAction<boolean>>;
 }
 interface userInfoType {
     fullName : string | undefined;

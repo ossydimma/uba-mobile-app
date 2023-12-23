@@ -20,6 +20,8 @@ export const MoreHeader = (name: ProductProps) => {
     setShowNoti,
     setShowSignUpHomePage,
     setShowForgottenPage,
+    setHideHome,
+    setShowNairaSec,
   } = useContext(MorePageContext);
 
  
@@ -80,17 +82,19 @@ export const MoreHeader = (name: ProductProps) => {
           setBg("phone-deafult-screen");
         }
         break;
+      case "eNaira":
+        if (setHideHome && setShowNairaSec !== undefined) {
+          setShowNairaSec(false)
+          setHideHome(true)
+          setBg('dark-screen-mode')
+        }
+        break
 
       default:
         break;
     }
 
-    // if (name.name === "more") {
-    //   setShowMorePage(false)
-    //   setBg('phone-deafult-screen')
-    // } else {
-    //   setShowMorePage(true)
-    // }
+   
   }
 
   return (

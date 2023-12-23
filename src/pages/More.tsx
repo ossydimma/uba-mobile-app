@@ -12,7 +12,7 @@ interface showMorePageType {
 }
 
 export const More = ( ) => {
-  const {bg, setBg} = useContext(BgContext)
+  const {bg} = useContext(BgContext)
   const {showContact, setShowContact, showInbox, setShowInbox, showAbout, setShowAbout, showFaq, setShowFaq, showNoti } = useContext(MorePageContext)
   function handleContactPage() : void {
     if (setShowContact !== undefined) {
