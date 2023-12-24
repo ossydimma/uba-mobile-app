@@ -3,6 +3,7 @@ import eNairaLogo from "../assests/eNaira_logo.webp";
 import { useState } from "react";
 import { PopUP } from "../components/PopUP";
 import type { displaySectionType, stylesType } from "../pages/Home";
+import { Loading } from "../components/Loading";
 
 interface childPropType {
   setDisplaysection: React.Dispatch<React.SetStateAction<displaySectionType>>;
@@ -60,7 +61,7 @@ export const Enaira = ({ setStyles, setDisplaysection }: childPropType) => {
         <form className=" flex flex-col gap-8 items-center mt-6 relative">
           <input
             type="text"
-            className=" border py-2 rounded-md bg-[#f1f3f3] px-2 w-[217px] text-sm outline-none"
+            className=" border py-3 rounded-md bg-[#f1f3f3] px-2 w-[217px] text-xs outline-none"
             placeholder="Username"
             defaultValue={inputValue.username}
             onChange={(e)=> {
@@ -69,7 +70,7 @@ export const Enaira = ({ setStyles, setDisplaysection }: childPropType) => {
           />
           <input
             type={inputType}
-            className=" border py-2 rounded-md bg-[#f1f3f3] px-2 w-[217px] text-sm outline-none"
+            className=" border py-3 rounded-md bg-[#f1f3f3] px-2 w-[217px] text-xs outline-none"
             placeholder="Password"
             defaultValue={inputValue.password}
             onChange={(e)=> {
@@ -101,37 +102,17 @@ export const Enaira = ({ setStyles, setDisplaysection }: childPropType) => {
           </button>
         </form>
       </section>
-      {displaysec.showLoader && (
-        <div className="absolute top-[180px] left-4 w-52 h-auto py-4  rounded-2xl mx-auto">
-          <div className="flex flex-row gap-2 justify-center">
-            <div className="w-2 h-2 rounded-full bg-red-600 animate-bounce [animation-delay:.3s]"></div>
-            <div className="w-2 h-2 rounded-full bg-red-600 animate-bounce [animation-delay:.1s]"></div>
-            <div className="w-2 h-2 rounded-full bg-red-600 animate-bounce [animation-delay:.3s]"></div>
-          </div>
-        </div>
-      )}
+      {displaysec.showLoader && <Loading className={'absolute top-[180px] left-4'} />}
       {displaysec.showError && (
-        <div className=" absolute bottom-[75px] left-5 text-black ">
-          <div className=" z-10  w-52 h-auto pt-4 pb-10 bg-white rounded-2xl mx-auto px-4 drop-shadow-xl">
-            <i
-              className="fa-solid fa-xmark cursor-pointer flex justify-end  pb-6"
-              onClick={handleExit}
-            ></i>
-            <main className="flex flex-col gap-5 justify-center items-center">
-              <div>
-                <i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>
-              </div>
-              <p>Failed</p>
-              <p className=" text-xs">can't access eNaira at the Moment</p>
-              <button
-                className="bg-red-600 py-2 text-sm text-white  w-44 rounded-[4px]"
-                onClick={handleExit}
-              >
-                OK
-              </button>
-            </main>
-          </div>
-        </div>
+        <PopUP
+        icon={
+          <i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>
+        }
+        onClick={handleExit}
+        className='absolute bottom-[60px] left-5 text-black'
+        title="Failed"
+        msg="can't access eNaira at the Moment, please contact customer service"
+        />
       )}
     </div>
   );

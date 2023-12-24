@@ -19,19 +19,7 @@ export function PhoneDisplay() {
   const [showNairaSec, setShowNairaSec] = useState<boolean>(false);
 
   // const [pages, setPages] = useState<morePageType> ({
-  //   showMorePage : false,
-  //   showContact : false,
-  //   showNews : false,
-  //   showInbox: false,
-  //   showFaq: false,
-  //   showAbout: false,
-  //   showForgottenPage: false,
-  //   showNoti: false,
-  //   showSignUp: false,
-  //   showSignUpHomePage: false,
-  //   showHome: false,
 
-  // })
 
   // changing background
   const { bg, setBg } = useContext(BgContext);

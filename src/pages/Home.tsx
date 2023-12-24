@@ -11,6 +11,8 @@ import { SwiperSlide } from "swiper/react";
 import { PopUP } from "../components/PopUP";
 import successImg from "../assests/leo_uba_thubs_up.png";
 import { Enaira } from "./Enaira";
+import { QickLoan } from "./QickLoan";
+import { Loading } from "../components/Loading";
 
 interface selectType {
   item1?: boolean;
@@ -37,6 +39,7 @@ export interface displaySectionType {
   showMobileSec2: boolean;
   showSucess: boolean;
   showFeedBack: boolean;
+  showQickLoan : boolean;
 }
 interface checkedType {
   checkLoan: boolean;
@@ -63,7 +66,7 @@ export const Home = () => {
     addHeight: "h-auto",
     addOpacity: "",
   });
-  const { setBg } = useContext(BgContext);
+  
   const [select, setSelect] = useState<selectType>({
     item1: false,
     item2: false,
@@ -89,6 +92,7 @@ export const Home = () => {
     showMobileSec2: false,
     showSucess: false,
     showFeedBack: false,
+    showQickLoan : false,
   });
 
   const [checked, setChecked] = useState<checkedType>({
@@ -99,7 +103,7 @@ export const Home = () => {
   });
 
   // contexts
-  const { bg } = useContext(BgContext);
+  const { setBg } = useContext(BgContext);
   const { setShowNoti, hideHome, setHideHome, showNairaSec, setShowNairaSec } = useContext(MorePageContext);
   const user = useContext(UserInfo);
   useEffect(() => {
@@ -140,6 +144,11 @@ export const Home = () => {
     const displayValue = isNaN(newValue) ? undefined : newValue;
     setMobileAmount(displayValue);
   }
+  function handleExitPopup( ) {
+    setDisplaysection((prev) => ({...prev, showError: false, showSucess : false}))
+    setStyles((prev) =>({...prev, addHeight :'h-auto'}))
+    setStyles((prev) =>({...prev, addOpacity :''}))
+  }
 
   function handleMobileBtn() {
     if (selected.btnText === "Continue") {
@@ -149,7 +158,7 @@ export const Home = () => {
         selected.account !== "Select Account" &&
         selected.service !== "Select Service"
       ) {
-        setDisplaysection((prev) => ({ ...prev, showLoader: true }));
+        // setDisplaysection((prev) => ({ ...prev, showLoader: true }));
         setSelected((prev) => ({
           ...prev,
           btnText: (
@@ -169,10 +178,10 @@ export const Home = () => {
         selected.service !== "Select Service"
       ) {
         setStyles((prev) => ({ ...prev, addOpacity: "opacity-0" }));
-        setDisplaysection((prev) => ({ ...prev, showLoader: true }));
+        // setDisplaysection((prev) => ({ ...prev, showLoader: true }));
         setStyles((prev) => ({ ...prev, addHeight: "h-[600px]" }));
         setTimeout(() => {
-          setDisplaysection((prev) => ({ ...prev, showLoader: false }));
+          // setDisplaysection((prev) => ({ ...prev, showLoader: false }));
           setDisplaysection((prev) => ({ ...prev, showError: true }));
         }, 4000);
       }
@@ -196,6 +205,7 @@ export const Home = () => {
       }
     }
   }
+  
 
   function handleCustomize() {
     checked.checkService === false
@@ -214,13 +224,14 @@ export const Home = () => {
     setDisplaysection((prev) => ({ ...prev, showCustomize: true }));
     setStyles((prev) => ({ ...prev, scroll: "home-wrapper" }));
   }
+  
   return (
     <div>
       <div
         className={`text-white w-full h-full top-0 absolute left-0 showMorePage bg-[#000] ${styles.scroll} scroll-smooth md:h-[465px]`}
       >
-        <main className=" h-full relative text-black">
-          {hideHome && <header className="h-24  bg-black ">
+        {hideHome && <main className=" h-full relative text-black">
+          <header className="h-24  bg-black ">
             <div className="w-60  h-11 -mt-2 bg-black text-white px-2 flex justify-between items-center fixed z-10">
               <span className="flex gap-2">
                 <div className=" ">
@@ -254,7 +265,7 @@ export const Home = () => {
                 </span>
               </span>
             </div>
-          </header>}
+          </header>
 
           <section className=" absolute top-10 left-7 h-28 w-48 bg-white rounded-lg drop-shadow-xl">
             {reload && (
@@ -322,7 +333,7 @@ export const Home = () => {
             className={`bg-[#f1f1f1] w-full text-black ${styles.addHeight} pt-20 pb-[50px] overflow-hidden  min-h-full`}
           >
             <div className="bg-red-600 w-2.5 h-2.5 mx-auto rounded-full -mt-4 "></div>
-            <div className={`relative ${styles.addOpacity}`}>
+            <div className={`relative ${styles.addOpacity }`}>
               {displaySection.showService && (
                 <section className="sec-height mx-auto  w-48 bg-white rounded-lg drop-shadow-xl mt-2  pl-1.5 pt-2 ">
                   <h2 className="text-sm font-[600]">Service</h2>
@@ -358,10 +369,21 @@ export const Home = () => {
                 </section>
               )}
 
+              {/*<-------------------------loan sec ---------------------------> */}
               {displaySection.showLoan && (
                 <section className="sec-height mx-auto  w-48 bg-white rounded-lg drop-shadow-xl mt-4 pl-1.5 pt-2">
                   <h2 className="text-sm font-[600]">Loans</h2>
-                  <div className="w-24  mt-0.5 ml-1 cursor-pointer">
+                  <div 
+                    className="w-24  mt-0.5 ml-1 cursor-pointer"
+                    onClick={()=>{ 
+                      if (setHideHome !== undefined){ 
+                        setHideHome(false)
+                        setDisplaysection((prev)=> ({...prev, showQickLoan : true}))
+                        setBg("light-screen-mode");
+                      }
+                  
+                  }}
+                    >
                     <img
                       src={loanImage}
                       alt="loan"
@@ -768,43 +790,36 @@ export const Home = () => {
             </div>
           </div>
           
-          {displaySection.showLoader && (
-            <div className="absolute top-[480px] left-4 w-52 h-auto py-4  rounded-2xl mx-auto">
-              <div className="flex flex-row gap-2 justify-center">
-                <div className="w-2 h-2 rounded-full bg-red-600 animate-bounce [animation-delay:.3s]"></div>
-                <div className="w-2 h-2 rounded-full bg-red-600 animate-bounce [animation-delay:.1s]"></div>
-                <div className="w-2 h-2 rounded-full bg-red-600 animate-bounce [animation-delay:.3s]"></div>
-              </div>
-            </div>
-          )}
+          {displaySection.showLoader && <Loading className='absolute top-[480px] left-4'/> }
           {displaySection.showError && (
             <PopUP
               icon={
                 <i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>
               }
+              onClick={handleExitPopup}
+              className='absolute top-[330px] left-4'
               title="Failed"
               msg="Invalid mobile number, please use the right phone number format and retry"
-              setDisplaysection={setDisplaysection}
-              setStyles={setStyles}
             />
           )}
 
           {displaySection.showSucess && (
             <PopUP
+              onClick={handleExitPopup}
               icon={
                 <div className="successImg">
                   <img src={successImg} alt="thumb up" />
                 </div>
               }
+              className="absolute top-[330px] left-4"
               title="Success"
               msg={`Your ${
                 selected.service === "Buy Airtime" ? "Airtime" : "Data"
               } topup was Successful`}
-              setDisplaysection={setDisplaysection}
-              setStyles={setStyles}
-            />
+              />
           )}
-          </main>
+          </main>}
+          {displaySection.showQickLoan && <QickLoan  setDisplaysection={setDisplaysection}/>}
       </div>
         {showNairaSec && <Enaira setDisplaysection={setDisplaysection} setStyles={setStyles} />}
     </div>
