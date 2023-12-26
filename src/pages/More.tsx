@@ -12,8 +12,8 @@ interface showMorePageType {
 }
 
 export const More = ( ) => {
-  const {bg} = useContext(BgContext)
-  const {showContact, setShowContact, showInbox, setShowInbox, showAbout, setShowAbout, showFaq, setShowFaq, showNoti } = useContext(MorePageContext)
+  const {setBg} = useContext(BgContext)
+  const {showContact, setShowMorePage, setShowNoti, setShowContact, showInbox, setShowInbox, showAbout, setShowAbout, showFaq, setShowFaq, showNoti } = useContext(MorePageContext)
   function handleContactPage() : void {
     if (setShowContact !== undefined) {
       setShowContact(true);
@@ -37,7 +37,12 @@ export const More = ( ) => {
   return (
     <div>
       <section className=" text-black w-full h-screen top-0 absolute left-0 showMorePage bg-white">
-        <MoreHeader name="more"/>
+        <MoreHeader name="more" onClick={()=> {
+          if (setShowMorePage !== undefined) {
+            setShowMorePage(false);
+            setBg("phone-deafult-screen");
+          }
+        }}/>
           <ul className="text-sm flex flex-col gap-3 mx-4 mt-2">
             <li >
               <article onClick={handleContactPage} className="more-items cursor-pointer flex items-center justify-between pb-2 border-b-2 ">
@@ -72,9 +77,17 @@ export const More = ( ) => {
           </div>
           <p className="text-center text-sm mt-3 font-black">Ubagroup</p>
       </section>
-      { showNoti &&<EmptyPage pageName="Notification" article="There Are No Notification" />}
+      { showNoti &&<EmptyPage pageName="Notification" article="There Are No Notification" onClick={()=> {
+        if (setShowNoti !== undefined) {
+          setShowNoti(false);
+        }
+      }} />}
       {showContact && <Contact />}
-     {showInbox && <EmptyPage pageName='Inbox' article='No Message Found'/>}
+     {showInbox && <EmptyPage pageName='Inbox' article='No Message Found' onClick={()=> {
+      if (setShowInbox !== undefined) {
+        setShowInbox(false);
+      }
+     }}/>}
       {showFaq && <Faq />}
      {showAbout && <About />}
     </div>

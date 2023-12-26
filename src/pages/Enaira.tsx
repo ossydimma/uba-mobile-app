@@ -1,9 +1,11 @@
 import { MoreHeader } from "../components/MoreHeader";
 import eNairaLogo from "../assests/eNaira_logo.webp";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { PopUP } from "../components/PopUP";
 import type { displaySectionType, stylesType } from "../pages/Home";
 import { Loading } from "../components/Loading";
+import { BgContext, MorePageContext } from "../MyContext";
+import { EmptyPage } from "./EmptyPage";
 
 interface childPropType {
   setDisplaysection: React.Dispatch<React.SetStateAction<displaySectionType>>;
@@ -15,6 +17,10 @@ interface inputValueType {
 }
 
 export const Enaira = ({ setStyles, setDisplaysection }: childPropType) => {
+  // contexts
+  const {setShowNairaSec, setHideHome, showNoti, setShowNoti } = useContext(MorePageContext);
+  const {setBg} = useContext(BgContext)
+
   const [inputValue, setInputValue] = useState<inputValueType>({
     username : undefined,
     password : undefined
@@ -44,7 +50,13 @@ export const Enaira = ({ setStyles, setDisplaysection }: childPropType) => {
       <section
         className={`  text-black w-full h-screen top-0 absolute left-0 showMorePage bg-white`}
       >
-        <MoreHeader name="eNaira" />
+        <MoreHeader name="eNaira" onClick={()=> {
+          if (setHideHome && setShowNairaSec !== undefined) {
+            setShowNairaSec(false)
+            setHideHome(true)
+            setBg('dark-screen-mode')
+          }
+        }} />
         <div className="">
           <img
             src={eNairaLogo}
@@ -112,6 +124,17 @@ export const Enaira = ({ setStyles, setDisplaysection }: childPropType) => {
         className='absolute bottom-[60px] left-5 text-black'
         title="Failed"
         msg="can't access eNaira at the Moment, please contact customer service"
+        />
+      )}
+      {showNoti && (
+        <EmptyPage
+          pageName="Notification"
+          article="There Are No Notification"
+          onClick={() => {
+            if (setShowNoti !== undefined) {
+              setShowNoti(false);
+            }
+          }}
         />
       )}
     </div>

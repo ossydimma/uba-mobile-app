@@ -837,7 +837,7 @@ export const Home = () => {
           {displaySection.showQickLoan && <QickLoan  setDisplaysection={setDisplaysection}/>}
       </div>
         {showNairaSec && <Enaira setDisplaysection={setDisplaysection} setStyles={setStyles} />}
-        {displaySection.showMobilePage && <MobileTopUp selected={selected} setSelected={setSelected} mobileAmount={mobileAmount} setMobileAmount={setMobileAmount} updateInputValueHandler={updateInputValueHandler}/>}
+        {displaySection.showMobilePage && <MobileTopUp selected={selected} setSelected={setSelected} mobileAmount={mobileAmount} setMobileAmount={setMobileAmount} updateInputValueHandler={updateInputValueHandler} setDisplaysection={setDisplaysection}/>}
     </div>
 
   );

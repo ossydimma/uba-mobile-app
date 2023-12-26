@@ -12,7 +12,7 @@ import { MorePageContext } from "../MyContext";
 // }
 
 export const Faq = () => {
-    const {showNoti} = useContext(MorePageContext)
+    const {showNoti, setShowFaq, setShowNoti} = useContext(MorePageContext)
 
   const [rotate, setRotate] = useState({
     rotateItem1: "",
@@ -333,7 +333,11 @@ export const Faq = () => {
   return (
     <div>
       <section className="bg-white text-black w-full h-screen top-0 absolute left-0 showMorePage">
-        <MoreHeader name="FAQ" />
+        <MoreHeader name="FAQ" onClick={()=> {
+          if (setShowFaq !== undefined) {
+            setShowFaq(false);
+          }
+        }}/>
         <main className="questions-wrapper">
           <ul className=" mx-3  text-sm">
             <li className="mt-2  border-b-2 ">
@@ -469,7 +473,11 @@ export const Faq = () => {
           </ul>
         </main>
       </section>
-      { showNoti &&<EmptyPage pageName="Notification" article="There Are No Notification" />}
+      { showNoti &&<EmptyPage pageName="Notification" article="There Are No Notification" onClick={()=> {
+            if (setShowNoti !== undefined) {
+                setShowNoti(false);
+              }
+        }}/>}
     </div>
   );
 };

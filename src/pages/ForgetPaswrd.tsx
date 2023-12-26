@@ -1,7 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { MoreHeader } from "../components/MoreHeader";
+import { BgContext, MorePageContext } from "../MyContext";
 
 export const ForgetPaswrd = () => {
+  // contexts 
+  const {setBg} = useContext(BgContext);
+  const {setShowForgottenPage} = useContext(MorePageContext)
+
+
   // states
   const [changeType, setChangeType] = useState<string>("password");
   const [showIcon, setShowIcon] = useState<boolean>(true);
@@ -104,7 +110,12 @@ export const ForgetPaswrd = () => {
   return (
     <div className=" text-black w-full h-screen top-0 absolute left-0 showMorePage bg-white ">
       <main className="relative">
-        <MoreHeader name="Login Assistance" />
+        <MoreHeader name="Login Assistance" onClick={()=> {
+          if (setShowForgottenPage !== undefined) {
+            setShowForgottenPage(false);
+            setBg("phone-deafult-screen");
+          }
+        }}/>
         <section className="mx-4 mt-2">
           <p className="text-sm">
             if you forgot your password, please fill in the details below:

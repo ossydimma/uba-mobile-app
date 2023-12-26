@@ -4,7 +4,7 @@ import { EmptyPage } from './EmptyPage'
 import { MorePageContext } from '../MyContext'
 
 export const Contact = () => {
-    const {showNews, setShowNews, showNoti} = useContext(MorePageContext)
+    const {showNews, setShowNews, showNoti, setShowContact,setShowNoti} = useContext(MorePageContext)
     function handleShowNews(): void {
         if (setShowNews !== undefined) {
             setShowNews(true)
@@ -14,7 +14,11 @@ export const Contact = () => {
   return (
     <>
         <section className="bg-white text-black w-full h-screen top-0 absolute left-0 showMorePage">
-            <MoreHeader name="Contact Us" />
+            <MoreHeader name="Contact Us"onClick={()=> {
+                if (setShowContact !== undefined) {
+                    setShowContact(false);
+                 }
+            }} />
             <ul className=' mx-3'>
                 <li>
                     <a href='tel:+2347031690110' className='flex gap-5 border-b-2 border-gray-100 py-3 cursor-pointer'>
@@ -52,8 +56,16 @@ export const Contact = () => {
             </div>
             <p className="text-center text-sm mt-3 font-black">Ubagroup</p>
         </section>
-        { showNoti &&<EmptyPage pageName="Notification" article="There Are No Notification" />}
-        {showNews && <EmptyPage pageName='News' article='no recent news'/>}
+        { showNoti &&<EmptyPage pageName="Notification" article="There Are No Notification" onClick={()=> {
+            if (setShowNoti !== undefined) {
+                setShowNoti(false);
+              }
+        }}/>}
+        {showNews && <EmptyPage pageName='News' article='no recent news' onClick={()=> {
+            if (setShowNews !== undefined) {
+                setShowNews(false);
+              }
+        }}/>}
     </>
   )
 }

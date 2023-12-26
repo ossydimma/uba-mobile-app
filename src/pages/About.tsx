@@ -5,11 +5,17 @@ import { EmptyPage } from './EmptyPage'
 import { MorePageContext } from '../MyContext'
 
 export const About = () => {
-    const {showNoti} = useContext(MorePageContext)
+    const {showNoti, setShowAbout,setShowMorePage, setShowNoti } = useContext(MorePageContext)
   return (
     <>
         <div className="bg-white text-black w-full h-screen top-0 absolute left-0 showMorePage">
-            <MoreHeader name="About"/>
+            <MoreHeader name="About" onClick={()=> {
+                if (setShowAbout !== undefined && setShowMorePage !== undefined) {
+                    setShowAbout(false);
+                    setShowMorePage(true);
+                }
+            }
+            }/>
             <main className='flex flex-col gap-24 items-center '>
                 <div className='text-center'>
                     <img src={logo} alt="logo svg" className=' h-32 ml-7'/>
@@ -25,7 +31,11 @@ export const About = () => {
                     </div>
                 </div>
             </main>
-            { showNoti &&<EmptyPage pageName="Notification" article="There Are No Notification" />}
+            { showNoti &&<EmptyPage pageName="Notification" article="There Are No Notification" onClick={()=> {
+                 if (setShowNoti !== undefined) {
+                    setShowNoti(false);
+                  }
+            }}/>}
         
         </div>
     </>

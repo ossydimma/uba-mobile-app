@@ -1,100 +1,17 @@
-import { useContext, useState } from "react";
-import { BgContext, MorePageContext } from "../MyContext";
-import { EmptyPage } from "../pages/EmptyPage";
-
+import { useContext} from "react";
+import { MorePageContext } from "../MyContext";
 interface ProductProps {
   name: string;
+  onClick: () => void;
 }
 
-export const MoreHeader = (name: ProductProps) => {
-  // const {setShowMorePage} = useContext(MorePageContext);
-  const { setBg } = useContext(BgContext);
-  const {
-    setShowMorePage,
-    setShowContact,
-    setShowNews,
-    setShowInbox,
-    setShowAbout,
-    setShowFaq,
-    showNoti,
-    setShowNoti,
-    setShowSignUpHomePage,
-    setShowForgottenPage,
-    setHideHome,
-    setShowNairaSec,
-  } = useContext(MorePageContext);
+export const MoreHeader = ({ name, onClick }: ProductProps) => {
+  const { showNoti, setShowNoti } = useContext(MorePageContext);
 
- 
   function handleNotiPage(): void {
-    
     if (setShowNoti !== undefined) {
       setShowNoti(true);
     }
-  }
-  function changePage(name: ProductProps) {
-    switch (name.name) {
-      case "more":
-        if (setShowMorePage !== undefined) {
-          setShowMorePage(false);
-          setBg("phone-deafult-screen");
-        }
-        break;
-      case "Contact Us":
-        if (setShowContact !== undefined) {
-          setShowContact(false);
-        }
-        break;
-      case "News":
-        if (setShowNews !== undefined) {
-          setShowNews(false);
-        }
-        break;
-      case "Inbox":
-        if (setShowInbox !== undefined) {
-          setShowInbox(false);
-        }
-        break;
-      case "About":
-        if (setShowAbout !== undefined && setShowMorePage !== undefined) {
-          setShowAbout(false);
-          setShowMorePage(true);
-        }
-        break;
-      case "FAQ":
-        if (setShowFaq !== undefined) {
-          setShowFaq(false);
-        }
-        break;
-      case "Notification":
-        if (setShowNoti !== undefined) {
-          setShowNoti(false);
-        }
-        break;
-      case "Sign Up":
-        if (setShowSignUpHomePage !== undefined) {
-          setShowSignUpHomePage(false);
-          setBg("phone-deafult-screen");
-        }
-        break;
-      case "Login Assistance":
-        if (setShowForgottenPage !== undefined) {
-          setShowForgottenPage(false);
-          setBg("phone-deafult-screen");
-        }
-        break;
-      case "eNaira":
-        if (setHideHome && setShowNairaSec !== undefined) {
-          setShowNairaSec(false)
-          setHideHome(true)
-          setBg('dark-screen-mode')
-        }
-        break
-
-      default:
-        break;
-    }
-
-   
   }
 
   return (
@@ -103,9 +20,9 @@ export const MoreHeader = (name: ProductProps) => {
         <div className="flex gap-7 items-center">
           <i
             className="fa-solid fa-arrow-left cursor-pointer"
-            onClick={() => changePage(name)}
+            onClick={onClick}
           ></i>
-          <h2 className="font-semibold">{name.name}</h2>
+          <h2 className="font-semibold">{name}</h2>
         </div>
         {!showNoti && (
           <div>

@@ -1,13 +1,14 @@
 import React, { ChangeEvent, useContext, useState } from "react";
 import { MoreHeader } from "../components/MoreHeader";
-import { BgContext, UserInfo } from "../MyContext";
-import { selectedType } from "./Home";
+import { BgContext, MorePageContext, UserInfo } from "../MyContext";
+import type { selectedType, displaySectionType } from "./Home";
 import { Slider } from "../components/Slider";
 import { SwiperSlide } from "swiper/react";
 import flag from "../assests/flag.jpeg";
 import { Loading } from "../components/Loading";
 import { PopUP } from "../components/PopUP";
 import successImg from "../assests/leo_uba_thubs_up.png";
+import { EmptyPage } from "./EmptyPage";
 
 interface selectType {
   selected: selectedType;
@@ -15,6 +16,7 @@ interface selectType {
   mobileAmount: number | undefined;
   setMobileAmount: React.Dispatch<React.SetStateAction<number | undefined>>;
   updateInputValueHandler: (e: ChangeEvent<HTMLInputElement>) => void;
+  setDisplaysection: React.Dispatch<React.SetStateAction<displaySectionType>>;
 }
 
 export const MobileTopUp = ({
@@ -23,26 +25,30 @@ export const MobileTopUp = ({
   mobileAmount,
   setMobileAmount,
   updateInputValueHandler,
+  setDisplaysection,
 }: selectType) => {
   // contexts
   const { setBg } = useContext(BgContext);
   const user = useContext(UserInfo);
+  const { setHideHome, showNoti, setShowNoti } = useContext(MorePageContext);
 
-  // const [showDiv, setShowDiv] = useState<boolean>(false);
-  // const [showFeedBack, setShowFeedBack] = useState<boolean>(false);
   const [display, setDisplay] = useState({
     feedBack: false,
     loader: false,
     popUp: false,
     confirmDiv: false,
   });
-  const [addStyles, setAddStyle] = useState ({
-    scroll : 'home-wrapper',
-    opacity : ''
-  })
+  const [addStyles, setAddStyle] = useState({
+    scroll: "home-wrapper",
+    opacity: "",
+  });
 
   function handleMobileBtn() {
-    if (selected.btnText === "Continue" && /^[0-9]+$/.test(selected.number) && selected.number.length === 11) {
+    if (
+      selected.btnText === "Continue" &&
+      /^[0-9]+$/.test(selected.number) &&
+      selected.number.length === 11
+    ) {
       setSelected((prev) => ({
         ...prev,
         btnText: (
@@ -58,15 +64,19 @@ export const MobileTopUp = ({
     }
 
     if (selected.btnText === "Confirm") {
-        if (mobileAmount !== undefined &&( mobileAmount > 4 && mobileAmount <= 50000))  { 
-            setAddStyle((prev)=> ({...prev, opacity : "opacity-[0.06]"}));
-            setAddStyle((prev)=> ({...prev, scroll : ""}));
-            setDisplay((prev)=> ({...prev, loader : true})) ;
-            setTimeout(()=> {
-                setDisplay((prev)=> ({...prev, loader : false}));
-                setDisplay((prev)=> ({...prev, popUp : true}))
-            },2000)
-        }
+      if (
+        mobileAmount !== undefined &&
+        mobileAmount > 4 &&
+        mobileAmount <= 50000
+      ) {
+        setAddStyle((prev) => ({ ...prev, opacity: "opacity-[0.06]" }));
+        setAddStyle((prev) => ({ ...prev, scroll: "" }));
+        setDisplay((prev) => ({ ...prev, loader: true }));
+        setTimeout(() => {
+          setDisplay((prev) => ({ ...prev, loader: false }));
+          setDisplay((prev) => ({ ...prev, popUp: true }));
+        }, 2000);
+      }
       if (
         mobileAmount === undefined ||
         mobileAmount < 5 ||
@@ -81,7 +91,16 @@ export const MobileTopUp = ({
       className={`   text-black w-full h-screen top-0 absolute left-0 showMorePage bg-white ${addStyles.scroll}`}
     >
       <div className={`${addStyles.opacity}`}>
-        <MoreHeader name="Mobile Top-up" />
+        <MoreHeader
+          name="Mobile Top-up"
+          onClick={() => {
+            if (setHideHome !== undefined) {
+              setDisplaysection((prev) => ({ ...prev, showMobilePage: false }));
+              setHideHome(true);
+              setBg("dark-screen-mode");
+            }
+          }}
+        />
         <main className=" px-3 pt-2 ">
           <section className=" w-[100%] h-auto  y-3 border border-gray-300 rounded-3xl overflow-hidden">
             <p className="text-sm pl-2.5 font-semibold  bg-gray-200 py-3 ">
@@ -117,13 +136,13 @@ export const MobileTopUp = ({
               <p className=" bg-red-600 w-[53px] py-[8.3px] px-1 text-[11px] text-white absolute top-0 rounded-s-md">
                 NG +234
               </p>
-              <i 
+              <i
                 className="fa-solid fa-xmark bg-gray-300 py-[4px] px-[6px] rounded-full text-white text-[10px] absolute top-2 right-[-15px] cursor-pointer"
-                onClick={()=> {
-                    setSelected((prev) => ({
-                        ...prev,
-                        number: ''
-                      }));
+                onClick={() => {
+                  setSelected((prev) => ({
+                    ...prev,
+                    number: "",
+                  }));
                 }}
               ></i>
               <Slider className="w-[180px] my-3">
@@ -198,10 +217,10 @@ export const MobileTopUp = ({
       {display.popUp && (
         <PopUP
           onClick={() => {
-            setAddStyle((prev)=> ({...prev, opacity : ""}));
-            setAddStyle((prev)=> ({...prev, scroll : "home-wrapper"}));
-            setDisplay((prev)=> ({...prev, popUp : false})) ;
-            setDisplay((prev)=> ({...prev, confirmDiv : false})) ;
+            setAddStyle((prev) => ({ ...prev, opacity: "" }));
+            setAddStyle((prev) => ({ ...prev, scroll: "home-wrapper" }));
+            setDisplay((prev) => ({ ...prev, popUp: false }));
+            setDisplay((prev) => ({ ...prev, confirmDiv: false }));
           }}
           icon={
             <div className="successImg">
@@ -213,6 +232,17 @@ export const MobileTopUp = ({
           msg={`Your ${
             selected.service === "Buy Airtime" ? "Airtime" : "Data"
           } topup was Successful`}
+        />
+      )}
+      {showNoti && (
+        <EmptyPage
+          pageName="Notification"
+          article="There Are No Notification"
+          onClick={() => {
+            if (setShowNoti !== undefined) {
+              setShowNoti(false);
+            }
+          }}
         />
       )}
     </div>

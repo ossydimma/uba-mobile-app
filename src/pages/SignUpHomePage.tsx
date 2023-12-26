@@ -20,7 +20,12 @@ export const SignUpHomePage = () => {
   return (
     <div>
       <section className=" text-black w-full h-screen top-0 absolute left-0 showMorePage bg-white">
-        <MoreHeader name="Sign Up" />
+        <MoreHeader name="Sign Up" onClick={()=> {
+          if (setShowSignUpHomePage !== undefined) {
+            setShowSignUpHomePage(false);
+            setBg("phone-deafult-screen");
+          }
+        }}/>
         <ul className="text-sm flex flex-col gap-3 mx-4 mt-4">
           <li>
             <article
