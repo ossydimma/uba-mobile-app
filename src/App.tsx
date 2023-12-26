@@ -7,9 +7,12 @@ import { BgContext, UserInfo } from "./MyContext";
 function App() {
   const [bg, setBg] = useState<string>("phone-deafult-screen");
   const user = {
-    fullName : '',
+    fullName : 'Ositadimma Chris Jerry',
     contact : '',
     password : '',
+    balance : '2000.00',
+    accountNo : '2763732737',
+    accountType : 'Current Account',
     pin : ''
   }
   // console.log(user.fullName)

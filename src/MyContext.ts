@@ -36,7 +36,10 @@ interface morePageType {
 interface userInfoType {
     fullName : string | undefined;
     contact : string | undefined;
+    balance : string;
     password : string;
+    accountNo : string;
+    accountType : string;
     pin :  String
 }
 interface homeType {

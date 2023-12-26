@@ -22,7 +22,7 @@ export function PhoneDisplay() {
 
 
   // changing background
-  const { bg, setBg } = useContext(BgContext);
+  const { bg } = useContext(BgContext);
 
   // getting current time
   const [time, setTime] = useState(new Date());

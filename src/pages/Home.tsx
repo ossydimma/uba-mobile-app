@@ -1,4 +1,4 @@
-import React, { ChangeEvent, HTMLInputTypeAttribute, ReactNode, useContext, useEffect, useState } from "react";
+import React, { ChangeEvent, ReactNode, useContext, useEffect, useState } from "react";
 import { BgContext, MorePageContext, UserInfo } from "../MyContext";
 import sendSvg from "../assests/money-cash-svgrepo-com.svg";
 import billSvg from "../assests/money-cash-svgrepo-com (1).svg";
@@ -13,14 +13,15 @@ import successImg from "../assests/leo_uba_thubs_up.png";
 import { Enaira } from "./Enaira";
 import { QickLoan } from "./QickLoan";
 import { Loading } from "../components/Loading";
+import { MobileTopUp } from "./MobileTopUp";
 
 interface selectType {
   item1?: boolean;
   item2?: boolean;
   item3?: boolean;
 }
-interface selectedType {
-  number: string;
+export interface selectedType {
+  number: string ;
   account: string | ReactNode;
   service: string;
   btnText: string | ReactNode;
@@ -40,6 +41,7 @@ export interface displaySectionType {
   showSucess: boolean;
   showFeedBack: boolean;
   showQickLoan : boolean;
+  showMobilePage : boolean;
 }
 interface checkedType {
   checkLoan: boolean;
@@ -55,10 +57,16 @@ export interface stylesType {
 }
 
 export const Home = () => {
+
+  // contexts
+  const { setBg } = useContext(BgContext);
+  const { setShowNoti, hideHome, setHideHome, showNairaSec, setShowNairaSec } = useContext(MorePageContext);
+  const user = useContext(UserInfo);
+
   // states
   const [reload, setReload] = useState<boolean>(true);
   const [clickTime, setClickTime] = useState<string>("");
-  const [balance, setBalance] = useState<string>("44444400.00");
+  // const [balance, setBalance] = useState<string>("44444400.00");
   let [mobileAmount, setMobileAmount] = useState<number | undefined>(undefined);
   const [styles, setStyles] = useState<stylesType>({
     changeType: "",
@@ -93,6 +101,7 @@ export const Home = () => {
     showSucess: false,
     showFeedBack: false,
     showQickLoan : false,
+    showMobilePage : false,
   });
 
   const [checked, setChecked] = useState<checkedType>({
@@ -102,13 +111,8 @@ export const Home = () => {
     checkService: true,
   });
 
-  // contexts
-  const { setBg } = useContext(BgContext);
-  const { setShowNoti, hideHome, setHideHome, showNairaSec, setShowNairaSec } = useContext(MorePageContext);
-  const user = useContext(UserInfo);
-  useEffect(() => {
-    setTime();
-  }, []);
+  
+  
 
   
   
@@ -150,15 +154,14 @@ export const Home = () => {
     setStyles((prev) =>({...prev, addOpacity :''}))
   }
 
-  function handleMobileBtn() {
-    if (selected.btnText === "Continue") {
+  function handleMobileBtn() : void {
+    if (selected.btnText === "Continue ") {
       if (
         /^[0-9]+$/.test(selected.number) &&
         selected.number.length === 11 &&
         selected.account !== "Select Account" &&
         selected.service !== "Select Service"
       ) {
-        // setDisplaysection((prev) => ({ ...prev, showLoader: true }));
         setSelected((prev) => ({
           ...prev,
           btnText: (
@@ -178,10 +181,8 @@ export const Home = () => {
         selected.service !== "Select Service"
       ) {
         setStyles((prev) => ({ ...prev, addOpacity: "opacity-0" }));
-        // setDisplaysection((prev) => ({ ...prev, showLoader: true }));
         setStyles((prev) => ({ ...prev, addHeight: "h-[600px]" }));
         setTimeout(() => {
-          // setDisplaysection((prev) => ({ ...prev, showLoader: false }));
           setDisplaysection((prev) => ({ ...prev, showError: true }));
         }, 4000);
       }
@@ -271,13 +272,13 @@ export const Home = () => {
             {reload && (
               <div>
                 <p className="text-xs text-center mt-2">
-                  Account: <span className="tracking-wider">2763732737</span>
+                  {user.accountType}: <span className="tracking-wider">{user.accountNo}</span>
                 </p>
                 <div className="flex justify-center items-center gap-5 font-semibold mr-1 mt-2">
                   <h1 className="ml-6 ">
                     NGN{" "}
                     <span className={`${styles.changeType} text-xs `}>
-                      {balance}
+                      {user.balance}
                     </span>
                   </h1>
                   <div
@@ -359,7 +360,17 @@ export const Home = () => {
                       <p className="text-[8px]">Pay Bill</p>
                     </li>
 
-                    <li className="flex flex-col items-center gap-1 cursor-pointer">
+                    <li 
+                      className="flex flex-col items-center gap-1 cursor-pointer"
+                      onClick={()=> {
+                        if (setHideHome !== undefined) {
+                          setHideHome(false)
+                        }
+                        setBg("light-screen-mode");
+                        setDisplaysection((prev) => ({...prev, showMobilePage : true}))
+                        
+                      }}
+                      >
                       <div className="border-2 p-1.5 drop-shadow-lg bg-white">
                         <img src={mobileSvg} alt="icon" />
                       </div>
@@ -428,7 +439,6 @@ export const Home = () => {
                           setShowNairaSec(true)
                           setHideHome(false)
                         }
-                        // setShowNairaSec(true)
                         setBg("light-screen-mode");
                         setDisplaysection((prev) => ({...prev, showNairaSec : true}))
                         
@@ -448,7 +458,7 @@ export const Home = () => {
                   <div className="mr-8 relative flex flex-col gap-4">
                     <input
                       type="text"
-                      defaultValue={selected.number}
+                      value={selected.number}
                       className="rounded-[4px] outline-none border py-2 pl-[60px] pr- text-xs w-44 text-gray-600"
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                         setSelected((prev) => ({
@@ -460,7 +470,12 @@ export const Home = () => {
                     <p className=" bg-red-600 w-[53px] py-[8.3px] px-1 text-[11px] text-white absolute top-0">
                       NG +234
                     </p>
-                    <i className="fa-solid fa-xmark bg-gray-300 py-[4px] px-[6px] rounded-full text-white text-[10px] absolute top-2 right-[-26px] cursor-pointer"></i>
+                    <i 
+                      className="fa-solid fa-xmark bg-gray-300 py-[4px] px-[6px] rounded-full text-white text-[10px] absolute top-2 right-[-26px] cursor-pointer"
+                      onClick={()=> {
+                        setSelected((prev)=> ({...prev, number : ''}))
+                      }}
+                      ></i>
                     <div
                       className=" w-44 h-9 border text-xs flex items-center px-3 justify-between rounded-[4px] cursor-pointer"
                       onClick={() => {
@@ -505,7 +520,7 @@ export const Home = () => {
                           <img src={flag} alt="flag" className=" w-5 h-3 " />
                           <p className=" text-xs">Nigeria</p>
                         </div>
-                        <Slider>
+                        <Slider className="w-44 mt-5">
                           <SwiperSlide>Nigeria MTN</SwiperSlide>
                           <SwiperSlide>Nigeria Airtel</SwiperSlide>
                           <SwiperSlide>Nigeria Glo</SwiperSlide>
@@ -752,11 +767,11 @@ export const Home = () => {
                           </div>
                           <div className="flex justify-between items-center">
                             <p className="text-[8px]">
-                              Account:{" "}
-                              <span className="tracking-wider">2763732737</span>
+                              {user.accountType}:
+                              <span className="tracking-wider">{user.accountNo}</span>
                             </p>
                             <p className="text-[8px] font-semibold ml-2">
-                              NGN <span className={`  `}>{balance}</span>
+                              NGN <span className={`  `}>{user.balance}</span>
                             </p>
                           </div>
                         </div>
@@ -781,7 +796,7 @@ export const Home = () => {
                         <span className="tracking-wider">2763732737</span>
                       </p>
                       <p className="text-[10px] font-semibold">
-                        NGN <span className={`  `}>{balance}</span>
+                        NGN <span className={`  `}>{user.balance}</span>
                       </p>
                     </div>
                   </div>
@@ -822,6 +837,7 @@ export const Home = () => {
           {displaySection.showQickLoan && <QickLoan  setDisplaysection={setDisplaysection}/>}
       </div>
         {showNairaSec && <Enaira setDisplaysection={setDisplaysection} setStyles={setStyles} />}
+        {displaySection.showMobilePage && <MobileTopUp selected={selected} setSelected={setSelected} mobileAmount={mobileAmount} setMobileAmount={setMobileAmount} updateInputValueHandler={updateInputValueHandler}/>}
     </div>
 
   );

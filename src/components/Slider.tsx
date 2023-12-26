@@ -8,9 +8,10 @@ import 'swiper/swiper-bundle.css';
 
 interface sliderType {
     children : React.ReactNode;
+    className : string
 }
 
-export const Slider = ({children}: sliderType) => {
+export const Slider = ({children, className}: sliderType) => {
     
     const navPrevRef = useRef<HTMLDivElement | null>(null);
     const navNextRef = useRef<HTMLDivElement | null>(null);
@@ -20,7 +21,7 @@ export const Slider = ({children}: sliderType) => {
 
     
   return (
-    <div className=" w-44 relative mt-5 text-xs cursor-pointer">
+    <div className= {`${className} relative  text-xs cursor-pointer`}>
         <Swiper 
             className=' text-center  ' 
             loop = {true}
