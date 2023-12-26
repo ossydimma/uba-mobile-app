@@ -21,6 +21,8 @@ import { QickLoan } from "./QickLoan";
 import { Loading } from "../components/Loading";
 import { MobileTopUp } from "./MobileTopUp";
 import { LifeStyle } from "./LifeStyle";
+import { History } from "./History";
+import { EmptyPage } from "./EmptyPage";
 
 interface selectType {
   item1?: boolean;
@@ -50,6 +52,7 @@ export interface displaySectionType {
   showQickLoan: boolean;
   showMobilePage: boolean;
   showLifeStylePage : boolean;
+  showHistoryPage : boolean;
 }
 interface checkedType {
   checkLoan: boolean;
@@ -67,7 +70,7 @@ export interface stylesType {
 export const Home = () => {
   // contexts
   const { setBg } = useContext(BgContext);
-  const { setShowNoti, hideHome, setHideHome, showNairaSec, setShowNairaSec } =
+  const { setShowNoti, showNoti, hideHome, setHideHome, showNairaSec, setShowNairaSec } =
     useContext(MorePageContext);
   const user = useContext(UserInfo);
 
@@ -111,6 +114,7 @@ export const Home = () => {
     showQickLoan: false,
     showMobilePage: false,
     showLifeStylePage : false,
+    showHistoryPage : false,
   });
 
   const [checked, setChecked] = useState<checkedType>({
@@ -259,7 +263,13 @@ export const Home = () => {
                 <span className="flex  gap-2 ">
                   <i
                     className="fa-regular fa-bell text-gray-400 text-2xl cursor-pointer"
-                    onClick={handleNotiPage}
+                    onClick={()=> {
+                      if (setShowNoti && setHideHome !== undefined) {
+                        setHideHome(false)
+                        setBg("light-screen-mode")
+                        setShowNoti(true);
+                      }
+                    }}
                   ></i>
                   <span className="mt-1 ">
                     <svg
@@ -363,7 +373,19 @@ export const Home = () => {
                         <p className="text-[9px]">Transfer</p>
                       </li>
 
-                      <li className="flex flex-col items-center gap-1 cursor-pointer ">
+                      <li 
+                        className="flex flex-col items-center gap-1 cursor-pointer "
+                        onClick={() => {
+                          if (setHideHome !== undefined) {
+                            setHideHome(false);
+                          }
+                          setBg("light-screen-mode");
+                          setDisplaysection((prev) => ({
+                            ...prev,
+                            showHistoryPage: true,
+                          }));
+                        }}
+                        >
                         <div className="border-2 p-1.5   drop-shadow-lg bg-white">
                           <img src={loadSvg} alt="icon" />
                         </div>
@@ -915,7 +937,19 @@ export const Home = () => {
           setDisplaysection={setDisplaysection}
         />
       )}
+       {showNoti &&<EmptyPage
+          pageName="Notification"
+          article="There Are No Notification"
+          onClick={() => {
+            if (setShowNoti && setHideHome !== undefined) {
+              setShowNoti(false);
+              setBg("dark-screen-mode")
+              setHideHome(true)
+            }
+          }}
+        />}
       {displaySection.showLifeStylePage &&<LifeStyle setDisplaysection={setDisplaysection}/>}
+      {displaySection.showHistoryPage && <History setDisplaysection={setDisplaysection}/>}
     </div>
   );
 };

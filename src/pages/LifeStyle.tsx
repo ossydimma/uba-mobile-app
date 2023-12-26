@@ -9,7 +9,7 @@ import loadSvg from "../assests/history-svgrepo-com.svg";
 import mobileSvg from "../assests/mobile2-svgrepo-com.svg";
 import { PopUP } from "../components/PopUP";
 import { Loading } from "../components/Loading";
-interface homeDisplaytype {
+export interface homeDisplaytype {
   setDisplaysection: React.Dispatch<React.SetStateAction<displaySectionType>>;
 }
 
