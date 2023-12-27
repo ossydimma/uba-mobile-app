@@ -23,6 +23,7 @@ import { MobileTopUp } from "./MobileTopUp";
 import { LifeStyle } from "./LifeStyle";
 import { History } from "./History";
 import { EmptyPage } from "./EmptyPage";
+import { Transfer } from "./Transfer";
 
 interface selectType {
   item1?: boolean;
@@ -53,6 +54,7 @@ export interface displaySectionType {
   showMobilePage: boolean;
   showLifeStylePage : boolean;
   showHistoryPage : boolean;
+  showTransferPage : boolean;
 }
 interface checkedType {
   checkLoan: boolean;
@@ -115,6 +117,7 @@ export const Home = () => {
     showMobilePage: false,
     showLifeStylePage : false,
     showHistoryPage : false,
+    showTransferPage : false
   });
 
   const [checked, setChecked] = useState<checkedType>({
@@ -366,7 +369,19 @@ export const Home = () => {
                   <section className="sec-height mx-auto  w-48 bg-white rounded-lg drop-shadow-xl mt-2  pl-1.5 pt-2 ">
                     <h2 className="text-sm font-[600]">Service</h2>
                     <ul className="w-full h-full flex items-center justify-center gap-1.5 -mt-3">
-                      <li className="flex flex-col items-center gap-1 cursor-pointer">
+                      <li 
+                        className="flex flex-col items-center gap-1 cursor-pointer"
+                        onClick={() => {
+                          if (setHideHome !== undefined) {
+                            setHideHome(false);
+                          }
+                          setBg("light-screen-mode");
+                          setDisplaysection((prev) => ({
+                            ...prev,
+                            showTransferPage: true,
+                          }));
+                        }}
+                        >
                         <div className="border-2 p-1.5 drop-shadow-lg bg-white">
                           <img src={sendSvg} alt="icon" />
                         </div>
@@ -950,6 +965,7 @@ export const Home = () => {
         />}
       {displaySection.showLifeStylePage &&<LifeStyle setDisplaysection={setDisplaysection}/>}
       {displaySection.showHistoryPage && <History setDisplaysection={setDisplaysection}/>}
+      {displaySection.showTransferPage && <Transfer setDisplaysection={setDisplaysection}/>}
     </div>
   );
 };

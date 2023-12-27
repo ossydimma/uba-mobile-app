@@ -57,7 +57,7 @@ export const Enaira = ({ setStyles, setDisplaysection }: childPropType) => {
             setBg('dark-screen-mode')
           }
         }} />
-        <div className="">
+        <div className=" mt-3">
           <img
             src={eNairaLogo}
             alt="eNaira logo"

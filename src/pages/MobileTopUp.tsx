@@ -101,7 +101,7 @@ export const MobileTopUp = ({
             }
           }}
         />
-        <main className=" px-3 pt-2 ">
+        <main className=" px-3 pt-4 ">
           <section className=" w-[100%] h-auto   border border-gray-300 rounded-3xl overflow-hidden">
             <p className="text-sm pl-2.5 font-semibold  bg-gray-200 py-3 ">
               Pay from
