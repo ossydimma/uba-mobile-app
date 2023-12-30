@@ -3,12 +3,16 @@ import { MoreHeader } from '../components/MoreHeader';
 import { BgContext, MorePageContext, UserInfo } from '../MyContext';
 import type { homeDisplaytype } from './LifeStyle';
 import { EmptyPage } from './EmptyPage';
+import { Beneficiary } from './Beneficiary';
 
 interface addActiveType {
     item1 : string
     item1Sub : string
     item2 : string
     item2Sub : string
+}
+export interface transferType {
+  addNew : boolean;
 }
 
 
@@ -20,20 +24,23 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
 
 //   States 
 
-    const [addActive, setAddActive] = useState({
+    const [addActive, setAddActive] = useState<addActiveType>({
         item1 : 'bg-red-100',
         item1Sub : 'bg-white',
         item2 : 'bg-white',
         item2Sub : 'bg-red-100',
 
     })
+    const [display, setDisplay] = useState<transferType>({
+      addNew : false,
+  })
     function handleActive(item : string) {
         switch (item) {
             case "uba":
-                setAddActive({item1 : "bg-red-100", item1Sub : 'bg-white', item2 : "", item2Sub : ""})
+                setAddActive({item1 : "bg-red-100", item1Sub : 'bg-white', item2 : "", item2Sub : "bg-red-100"})
                 break;
             case "other":
-                setAddActive({item1 : "", item1Sub : '', item2 : "bg-red-100", item2Sub : "bg-white"})
+                setAddActive({item1 : "", item1Sub : 'bg-red-100', item2 : "bg-red-100", item2Sub : "bg-white"})
                 break;
         
             default:
@@ -99,7 +106,12 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
                 className=' border border-gray-300 outline-none w-52 ml-3 rounded px-2 mb-1 text-[12px] py-1' 
                 placeholder='Account Number'
                 />
-              <p className=' text-right text-[10px] text-red-600 mr-2'>Choose Beneficiary</p>
+              <p 
+                className=' text-right text-[10px] text-red-600 mr-2 cursor-pointer'
+                onClick={()=> {
+                  setDisplay((prev)=> ({...prev, addNew : true}))
+                }}
+                >Choose Beneficiary</p>
             </div>
         </section>
         <button
@@ -109,6 +121,7 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
                 Confirm Receiver
               </button>
         </div>
+
         {showNoti && (
         <EmptyPage
           pageName="Notification"
@@ -120,6 +133,7 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
           }}
         />
       )}
+      {display.addNew && <Beneficiary setDisplay={setDisplay} />}
     </div>
   )
 }
