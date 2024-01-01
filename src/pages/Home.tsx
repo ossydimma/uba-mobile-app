@@ -79,7 +79,6 @@ export const Home = () => {
   // states
   const [reload, setReload] = useState<boolean>(true);
   const [clickTime, setClickTime] = useState<string>("");
-  // const [balance, setBalance] = useState<string>("44444400.00");
   let [mobileAmount, setMobileAmount] = useState<number | undefined>(undefined);
   const [styles, setStyles] = useState<stylesType>({
     changeType: "",

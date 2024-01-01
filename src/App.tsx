@@ -2,7 +2,8 @@ import { Route, Routes } from "react-router-dom";
 import { PhoneDisplay } from "./components/phoneDisplay";
 import { More } from "./pages/More";
 import { useState } from "react";
-import { BgContext, UserInfo } from "./MyContext";
+import { BeneficiariesContext, BgContext, UserInfo } from "./MyContext";
+import { dataType } from "./pages/Beneficiary";
 
 function App() {
   const [bg, setBg] = useState<string>("phone-deafult-screen");
@@ -15,12 +16,16 @@ function App() {
     accountType : 'Current Account',
     pin : ''
   }
-  // console.log(user.fullName)
+  const [beneficiaries, setBeneficiaries] = useState<dataType[] >( [] as dataType[])
+
+  
   return (
     <>
     <UserInfo.Provider value={user}>
       <BgContext.Provider value={{bg, setBg}}>
-        <PhoneDisplay />
+        <BeneficiariesContext.Provider value={{beneficiaries, setBeneficiaries}}>
+          <PhoneDisplay />
+        </BeneficiariesContext.Provider>
       </BgContext.Provider>
     </UserInfo.Provider>
     </>

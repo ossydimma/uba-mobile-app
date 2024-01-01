@@ -1,14 +1,15 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Loading } from "../components/Loading";
 import { PopUP } from "../components/PopUP";
 import type {transferType} from './Transfer'
+import { BeneficiariesContext } from "../MyContext";
 
 interface displayType {
   addNew: boolean;
   loader : boolean;
   popUp : boolean
 }
-interface dataType {
+export interface dataType {
   name: string;
   number: string;
 }
@@ -25,7 +26,8 @@ export const Beneficiary = ({setDisplay}: parentType) => {
     name: "",
     number: "",
   });
-  const [beneficiaries, setBeneficiaries] = useState<dataType[]>([])
+  const {beneficiaries, setBeneficiaries} = useContext(BeneficiariesContext)
+  
   return (
     <div>
       <div className=" text-black w-full h-screen min-h[480px] top-0 absolute left-0 showMorePage bg-white home-wrapper">
@@ -47,19 +49,24 @@ export const Beneficiary = ({setDisplay}: parentType) => {
         />
         <section>
             <ul className=" flex flex-col gap-3 mt-3">
-                {beneficiaries.map((obj, index) => (
+                { beneficiaries !== undefined ? 
+                 beneficiaries.map((obj, index) => (
                     <li key={index} className="border w-[240px] h-[65px] ml-1 flex gap-4 items-center py-4 pl-4 pr-10">
                         <i className="fa-regular fa-user  text-xl"></i>
                         <p className=" uppercase text-sm">{obj.name}</p>
                     </li>
-                ))
+                )) : ""
 
                 }
             </ul>
         </section>
         <button 
             className="bg-red-600 py-2 mt-3 text-sm text-white ml-1.5 w-[235px] rounded-[4px]"
-            onClick={()=> {setDisplay((prev)=> ({...prev, addNew : false}))}}
+            onClick={(e)=> {
+              e.preventDefault()
+              setDisplay((prev)=> ({...prev, addNew : false}))
+            
+            }}
         >
           Cancel
         </button>
@@ -87,7 +94,7 @@ export const Beneficiary = ({setDisplay}: parentType) => {
                 
               }}
             />
-            {data.name === '' ? <p className=" text-[10px] ml-4 text-red-600">please enter beneficiary name</p> : data.name.length < 3 ? <p className=" text-[10px] ml-4 text-red-600"> name must be more than 4 words</p> :  '' }
+            {data.name === '' ? <p className=" text-[10px] ml-4 text-red-600">please enter beneficiary name</p> : data.name.length < 3 ? <p className=" text-[10px] ml-4 text-red-600"> name must be more than 4 words</p> : !/^[a-zA-Z]+$/.test(data.name) ? <p className=" text-[10px] ml-4 text-red-600">must contain only letters</p> : '' }
             
             <input
               type="text"
@@ -104,22 +111,23 @@ export const Beneficiary = ({setDisplay}: parentType) => {
               className="bg-red-600 py-2 mt-3 text-sm text-white ml-2.5 w-[180px] rounded-[4px]"
               onClick={(e) => {
                 e.preventDefault()
-                let newObj  = data
-
-                
                 if (
                     /^[0-9]+$/.test(data.number) &&
                     data.number.length === 10 &&
+                    /^[a-zA-Z]+$/.test(data.name) &&
                     data.name !== "" &&
                     data.name.length > 3
                   ) {
-                    setBeneficiaries([...beneficiaries, data])
-                    setDisplayer((prev) => ({ ...prev, loader: true }));
-                    setTimeout(()=>{
-                        setDisplayer((prev) => ({ ...prev, loader: false }));
-                        setDisplayer((prev) => ({ ...prev, popUp: true }));
-                    },2000)
-                    setData({name : "", number : ''})
+                    if (setBeneficiaries !== undefined) {
+                      setBeneficiaries((prev)=>[...prev, data])
+                      setDisplayer((prev) => ({ ...prev, loader: true }));
+                      setTimeout(()=>{
+                          setDisplayer((prev) => ({ ...prev, loader: false }));
+                          setDisplayer((prev) => ({ ...prev, popUp: true }));
+                      },2000)
+
+                    }
+                    
                   }
               }}
             >
@@ -135,8 +143,13 @@ export const Beneficiary = ({setDisplay}: parentType) => {
                   <i className="fa-solid fa-check bg-green-600 py-3 px-4 rounded-full text-white text-2xl"></i>
                 }
                 onClick={()=> {
+                    setData({name : "", number : ''})
                     setDisplayer((prev) => ({ ...prev, popUp: false }));
-                    setDisplayer((prev)=> ({...prev, addNew : false}))
+                    setDisplayer((prev) => ({ ...prev, loader: true}));
+                    setTimeout(()=> {
+
+                      setDisplayer((prev)=> ({...prev,loader : false, addNew : false}))
+                    }, 1000)
                 }}
                 className="absolute top-[90px] left-4"
                 title="Success"

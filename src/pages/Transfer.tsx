@@ -1,9 +1,9 @@
 import { useContext, useState } from 'react'
 import { MoreHeader } from '../components/MoreHeader';
-import { BgContext, MorePageContext, UserInfo } from '../MyContext';
+import { BeneficiariesContext, BgContext, MorePageContext, UserInfo } from '../MyContext';
 import type { homeDisplaytype } from './LifeStyle';
 import { EmptyPage } from './EmptyPage';
-import { Beneficiary } from './Beneficiary';
+import { Beneficiary, dataType } from './Beneficiary';
 
 interface addActiveType {
     item1 : string
@@ -34,6 +34,8 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
     const [display, setDisplay] = useState<transferType>({
       addNew : false,
   })
+
+  // functions
     function handleActive(item : string) {
         switch (item) {
             case "uba":
@@ -133,7 +135,8 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
           }}
         />
       )}
-      {display.addNew && <Beneficiary setDisplay={setDisplay} />}
+      {display.addNew && <Beneficiary setDisplay={setDisplay} />} 
+      
     </div>
   )
 }

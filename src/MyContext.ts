@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction, createContext } from "react";
+import type { dataType } from "./pages/Beneficiary";
 
 interface bgType {
     bg?: string
@@ -42,8 +43,10 @@ interface userInfoType {
     accountType : string;
     pin :  String
 }
-interface homeType {
-    
+interface beneficiariesType {
+    beneficiaries : dataType[];
+    setBeneficiaries : React.Dispatch<React.SetStateAction<dataType[] >>
+
 }
 
 
@@ -51,4 +54,4 @@ interface homeType {
 export const BgContext = createContext<bgType>({} as bgType);
 export const MorePageContext = createContext<morePageType>({});
 export const UserInfo = createContext<userInfoType>( {} as userInfoType);
-export const HomeContext = createContext
+export const BeneficiariesContext = createContext<beneficiariesType>({} as beneficiariesType )
