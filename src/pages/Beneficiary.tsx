@@ -17,6 +17,8 @@ interface parentType {
     setDisplay : React.Dispatch<React.SetStateAction<transferType>>
 }
 export const Beneficiary = ({setDisplay}: parentType) => {
+
+  // states
   const [displayer, setDisplayer] = useState<displayType>({
     addNew: false,
     loader : false,
@@ -26,11 +28,24 @@ export const Beneficiary = ({setDisplay}: parentType) => {
     name: "",
     number: "",
   });
+  const [inputValue, setInputValue] = useState<string>('');
+  const [filteredObj, setFilteredObj] = useState<dataType[]>([]);
+  
+
+  // context
   const {beneficiaries, setBeneficiaries} = useContext(BeneficiariesContext)
+
+  function handleInputChange(e : React.ChangeEvent<HTMLInputElement>) {
+    const value = e.target.value;
+    setInputValue(value)
+
+    const filtered = beneficiaries.filter(obj => obj.name.includes(value))
+    setFilteredObj(filtered)
+  }
   
   return (
     <div>
-      <div className=" text-black w-full h-screen min-h[480px] top-0 absolute left-0 showMorePage bg-white home-wrapper">
+      <div className=" text-black w-full h-screen  top-0 absolute left-0 showMorePage bg-white ">
         <h4 className="ml-3 border-red-500 border-b-[3px] pb-1 w-[130px] mb-2 font-semibold">
           Select beneficiary
         </h4>
@@ -42,26 +57,37 @@ export const Beneficiary = ({setDisplay}: parentType) => {
         >
           Add beneficiary
         </button>
-        <input
-          type="text"
-          placeholder="search beneficiary list"
-          className="ml-6 w-[200px] border outline-none text-sm p-2 mt-2"
-        />
+        {beneficiaries.length !== 0 
+        ? ( <input
+        type="text"
+        placeholder="search beneficiary list"
+        className="ml-6 w-[200px] border outline-none text-sm p-2 mt-2"
+        value={inputValue}
+        onChange={handleInputChange}
+      />)
+        : ''}
+       
         <section>
-            <ul className=" flex flex-col gap-3 mt-3">
-                { beneficiaries !== undefined ? 
+            <ul className=" flex flex-col gap-3 mt-5">
+                { inputValue === '' ? 
                  beneficiaries.map((obj, index) => (
-                    <li key={index} className="border w-[240px] h-[65px] ml-1 flex gap-4 items-center py-4 pl-4 pr-10">
+                    <li key={index} className="border w-[232px] h-[65px] ml-1 flex gap-4 items-center py-4 pl-4 pr-10">
                         <i className="fa-regular fa-user  text-xl"></i>
                         <p className=" uppercase text-sm">{obj.name}</p>
                     </li>
-                )) : ""
+                )) 
+                : filteredObj.map((obj, index) => (
+                  <li key={index} className="border w-[232px] h-[65px] ml-1 flex gap-4 items-center py-4 pl-4 pr-10">
+                      <i className="fa-regular fa-user  text-xl"></i>
+                      <p className=" uppercase text-sm">{obj.name}</p>
+                  </li>
+              )) 
 
                 }
             </ul>
         </section>
         <button 
-            className="bg-red-600 py-2 mt-3 text-sm text-white ml-1.5 w-[235px] rounded-[4px]"
+            className="bg-red-600 py-2 mt-5 text-sm text-white ml-1.5 w-[230px] rounded-[4px]"
             onClick={(e)=> {
               e.preventDefault()
               setDisplay((prev)=> ({...prev, addNew : false}))

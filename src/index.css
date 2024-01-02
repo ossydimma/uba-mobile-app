@@ -100,6 +100,8 @@
 .home-wrapper {
   height: 454px;
   overflow-y: scroll;
+  overflow-x: hidden;
+  cursor: pointer;
 }
 
 
@@ -108,13 +110,17 @@
 }
 
 
-.countries-wrapper::-webkit-scrollbar-thumb, .questions-wrapper::-webkit-scrollbar-thumb, .home-wrapper::-webkit-scrollbar-thumb {
+.countries-wrapper::-webkit-scrollbar-thumb, .questions-wrapper::-webkit-scrollbar-thumb {
   background-color: #ccc;
+  border-radius: 10px;
+}
+.home-wrapper::-webkit-scrollbar-thumb {
+  background-color: #242323;
   border-radius: 10px;
 }
 
 .home-wrapper::-webkit-scrollbar-track {
-  background-color: #292727;
+  background-color: #816f6f;
 }
 
 .countries-wrapper::-webkit-scrollbar-track, .questions-wrapper::-webkit-scrollbar-track {
@@ -220,4 +226,5 @@
   background-size: cover;
 }
   
-  
+
+
