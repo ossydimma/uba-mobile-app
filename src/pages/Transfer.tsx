@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { MoreHeader } from "../components/MoreHeader";
 import {
   BeneficiariesContext,
@@ -26,21 +26,28 @@ export interface transferType {
   btnText: string;
   loader: boolean;
   popUp: boolean;
+  popUp1: boolean;
+  popUp2: boolean;
   amount: string;
+  narrator: string;
   opacity: string;
 }
 
 export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
-
- 
-
   // contexts
   const { setBg } = useContext(BgContext);
   const user = useContext(UserInfo);
   const { setHideHome, showNoti, setShowNoti } = useContext(MorePageContext);
+  const { setBeneficiaries } = useContext(BeneficiariesContext);
+
+  //  ref
+  const input1Ref = useRef<HTMLInputElement>(null);
+  const input2Ref = useRef<HTMLInputElement>(null);
+  const input3Ref = useRef<HTMLInputElement>(null);
+  const input4Ref = useRef<HTMLInputElement>(null);
 
   //   States
-
+  const [enteredPin, setEnteredPin] = useState<string>("");
   const [addActive, setAddActive] = useState<addActiveType>({
     item1: "bg-red-100",
     item1Sub: "bg-white",
@@ -54,7 +61,10 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
     btnText: "Confirm Reciever",
     loader: false,
     popUp: false,
+    popUp1: false,
+    popUp2: false,
     amount: "",
+    narrator: "",
     opacity: "",
   });
   const [data, setData] = useState<dataType>({
@@ -63,6 +73,47 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
   });
 
   // functions
+  function handleInputs(event: React.ChangeEvent<HTMLInputElement>) {
+    const input = event.target;
+    // setEnteredPin( input1Ref.current?.value + input2Ref.current?.value )
+    if (input.value.length === input.maxLength) {
+      switch (input) {
+        case input1Ref.current:
+          setEnteredPin(enteredPin + input1Ref.current?.value);
+          input2Ref.current?.focus();
+          break;
+        case input2Ref.current:
+          setEnteredPin(enteredPin + input2Ref.current?.value);
+          input3Ref.current?.focus();
+
+          break;
+        case input3Ref.current:
+          // setEnteredPin(enteredPin + input3Ref.current?.value)
+          input4Ref.current?.focus();
+
+          break;
+        default:
+          break;
+      }
+    }
+    if (input.value.length === 0) {
+      switch (input) {
+        case input4Ref.current:
+          input3Ref.current?.focus();
+          break;
+        case input3Ref.current:
+          input2Ref.current?.focus();
+          break;
+        case input2Ref.current:
+          input1Ref.current?.focus();
+          break;
+        default:
+          break;
+      }
+    }
+    // setEnteredPin(enteredPin + input1Ref.current?.value + input2Ref.current?.value + input3Ref.current?.value + input4Ref.current?.value)
+    //   alert(enteredPin)
+  }
   function handleActive(item: string) {
     switch (item) {
       case "uba":
@@ -89,28 +140,43 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
 
   function handleBtn() {
     if (display.btnText === "Confirm Reciever") {
-      setDisplay((prev)=> ({...prev, opacity : "opacity-5", loader : true}))
-      setTimeout(()=>{
-        if (/^[0-9]+$/.test(data.number) &&
+      setDisplay((prev) => ({ ...prev, opacity: "opacity-5", loader: true }));
+      setTimeout(() => {
+        if (
+          /^[0-9]+$/.test(data.number) &&
+          data.number.length === 10 &&
+          /^[a-zA-Z]+$/.test(data.name) &&
+          data.name !== "" &&
+          data.name.length > 2
+        ) {
+          setDisplay((prev) => ({
+            ...prev,
+            opacity: "",
+            loader: false,
+            transferDiv: true,
+            btnText: "Transfer",
+          }));
+        } else {
+          setDisplay((prev) => ({ ...prev, popUp: true }));
+        }
+      }, 2000);
+    }
+    if (display.btnText === "Transfer") {
+      if (
+        /^[0-9]+$/.test(data.number) &&
         data.number.length === 10 &&
         /^[a-zA-Z]+$/.test(data.name) &&
         data.name !== "" &&
-        data.name.length > 3) {
-          setDisplay((prev)=> ({...prev, opacity : "", loader : false, transferDiv : true, btnText : 'Tranfer'}))
-          
-        } else {
-          setDisplay((prev)=> ({...prev,  popUp : true}))
-        }
-      }, 2000)
+        data.name.length > 2 &&
+        /^[0-9]+$/.test(display.amount) &&
+        display.narrator !== ""
+      ) {
+        setDisplay((prev) => ({ ...prev, opacity: "opacity-5", loader: true }));
+        setTimeout(()=> {
+          setDisplay((prev) => ({ ...prev,  loader: false, popUp1 : true }));
+        },2000)
+      }
     }
-    // if (
-    //   /^[0-9]+$/.test(data.number) &&
-    //   data.number.length === 10 &&
-    //   /^[a-zA-Z]+$/.test(data.name) &&
-    //   data.name !== "" &&
-    //   data.name.length > 3
-    // ) {
-    // }
   }
   return (
     <div className=" text-black w-full h-screen top-0 absolute left-0 showMorePage bg-white pb-10 home-wrapper">
@@ -217,18 +283,18 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
           </div>
         </section>
         {display.transferDiv && (
-          <section >
+          <section>
             <div className=" my-5 flex mx-3 justify-between">
               <p className=" text-xs">Save as beneficiary</p>
-              <input 
-                type="checkbox" 
+              <input
+                type="checkbox"
                 checked={display.check}
-                onChange={()=> {
+                onChange={() => {
                   display.check === false
-                  ? setDisplay((prev)=> ({...prev, check : true}))
-                  : setDisplay((prev)=> ({...prev, check : false}))
+                    ? setDisplay((prev) => ({ ...prev, check: true }))
+                    : setDisplay((prev) => ({ ...prev, check: false }));
                 }}
-                />
+              />
             </div>
 
             <div>
@@ -236,14 +302,20 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
                 type="text"
                 className=" border border-gray-300 bg-[#f8f8ff] outline-none w-56 ml-2 mt-1 rounded px-2 mb-3 text-[12px] py-1.5"
                 placeholder="Amount"
+                value={display.amount}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setDisplay((prev) => ({ ...prev, amount: e.target.value }))
                 }
               />
               <input
                 type="text"
+                maxLength={14}
                 className=" border border-gray-300 bg-[#f8f8ff] outline-none w-56 ml-2 mt-1 rounded px-2 mb-1 text-[12px] py-1.5"
                 placeholder="Narration"
+                value={display.narrator}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setDisplay((prev) => ({ ...prev, narrator: e.target.value }))
+                }
               />
             </div>
             <p className=" text-xs text-right mr-2 ">14 characters max</p>
@@ -251,7 +323,7 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
         )}
 
         <button
-          className="bg-red-600 py-2 mt-3 text-sm text-white ml-4 w-[220px] rounded-[4px]"
+          className="bg-red-600 py-2 mt-3 text-sm text-white ml-1.5 w-[230px] rounded-[4px]"
           onClick={handleBtn}
         >
           {display.btnText}
@@ -274,7 +346,7 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
       {display.popUp && (
         <PopUP
           icon={
-            data.number.length !== 10 ? (
+            data.number.length !== 10 || data.name.length < 2 ? (
               <i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>
             ) : (
               <div className="successImg">
@@ -284,14 +356,111 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
           }
           onClick={() => {}}
           className="absolute top-[90px] left-4"
-          title={data.number.length !== 10 ? "Failed" : "Success"}
+          title={
+            data.number.length !== 10 || data.name.length < 2
+              ? "Failed"
+              : "Success"
+          }
           msg={
-            data.number.length !== 10
-              ? "You have entered an invalid account number, please enter thr correct and retry"
-              : `{You have successfully transferred NGN ${display.amount} to ${data.name} Account Number: ${data.number} }`
+            data.number.length !== 10 || data.name.length < 2
+              ? "You have entered an invalid account number or name, please enter the correct and retry"
+              : `You have successfully transferred NGN${display.amount} to ${data.name} Account Number: ${data.number} `
           }
         />
       )}
+
+
+      {display.popUp1 && (<div className=" z-10  w-52 h-auto pt-6 pb-10 bg-white rounded-2xl mx-auto px-4 drop-shadow-xl absolute top-[80px] left-4 ">
+        <i className="fa-solid fa-xmark cursor-pointer flex justify-end  pb-4 "></i>
+        <div className="flex flex-col justify-center items-center gap-2">
+          <i className="fa-solid fa-lock-open bg-yellow-400 py-3 px-4 rounded-full text-white text-lg"></i>
+
+          <h3 className=" font-semibold">Authentication method</h3>
+          <p>PIN</p>
+          <p className="text-xs">
+            Transaction limits for PIN is 200,000NGN per day
+          </p>
+          <div className=" flex gap-1 pb-2">
+            <input
+              type="text"
+              onChange={handleInputs}
+              ref={input1Ref}
+              className=" w-[35px] h-[30px] outline-none border border-[#484848] text-center rounded-lg"
+              maxLength={1}
+            />
+            <input
+              type="text"
+              onChange={handleInputs}
+              ref={input2Ref}
+              className=" w-[35px] h-[30px] outline-none border border-[#484848] text-center rounded-lg"
+              maxLength={1}
+            />
+            <input
+              type="text"
+              onChange={handleInputs}
+              ref={input3Ref}
+              className=" w-[35px] h-[30px] outline-none border border-[#484848] text-center rounded-lg"
+              maxLength={1}
+            />
+            <input
+              type="text"
+              onChange={handleInputs}
+              ref={input4Ref}
+              className=" w-[35px] h-[30px] outline-none border border-[#484848] text-center rounded-lg"
+              maxLength={1}
+            />
+          </div>
+          <button
+            className="bg-red-600 py-2 text-sm text-white  w-44 rounded-[4px]"
+            onClick={() => {
+              if (
+                input1Ref.current?.value !== undefined &&
+                input2Ref.current?.value !== undefined &&
+                input3Ref.current?.value !== undefined &&
+                input4Ref.current?.value !== undefined
+              ) {
+                setEnteredPin(
+                  input1Ref.current?.value +
+                    input2Ref.current.value +
+                    input3Ref.current.value +
+                    input4Ref.current.value
+                );
+              }
+              if (enteredPin === user.pin ) {
+                setDisplay((prev) => ({ ...prev, opacity: "opacity-5", loader: true }))
+                setTimeout(()=> {
+                  setDisplay((prev) => ({ ...prev,  loader: false, popUp2 : true }));
+                }, 2000)
+
+              }
+            }}
+          >
+            OK
+          </button>
+        </div>
+      </div>)}
+
+      {display.popUp2 &&(<div className=" z-10  w-52 h-auto pt-6 pb-10 bg-white rounded-2xl mx-auto px-4 drop-shadow-xl absolute top-[100px] left-4 ">
+        <i className="fa-solid fa-xmark cursor-pointer flex justify-end  pb-4 "></i>
+        <div className=" flex  flex-col justify-center items-center gap-2">
+          <h3 className=" font-semibold">Are you sure</h3>
+          <article className=" text-xs ">
+            <p>Transaction Amount : {display.amount}</p>
+            <p>Total Fee : 00.00</p>
+            <p>Total Amount : {display.amount}</p>
+          </article>
+          <button 
+              className="bg-red-600 py-2 text-sm text-white  w-44 rounded-[4px]"
+              onClick={()=> {
+                setDisplay((prev) => ({ ...prev, opacity: "opacity-5", loader: true }))
+                setTimeout(()=> {
+                  setDisplay((prev) => ({ ...prev,  loader: false, popUp : true }));
+                }, 2000)
+              }}
+              >OK</button>
+        </div>
+
+      </div>)}
     </div>
   );
 };

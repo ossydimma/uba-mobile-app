@@ -64,7 +64,7 @@ export const Beneficiary = ({setDisplay}: parentType) => {
         className="ml-6 w-[200px] border outline-none text-sm p-2 mt-2"
         value={inputValue}
         onChange={handleInputChange}
-      />)
+        />)
         : ''}
        
         <section>
@@ -97,6 +97,8 @@ export const Beneficiary = ({setDisplay}: parentType) => {
           Cancel
         </button>
       </div>
+
+
       {displayer.addNew && (
         <section className="absolute top-0 h-full w-full bg-white">
           <div className=" absolute top-[100px] left-6 w-[200px] bg-[#f1f1f1] py-4 shadow-lg rounded-xl">

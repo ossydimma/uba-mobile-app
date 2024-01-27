@@ -14,7 +14,7 @@ function App() {
     balance : '2000.00',
     accountNo : '2763732737',
     accountType : 'Current Account',
-    pin : ''
+    pin : '0000'
   }
   const [beneficiaries, setBeneficiaries] = useState<dataType[] >( [] as dataType[])
 
