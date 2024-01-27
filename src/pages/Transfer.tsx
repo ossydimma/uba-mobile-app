@@ -31,6 +31,7 @@ export interface transferType {
   amount: string;
   narrator: string;
   opacity: string;
+  style: string;
 }
 
 export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
@@ -66,6 +67,7 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
     amount: "",
     narrator: "",
     opacity: "",
+    style: "home-wrapper h-screen",
   });
   const [data, setData] = useState<dataType>({
     name: "",
@@ -171,15 +173,38 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
         /^[0-9]+$/.test(display.amount) &&
         display.narrator !== ""
       ) {
-        setDisplay((prev) => ({ ...prev, opacity: "opacity-5", loader: true }));
-        setTimeout(()=> {
-          setDisplay((prev) => ({ ...prev,  loader: false, popUp1 : true }));
-        },2000)
+        setDisplay((prev) => ({
+          ...prev,
+          opacity: "opacity-5",
+          loader: true,
+          style: "",
+        }));
+        setTimeout(() => {
+          setDisplay((prev) => ({ ...prev, loader: false, popUp1: true }));
+        }, 2000);
       }
     }
   }
+
+  function handleCancel() {
+    setDisplay((prev) => ({
+      ...prev,
+      opacity: "",
+      loader: false,
+      style: " h-screen home-wrapper",
+      popUp: false,
+      popUp1: false,
+      popUp2: false,
+      transferDiv: false,
+      amount: "",
+      narrator: "",
+      btnText: "Confirm Reciever",
+    }));
+  }
   return (
-    <div className=" text-black w-full h-screen top-0 absolute left-0 showMorePage bg-white pb-10 home-wrapper">
+    <div
+      className={` ${display.style} text-black w-full  top-0 absolute left-0 showMorePage bg-white pb-10 `}
+    >
       <div className={`${display.opacity}`}>
         <MoreHeader
           name="Send Money"
@@ -348,119 +373,158 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
           icon={
             data.number.length !== 10 || data.name.length < 2 ? (
               <i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>
-            ) : (
+            ) :  enteredPin !== user.pin ? (<i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>) : (
               <div className="successImg">
                 <img src={successImg} alt="thumb up" />
               </div>
             )
           }
-          onClick={() => {}}
-          className="absolute top-[90px] left-4"
+          onClick={handleCancel}
+          className="absolute top-[60px] left-4"
           title={
             data.number.length !== 10 || data.name.length < 2
-              ? "Failed"
-              : "Success"
+              ?  "Failed" : enteredPin !== user.pin ? "Failed"
+              :"Success"
           }
           msg={
             data.number.length !== 10 || data.name.length < 2
-              ? "You have entered an invalid account number or name, please enter the correct and retry"
+              ? "You have entered an invalid account number or name, please enter the correct and retry" 
+              : enteredPin !== user.pin ? 'Incorrect PIN'
               : `You have successfully transferred NGN${display.amount} to ${data.name} Account Number: ${data.number} `
           }
         />
       )}
 
+      {display.popUp1 && (
+        <div className=" z-10  w-52 h-auto pt-6 pb-10 bg-white rounded-2xl mx-auto px-4 drop-shadow-xl absolute top-[60px] left-4 ">
+          <i
+            className="fa-solid fa-xmark cursor-pointer flex justify-end  pb-4 "
+            onClick={handleCancel}
+          ></i>
+          <div className="flex flex-col justify-center items-center gap-2">
+            <i className="fa-solid fa-lock-open bg-yellow-400 py-3 px-4 rounded-full text-white text-lg"></i>
 
-      {display.popUp1 && (<div className=" z-10  w-52 h-auto pt-6 pb-10 bg-white rounded-2xl mx-auto px-4 drop-shadow-xl absolute top-[80px] left-4 ">
-        <i className="fa-solid fa-xmark cursor-pointer flex justify-end  pb-4 "></i>
-        <div className="flex flex-col justify-center items-center gap-2">
-          <i className="fa-solid fa-lock-open bg-yellow-400 py-3 px-4 rounded-full text-white text-lg"></i>
-
-          <h3 className=" font-semibold">Authentication method</h3>
-          <p>PIN</p>
-          <p className="text-xs">
-            Transaction limits for PIN is 200,000NGN per day
-          </p>
-          <div className=" flex gap-1 pb-2">
-            <input
-              type="text"
-              onChange={handleInputs}
-              ref={input1Ref}
-              className=" w-[35px] h-[30px] outline-none border border-[#484848] text-center rounded-lg"
-              maxLength={1}
-            />
-            <input
-              type="text"
-              onChange={handleInputs}
-              ref={input2Ref}
-              className=" w-[35px] h-[30px] outline-none border border-[#484848] text-center rounded-lg"
-              maxLength={1}
-            />
-            <input
-              type="text"
-              onChange={handleInputs}
-              ref={input3Ref}
-              className=" w-[35px] h-[30px] outline-none border border-[#484848] text-center rounded-lg"
-              maxLength={1}
-            />
-            <input
-              type="text"
-              onChange={handleInputs}
-              ref={input4Ref}
-              className=" w-[35px] h-[30px] outline-none border border-[#484848] text-center rounded-lg"
-              maxLength={1}
-            />
-          </div>
-          <button
-            className="bg-red-600 py-2 text-sm text-white  w-44 rounded-[4px]"
-            onClick={() => {
-              if (
-                input1Ref.current?.value !== undefined &&
-                input2Ref.current?.value !== undefined &&
-                input3Ref.current?.value !== undefined &&
-                input4Ref.current?.value !== undefined
-              ) {
-                setEnteredPin(
-                  input1Ref.current?.value +
-                    input2Ref.current.value +
-                    input3Ref.current.value +
-                    input4Ref.current.value
-                );
-              }
-              if (enteredPin === user.pin ) {
-                setDisplay((prev) => ({ ...prev, opacity: "opacity-5", loader: true }))
-                setTimeout(()=> {
-                  setDisplay((prev) => ({ ...prev,  loader: false, popUp2 : true }));
-                }, 2000)
-
-              }
-            }}
-          >
-            OK
-          </button>
-        </div>
-      </div>)}
-
-      {display.popUp2 &&(<div className=" z-10  w-52 h-auto pt-6 pb-10 bg-white rounded-2xl mx-auto px-4 drop-shadow-xl absolute top-[100px] left-4 ">
-        <i className="fa-solid fa-xmark cursor-pointer flex justify-end  pb-4 "></i>
-        <div className=" flex  flex-col justify-center items-center gap-2">
-          <h3 className=" font-semibold">Are you sure</h3>
-          <article className=" text-xs ">
-            <p>Transaction Amount : {display.amount}</p>
-            <p>Total Fee : 00.00</p>
-            <p>Total Amount : {display.amount}</p>
-          </article>
-          <button 
+            <h3 className=" font-semibold">Authentication method</h3>
+            <p>PIN</p>
+            <p className="text-xs">
+              Transaction limits for PIN is 200,000NGN per day
+            </p>
+            <div className=" flex gap-1 pb-2">
+              <input
+                type="text"
+                onChange={handleInputs}
+                ref={input1Ref}
+                className=" w-[35px] h-[30px] outline-none border border-[#484848] text-center rounded-lg"
+                maxLength={1}
+              />
+              <input
+                type="text"
+                onChange={handleInputs}
+                ref={input2Ref}
+                className=" w-[35px] h-[30px] outline-none border border-[#484848] text-center rounded-lg"
+                maxLength={1}
+              />
+              <input
+                type="text"
+                onChange={handleInputs}
+                ref={input3Ref}
+                className=" w-[35px] h-[30px] outline-none border border-[#484848] text-center rounded-lg"
+                maxLength={1}
+              />
+              <input
+                type="text"
+                onChange={handleInputs}
+                ref={input4Ref}
+                className=" w-[35px] h-[30px] outline-none border border-[#484848] text-center rounded-lg"
+                maxLength={1}
+              />
+            </div>
+            <button
               className="bg-red-600 py-2 text-sm text-white  w-44 rounded-[4px]"
-              onClick={()=> {
-                setDisplay((prev) => ({ ...prev, opacity: "opacity-5", loader: true }))
-                setTimeout(()=> {
-                  setDisplay((prev) => ({ ...prev,  loader: false, popUp : true }));
-                }, 2000)
+              onClick={() => {
+                if (
+                  input1Ref.current?.value !== undefined &&
+                  input2Ref.current?.value !== undefined &&
+                  input3Ref.current?.value !== undefined &&
+                  input4Ref.current?.value !== undefined
+                ) {
+                  setEnteredPin(
+                    input1Ref.current?.value +
+                      input2Ref.current.value +
+                      input3Ref.current.value +
+                      input4Ref.current.value
+                  );
+                }
+                if (enteredPin === user.pin) {
+                  setDisplay((prev) => ({
+                    ...prev,
+                    popUp1: false,
+                    loader: true,
+                  }));
+                  setTimeout(() => {
+                    setDisplay((prev) => ({
+                      ...prev,
+                      loader: false,
+                      popUp2: true,
+                    }));
+                  }, 2000);
+                } else {
+                  setDisplay((prev) => ({
+                    ...prev,
+                    popUp1: false,
+                    loader: true,
+                  }));
+                  setTimeout(() => {
+                    setDisplay((prev) => ({
+                      ...prev,
+                      loader: false,
+                      popUp: true,
+                    }));
+                  }, 2000);
+                }
               }}
-              >OK</button>
+            >
+              OK
+            </button>
+          </div>
         </div>
+      )}
 
-      </div>)}
+      {display.popUp2 && (
+        <div className=" z-10  w-52 h-auto pt-6 pb-10 bg-white rounded-2xl mx-auto px-4 drop-shadow-xl absolute top-[70px] left-4 ">
+          <i
+            className="fa-solid fa-xmark cursor-pointer flex justify-end  pb-4 "
+            onClick={handleCancel}
+          ></i>
+          <div className=" flex  flex-col justify-center items-center gap-2">
+            <h3 className=" font-semibold">Are you sure</h3>
+            <article className=" text-xs ">
+              <p>Transaction Amount : {display.amount}</p>
+              <p>Total Fee : 00.00</p>
+              <p>Total Amount : {display.amount}</p>
+            </article>
+            <button
+              className="bg-red-600 py-2 text-sm text-white  w-44 rounded-[4px]"
+              onClick={() => {
+                setDisplay((prev) => ({
+                  ...prev,
+                  popUp2: false,
+                  loader: true,
+                }));
+                setTimeout(() => {
+                  setDisplay((prev) => ({
+                    ...prev,
+                    loader: false,
+                    popUp: true,
+                  }));
+                }, 2000);
+              }}
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
