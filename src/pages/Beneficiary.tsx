@@ -15,8 +15,10 @@ export interface dataType {
 }
 interface parentType {
     setDisplay : React.Dispatch<React.SetStateAction<transferType>>
+    details : dataType
+    setDetails: React.Dispatch<React.SetStateAction<dataType>>
 }
-export const Beneficiary = ({setDisplay}: parentType) => {
+export const Beneficiary = ({setDisplay,  details , setDetails}: parentType) => {
 
   // states
   const [displayer, setDisplayer] = useState<displayType>({
@@ -71,13 +73,29 @@ export const Beneficiary = ({setDisplay}: parentType) => {
             <ul className=" flex flex-col gap-3 mt-5">
                 { inputValue === '' ? 
                  beneficiaries.map((obj, index) => (
-                    <li key={index} className="border w-[232px] h-[65px] ml-1 flex gap-4 items-center py-4 pl-4 pr-10">
+                    <li 
+                      key={index} 
+                      className="border w-[232px] h-[65px] ml-1 flex gap-4 items-center py-4 pl-4 pr-10 hover:bg-gray-300"
+                      onClick={()=> {
+                        setDetails({name: obj.name, number: obj.number})
+                        setDisplay((prev)=> ({...prev, addNew : false}))
+                      
+                      }}
+                    >
                         <i className="fa-regular fa-user  text-xl"></i>
                         <p className=" uppercase text-sm">{obj.name}</p>
                     </li>
                 )) 
                 : filteredObj.map((obj, index) => (
-                  <li key={index} className="border w-[232px] h-[65px] ml-1 flex gap-4 items-center py-4 pl-4 pr-10">
+                  <li 
+                    key={index} 
+                    className="border w-[232px] h-[65px] ml-1 flex gap-4 items-center py-4 pl-4 pr-10"
+                    onClick={()=> {
+                       setDetails({name: obj.name, number: obj.number})
+                       setDisplay((prev)=> ({...prev, addNew : false}))
+                     
+                     }}
+                    >
                       <i className="fa-regular fa-user  text-xl"></i>
                       <p className=" uppercase text-sm">{obj.name}</p>
                   </li>

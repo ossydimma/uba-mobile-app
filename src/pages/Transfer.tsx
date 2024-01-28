@@ -69,7 +69,7 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
     opacity: "",
     style: "home-wrapper h-screen",
   });
-  const [data, setData] = useState<dataType>({
+  const [details, setDetails] = useState<dataType>({
     name: "",
     number: "",
   });
@@ -141,11 +141,11 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
       setDisplay((prev) => ({ ...prev, opacity: "opacity-5", loader: true }));
       setTimeout(() => {
         if (
-          /^[0-9]+$/.test(data.number) &&
-          data.number.length === 10 &&
-          /^[a-zA-Z]+$/.test(data.name) &&
-          data.name !== "" &&
-          data.name.length > 2
+          /^[0-9]+$/.test(details.number) &&
+          details.number.length === 10 &&
+          /^[a-zA-Z]+$/.test(details.name) &&
+          details.name !== "" &&
+          details.name.length > 2
         ) {
           setDisplay((prev) => ({
             ...prev,
@@ -156,17 +156,18 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
           }));
         } else {
           setDisplay((prev) => ({ ...prev, popUp: true,
-          style: " " }));
+          style: " h-screen " }));
         }
       }, 2000);
     }
     if (display.btnText === "Transfer") {
+      setDisplay((prev) => ({ ...prev, check: false }))
       if (
-        /^[0-9]+$/.test(data.number) &&
-        data.number.length === 10 &&
-        /^[a-zA-Z]+$/.test(data.name) &&
-        data.name !== "" &&
-        data.name.length > 2 &&
+        /^[0-9]+$/.test(details.number) &&
+        details.number.length === 10 &&
+        /^[a-zA-Z]+$/.test(details.name) &&
+        details.name !== "" &&
+        details.name.length > 2 &&
         /^[0-9]+$/.test(display.amount) &&
         display.narrator !== ""
       ) {
@@ -184,7 +185,7 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
           ...prev,
           opacity: "opacity-5",
           loader: true,
-          style: "",
+          style: " h-screen",
         }));
         setTimeout(() => {
           setDisplay((prev) => ({ ...prev, loader: false, popUp: true }));
@@ -229,7 +230,7 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
         <p className="  py-2.5 text-sm text-center shadow-md shadow-gray-400">
           Select Tranfer Option
         </p>
-        <section className=" mx-4 mt-3 flex justify-between">
+        {/* <section className=" mx-4 mt-3 flex justify-between">
           <div
             className={` w-[102px] h-[85px] ${addActive.item1} rounded-lg border border-red-600 cursor-pointer`}
             onClick={() => handleActive("uba")}
@@ -265,8 +266,9 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
             ></i>
             <p className=" text-[11px] text-center mt-5 ">Other Banks</p>
           </div>
-        </section>
-        {/* <section className=" w-[93%] h-auto mt-3 mx-2 pb-1 border border-gray-300 rounded-2xl overflow-hidden">
+        </section> */}
+
+        <section className=" w-[93%] h-auto mt-3 mx-2 pb-1 border border-gray-300 rounded-2xl overflow-hidden">
           <p className="text-sm pl-3 font-semibold  bg-gray-100 py-2 ">
             Transfer From:
           </p>
@@ -278,7 +280,7 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
               {user.accountType}: <span className="">{user.accountNo}</span>
             </p>
           </div>
-        </section> */}
+        </section>
         <section className=" w-[93%] h-auto mt-3 mx-2  border border-gray-300 rounded-2xl overflow-hidden">
           <p className="text-sm pl-3 font-semibold  bg-gray-100 py-2 ">
             Transfer To:
@@ -288,18 +290,18 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
               type="text"
               className=" border border-gray-300 outline-none w-52 ml-1.5 rounded px-2 mb-1 text-[12px] py-1"
               placeholder="Account Number"
-              value={data.number}
+              value={details.number}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setData((prev) => ({ ...prev, number: e.target.value }))
+                setDetails((prev) => ({ ...prev, number: e.target.value }))
               }
             />
             <input
               type="text"
               className=" border border-gray-300 outline-none w-52 ml-1.5 mt-1 rounded px-2 mb-1 text-[12px] py-1"
               placeholder="Account Name"
-              value={data.name}
+              value={details.name}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setData((prev) => ({ ...prev, name: e.target.value }))
+                setDetails((prev) => ({ ...prev, name: e.target.value }))
               }
             />
             {!display.transferDiv && (
@@ -322,17 +324,21 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
                 type="checkbox"
                 checked={display.check}
                 onChange={() => {
-                  display.check === false
-                    ? setDisplay((prev) => ({ ...prev, check: true }))
-                    : setDisplay((prev) => ({ ...prev, check: false }));
+                  // display.check === false
+                  //   ? setDisplay((prev) => ({ ...prev, check: true }))
+                  //   : setDisplay((prev) => ({ ...prev, check: false }));
 
                     if (setBeneficiaries !== undefined) {
                       if (display.check === false) {
                         setDisplay((prev) => ({ ...prev, check: true }))
-                        setBeneficiaries((prev)=> [...prev, data])
+                        const isDuplicate =  beneficiaries.some((item)=> item.name === details.name && item.number === details.number )
+                          if (!isDuplicate) {
+                            setBeneficiaries((prev)=> [...prev, details]) 
+                          }
+                        
                       } else {
                         setDisplay((prev) => ({ ...prev, check: false }))
-                        const updatedArray = beneficiaries.filter((item )=> item.number !== data.number)
+                        const updatedArray = beneficiaries.filter((item )=> item.number !== details.number)
                         setBeneficiaries(updatedArray)
                       }
                     }
@@ -372,7 +378,7 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
           {display.btnText}
         </button>
       </div>
-      {display.addNew && <Beneficiary setDisplay={setDisplay} />}
+      {display.addNew && <Beneficiary setDisplay={setDisplay} details={details} setDetails={setDetails} />}
 
       {showNoti && (
         <EmptyPage
@@ -389,7 +395,7 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
       {display.popUp && (
         <PopUP
           icon={
-            data.number.length !== 10 || data.name.length < 2 ? (
+            details.number.length !== 10 || details.name.length < 2 ? (
               <i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>
             ) :  enteredPin !== user.pin ? (<i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>) : +display.amount < 5 ? (<i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>) : (
               <div className="successImg">
@@ -400,15 +406,15 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
           onClick={handleCancel}
           className="absolute top-[60px] left-4"
           title={
-            data.number.length !== 10 || data.name.length < 2
+            details.number.length !== 10 || details.name.length < 2
               ?  "Failed" : +display.amount < 5 ? 'Failed' : enteredPin !== user.pin ? "Failed"
               :"Success"
           }
           msg={
-            data.number.length !== 10 || data.name.length < 2
-              ? "Your entered inputs are either invalid or empty, please check and enter a valid data and retry" 
+            details.number.length !== 10 || details.name.length < 2
+              ? "Your entered inputs are either invalid or empty, please check and enter a valid detail and retry" 
               : enteredPin !== user.pin ? 'Incorrect PIN' : +display.amount < 5 ? `you can't tranfer below 5NGN`
-              : `You have successfully transferred NGN${display.amount} to ${data.name} Account Number: ${data.number} `
+              : `You have successfully transferred NGN${display.amount} to ${details.name} Account Number: ${details.number} `
           }
         />
       )}
