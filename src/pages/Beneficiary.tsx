@@ -122,7 +122,7 @@ export const Beneficiary = ({setDisplay}: parentType) => {
                 
               }}
             />
-            {data.name === '' ? <p className=" text-[10px] ml-4 text-red-600">please enter beneficiary name</p> : data.name.length < 3 ? <p className=" text-[10px] ml-4 text-red-600"> name must be more than 4 words</p> : !/^[a-zA-Z]+$/.test(data.name) ? <p className=" text-[10px] ml-4 text-red-600">must contain only letters</p> : '' }
+            {data.name === '' ? <p className=" text-[10px] ml-4 text-red-600">please enter beneficiary name</p> : data.name.length < 2 ? <p className=" text-[10px] ml-4 text-red-600"> name must be more than 4 words</p> : !/^[a-zA-Z]+$/.test(data.name) ? <p className=" text-[10px] ml-4 text-red-600">must contain only letters</p> : '' }
             
             <input
               type="text"
@@ -144,7 +144,7 @@ export const Beneficiary = ({setDisplay}: parentType) => {
                     data.number.length === 10 &&
                     /^[a-zA-Z]+$/.test(data.name) &&
                     data.name !== "" &&
-                    data.name.length > 3
+                    data.name.length > 2
                   ) {
                     if (setBeneficiaries !== undefined) {
                       setBeneficiaries((prev)=>[...prev, data])

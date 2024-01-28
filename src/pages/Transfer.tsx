@@ -39,7 +39,7 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
   const { setBg } = useContext(BgContext);
   const user = useContext(UserInfo);
   const { setHideHome, showNoti, setShowNoti } = useContext(MorePageContext);
-  const { setBeneficiaries } = useContext(BeneficiariesContext);
+  const {beneficiaries, setBeneficiaries } = useContext(BeneficiariesContext);
 
   //  ref
   const input1Ref = useRef<HTMLInputElement>(null);
@@ -77,20 +77,16 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
   // functions
   function handleInputs(event: React.ChangeEvent<HTMLInputElement>) {
     const input = event.target;
-    // setEnteredPin( input1Ref.current?.value + input2Ref.current?.value )
     if (input.value.length === input.maxLength) {
       switch (input) {
         case input1Ref.current:
-          setEnteredPin(enteredPin + input1Ref.current?.value);
           input2Ref.current?.focus();
           break;
         case input2Ref.current:
-          setEnteredPin(enteredPin + input2Ref.current?.value);
           input3Ref.current?.focus();
 
           break;
         case input3Ref.current:
-          // setEnteredPin(enteredPin + input3Ref.current?.value)
           input4Ref.current?.focus();
 
           break;
@@ -98,7 +94,7 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
           break;
       }
     }
-    if (input.value.length === 0) {
+    if (input.value ===  '') {
       switch (input) {
         case input4Ref.current:
           input3Ref.current?.focus();
@@ -113,9 +109,9 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
           break;
       }
     }
-    // setEnteredPin(enteredPin + input1Ref.current?.value + input2Ref.current?.value + input3Ref.current?.value + input4Ref.current?.value)
-    //   alert(enteredPin)
+    
   }
+
   function handleActive(item: string) {
     switch (item) {
       case "uba":
@@ -159,7 +155,8 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
             btnText: "Transfer",
           }));
         } else {
-          setDisplay((prev) => ({ ...prev, popUp: true }));
+          setDisplay((prev) => ({ ...prev, popUp: true,
+          style: " " }));
         }
       }, 2000);
     }
@@ -182,6 +179,16 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
         setTimeout(() => {
           setDisplay((prev) => ({ ...prev, loader: false, popUp1: true }));
         }, 2000);
+      } else if (+display.amount < 5) {
+        setDisplay((prev) => ({
+          ...prev,
+          opacity: "opacity-5",
+          loader: true,
+          style: "",
+        }));
+        setTimeout(() => {
+          setDisplay((prev) => ({ ...prev, loader: false, popUp: true }));
+        }, 2000);
       }
     }
   }
@@ -189,8 +196,8 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
   function handleCancel() {
     setDisplay((prev) => ({
       ...prev,
-      opacity: "",
       loader: false,
+      opacity: "",
       style: " h-screen home-wrapper",
       popUp: false,
       popUp1: false,
@@ -259,7 +266,7 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
             <p className=" text-[11px] text-center mt-5 ">Other Banks</p>
           </div>
         </section>
-        <section className=" w-[93%] h-auto mt-3 mx-2 pb-1 border border-gray-300 rounded-2xl overflow-hidden">
+        {/* <section className=" w-[93%] h-auto mt-3 mx-2 pb-1 border border-gray-300 rounded-2xl overflow-hidden">
           <p className="text-sm pl-3 font-semibold  bg-gray-100 py-2 ">
             Transfer From:
           </p>
@@ -271,7 +278,7 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
               {user.accountType}: <span className="">{user.accountNo}</span>
             </p>
           </div>
-        </section>
+        </section> */}
         <section className=" w-[93%] h-auto mt-3 mx-2  border border-gray-300 rounded-2xl overflow-hidden">
           <p className="text-sm pl-3 font-semibold  bg-gray-100 py-2 ">
             Transfer To:
@@ -318,6 +325,17 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
                   display.check === false
                     ? setDisplay((prev) => ({ ...prev, check: true }))
                     : setDisplay((prev) => ({ ...prev, check: false }));
+
+                    if (setBeneficiaries !== undefined) {
+                      if (display.check === false) {
+                        setDisplay((prev) => ({ ...prev, check: true }))
+                        setBeneficiaries((prev)=> [...prev, data])
+                      } else {
+                        setDisplay((prev) => ({ ...prev, check: false }))
+                        const updatedArray = beneficiaries.filter((item )=> item.number !== data.number)
+                        setBeneficiaries(updatedArray)
+                      }
+                    }
                 }}
               />
             </div>
@@ -373,7 +391,7 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
           icon={
             data.number.length !== 10 || data.name.length < 2 ? (
               <i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>
-            ) :  enteredPin !== user.pin ? (<i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>) : (
+            ) :  enteredPin !== user.pin ? (<i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>) : +display.amount < 5 ? (<i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>) : (
               <div className="successImg">
                 <img src={successImg} alt="thumb up" />
               </div>
@@ -383,13 +401,13 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
           className="absolute top-[60px] left-4"
           title={
             data.number.length !== 10 || data.name.length < 2
-              ?  "Failed" : enteredPin !== user.pin ? "Failed"
+              ?  "Failed" : +display.amount < 5 ? 'Failed' : enteredPin !== user.pin ? "Failed"
               :"Success"
           }
           msg={
             data.number.length !== 10 || data.name.length < 2
-              ? "You have entered an invalid account number or name, please enter the correct and retry" 
-              : enteredPin !== user.pin ? 'Incorrect PIN'
+              ? "Your entered inputs are either invalid or empty, please check and enter a valid data and retry" 
+              : enteredPin !== user.pin ? 'Incorrect PIN' : +display.amount < 5 ? `you can't tranfer below 5NGN`
               : `You have successfully transferred NGN${display.amount} to ${data.name} Account Number: ${data.number} `
           }
         />
@@ -491,7 +509,7 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
       )}
 
       {display.popUp2 && (
-        <div className=" z-10  w-52 h-auto pt-6 pb-10 bg-white rounded-2xl mx-auto px-4 drop-shadow-xl absolute top-[70px] left-4 ">
+        <div className=" z-10  w-52 h-auto pt-6 pb-10 bg-white rounded-2xl mx-auto px-4 drop-shadow-xl absolute top-[120px] left-4 ">
           <i
             className="fa-solid fa-xmark cursor-pointer flex justify-end  pb-4 "
             onClick={handleCancel}
