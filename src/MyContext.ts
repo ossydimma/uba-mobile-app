@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction, createContext } from "react";
-import type { dataType } from "./pages/Beneficiary";
+import type { detailsType } from "./pages/Transfer";
+import { dataType } from "./pages/Beneficiary";
 
 interface bgType {
     bg?: string
@@ -41,7 +42,8 @@ interface userInfoType {
     password : string;
     accountNo : string;
     accountType : string;
-    pin :  String
+    pin :  String;
+    history : detailsType[]
 }
 interface beneficiariesType {
     beneficiaries : dataType[];

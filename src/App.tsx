@@ -4,6 +4,7 @@ import { More } from "./pages/More";
 import { useState } from "react";
 import { BeneficiariesContext, BgContext, UserInfo } from "./MyContext";
 import { dataType } from "./pages/Beneficiary";
+import { detailsType } from "./pages/Transfer";
 
 function App() {
   const [bg, setBg] = useState<string>("phone-deafult-screen");
@@ -14,7 +15,8 @@ function App() {
     balance : '2000.00',
     accountNo : '2763732737',
     accountType : 'Current Account',
-    pin : '0000'
+    pin : '0000',
+    history : [] as detailsType[]
   }
   const [beneficiaries, setBeneficiaries] = useState<dataType[] >( [] as dataType[])
 

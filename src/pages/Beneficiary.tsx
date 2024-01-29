@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { Loading } from "../components/Loading";
 import { PopUP } from "../components/PopUP";
-import type {transferType} from './Transfer'
+import type {transferType, detailsType} from './Transfer'
 import { BeneficiariesContext } from "../MyContext";
 
 interface displayType {
@@ -15,10 +15,9 @@ export interface dataType {
 }
 interface parentType {
     setDisplay : React.Dispatch<React.SetStateAction<transferType>>
-    details : dataType
-    setDetails: React.Dispatch<React.SetStateAction<dataType>>
+    setDetails: React.Dispatch<React.SetStateAction<detailsType>>
 }
-export const Beneficiary = ({setDisplay,  details , setDetails}: parentType) => {
+export const Beneficiary = ({setDisplay, setDetails}: parentType) => {
 
   // states
   const [displayer, setDisplayer] = useState<displayType>({
@@ -77,7 +76,7 @@ export const Beneficiary = ({setDisplay,  details , setDetails}: parentType) => 
                       key={index} 
                       className="border w-[232px] h-[65px] ml-1 flex gap-4 items-center py-4 pl-4 pr-10 hover:bg-gray-300"
                       onClick={()=> {
-                        setDetails({name: obj.name, number: obj.number})
+                        setDetails((prev)=>({...prev, name: obj.name, number: obj.number}))
                         setDisplay((prev)=> ({...prev, addNew : false}))
                       
                       }}
@@ -91,7 +90,7 @@ export const Beneficiary = ({setDisplay,  details , setDetails}: parentType) => 
                     key={index} 
                     className="border w-[232px] h-[65px] ml-1 flex gap-4 items-center py-4 pl-4 pr-10"
                     onClick={()=> {
-                       setDetails({name: obj.name, number: obj.number})
+                      setDetails((prev)=>({...prev, name: obj.name, number: obj.number}))
                        setDisplay((prev)=> ({...prev, addNew : false}))
                      
                      }}

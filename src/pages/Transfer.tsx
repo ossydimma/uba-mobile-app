@@ -8,10 +8,18 @@ import {
 } from "../MyContext";
 import type { homeDisplaytype } from "./LifeStyle";
 import { EmptyPage } from "./EmptyPage";
-import { Beneficiary, dataType } from "./Beneficiary";
+import { Beneficiary } from "./Beneficiary";
 import { PopUP } from "../components/PopUP";
 import { Loading } from "../components/Loading";
 import successImg from "../assests/leo_uba_thubs_up.png";
+
+
+export interface detailsType {
+  name: string;
+  number: string;
+  amount : string;
+  narrator : string;
+}
 
 interface addActiveType {
   item1: string;
@@ -28,8 +36,6 @@ export interface transferType {
   popUp: boolean;
   popUp1: boolean;
   popUp2: boolean;
-  amount: string;
-  narrator: string;
   opacity: string;
   style: string;
 }
@@ -64,31 +70,38 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
     popUp: false,
     popUp1: false,
     popUp2: false,
-    amount: "",
-    narrator: "",
     opacity: "",
     style: "home-wrapper h-screen",
   });
-  const [details, setDetails] = useState<dataType>({
+  const [details, setDetails] = useState<detailsType>({
     name: "",
     number: "",
+    amount: "",
+    narrator: "",
   });
-
+  let pin = ''
   // functions
   function handleInputs(event: React.ChangeEvent<HTMLInputElement>) {
     const input = event.target;
+   
     if (input.value.length === input.maxLength) {
       switch (input) {
         case input1Ref.current:
+          setEnteredPin(enteredPin + input1Ref.current?.value)
           input2Ref.current?.focus();
           break;
         case input2Ref.current:
+          setEnteredPin(enteredPin + input2Ref.current?.value)
           input3Ref.current?.focus();
 
           break;
         case input3Ref.current:
+          setEnteredPin(enteredPin + input3Ref.current?.value)
           input4Ref.current?.focus();
-
+        
+          break;
+        case input4Ref.current:
+          setEnteredPin(enteredPin + input4Ref.current?.value)
           break;
         default:
           break;
@@ -109,32 +122,31 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
           break;
       }
     }
-    
   }
 
-  function handleActive(item: string) {
-    switch (item) {
-      case "uba":
-        setAddActive({
-          item1: "bg-red-100",
-          item1Sub: "bg-white",
-          item2: "",
-          item2Sub: "bg-red-100",
-        });
-        break;
-      case "other":
-        setAddActive({
-          item1: "",
-          item1Sub: "bg-red-100",
-          item2: "bg-red-100",
-          item2Sub: "bg-white",
-        });
-        break;
+  // function handleActive(item: string) {
+  //   switch (item) {
+  //     case "uba":
+  //       setAddActive({
+  //         item1: "bg-red-100",
+  //         item1Sub: "bg-white",
+  //         item2: "",
+  //         item2Sub: "bg-red-100",
+  //       });
+  //       break;
+  //     case "other":
+  //       setAddActive({
+  //         item1: "",
+  //         item1Sub: "bg-red-100",
+  //         item2: "bg-red-100",
+  //         item2Sub: "bg-white",
+  //       });
+  //       break;
 
-      default:
-        break;
-    }
-  }
+  //     default:
+  //       break;
+  //   }
+  // }
 
   function handleBtn() {
     if (display.btnText === "Confirm Reciever") {
@@ -168,8 +180,8 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
         /^[a-zA-Z]+$/.test(details.name) &&
         details.name !== "" &&
         details.name.length > 2 &&
-        /^[0-9]+$/.test(display.amount) &&
-        display.narrator !== ""
+        /^[0-9]+$/.test(details.amount) &&
+        details.narrator !== ""
       ) {
         setDisplay((prev) => ({
           ...prev,
@@ -180,7 +192,7 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
         setTimeout(() => {
           setDisplay((prev) => ({ ...prev, loader: false, popUp1: true }));
         }, 2000);
-      } else if (+display.amount < 5) {
+      } else if (+details.amount < 5) {
         setDisplay((prev) => ({
           ...prev,
           opacity: "opacity-5",
@@ -208,6 +220,10 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
       narrator: "",
       btnText: "Confirm Reciever",
     }));
+    
+    setDetails({name : '', number : "", amount : "", narrator : "" })
+    
+    setEnteredPin('')
   }
   return (
     <div
@@ -351,9 +367,9 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
                 type="text"
                 className=" border border-gray-300 bg-[#f8f8ff] outline-none w-56 ml-2 mt-1 rounded px-2 mb-3 text-[12px] py-1.5"
                 placeholder="Amount"
-                value={display.amount}
+                value={details.amount}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setDisplay((prev) => ({ ...prev, amount: e.target.value }))
+                  setDetails((prev) => ({ ...prev, amount: e.target.value }))
                 }
               />
               <input
@@ -361,9 +377,9 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
                 maxLength={14}
                 className=" border border-gray-300 bg-[#f8f8ff] outline-none w-56 ml-2 mt-1 rounded px-2 mb-1 text-[12px] py-1.5"
                 placeholder="Narration"
-                value={display.narrator}
+                value={details.narrator}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setDisplay((prev) => ({ ...prev, narrator: e.target.value }))
+                  setDetails((prev) => ({ ...prev, narrator: e.target.value }))
                 }
               />
             </div>
@@ -378,7 +394,7 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
           {display.btnText}
         </button>
       </div>
-      {display.addNew && <Beneficiary setDisplay={setDisplay} details={details} setDetails={setDetails} />}
+      {display.addNew && <Beneficiary setDisplay={setDisplay}  setDetails={setDetails} />}
 
       {showNoti && (
         <EmptyPage
@@ -397,7 +413,7 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
           icon={
             details.number.length !== 10 || details.name.length < 2 ? (
               <i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>
-            ) :  enteredPin !== user.pin ? (<i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>) : +display.amount < 5 ? (<i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>) : (
+            ) :  enteredPin !== user.pin ? (<i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>) : +details.amount < 5 ? (<i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>) : (
               <div className="successImg">
                 <img src={successImg} alt="thumb up" />
               </div>
@@ -407,14 +423,14 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
           className="absolute top-[60px] left-4"
           title={
             details.number.length !== 10 || details.name.length < 2
-              ?  "Failed" : +display.amount < 5 ? 'Failed' : enteredPin !== user.pin ? "Failed"
+              ?  "Failed" : +details.amount < 5 ? 'Failed' : enteredPin !== user.pin ? "Failed"
               :"Success"
           }
           msg={
             details.number.length !== 10 || details.name.length < 2
               ? "Your entered inputs are either invalid or empty, please check and enter a valid detail and retry" 
-              : enteredPin !== user.pin ? 'Incorrect PIN' : +display.amount < 5 ? `you can't tranfer below 5NGN`
-              : `You have successfully transferred NGN${display.amount} to ${details.name} Account Number: ${details.number} `
+              : enteredPin !== user.pin ? 'Incorrect PIN' : +details.amount < 5 ? `you can't tranfer below 5NGN`
+              : `You have successfully transferred NGN${details.amount} to ${details.name} Account Number: ${details.number} `
           }
         />
       )}
@@ -466,33 +482,10 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
             <button
               className="bg-red-600 py-2 text-sm text-white  w-44 rounded-[4px]"
               onClick={() => {
-                if (
-                  input1Ref.current?.value !== undefined &&
-                  input2Ref.current?.value !== undefined &&
-                  input3Ref.current?.value !== undefined &&
-                  input4Ref.current?.value !== undefined
-                ) {
-                  setEnteredPin(
-                    input1Ref.current?.value +
-                      input2Ref.current.value +
-                      input3Ref.current.value +
-                      input4Ref.current.value
-                  );
-                }
-                if (enteredPin === user.pin) {
-                  setDisplay((prev) => ({
-                    ...prev,
-                    popUp1: false,
-                    loader: true,
-                  }));
-                  setTimeout(() => {
-                    setDisplay((prev) => ({
-                      ...prev,
-                      loader: false,
-                      popUp2: true,
-                    }));
-                  }, 2000);
-                } else {
+                
+                alert(enteredPin)
+                if (enteredPin !== user.pin) {
+                  
                   setDisplay((prev) => ({
                     ...prev,
                     popUp1: false,
@@ -503,6 +496,20 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
                       ...prev,
                       loader: false,
                       popUp: true,
+                    }));
+                  }, 2000);
+                  
+                } else {
+                  setDisplay((prev) => ({
+                    ...prev,
+                    popUp1: false,
+                    loader: true,
+                  }));
+                  setTimeout(() => {
+                    setDisplay((prev) => ({
+                      ...prev,
+                      loader: false,
+                      popUp2: true,
                     }));
                   }, 2000);
                 }
@@ -523,13 +530,16 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
           <div className=" flex  flex-col justify-center items-center gap-2">
             <h3 className=" font-semibold">Are you sure</h3>
             <article className=" text-xs ">
-              <p>Transaction Amount : {display.amount}</p>
+              <p>Transaction Amount : {details.amount}</p>
               <p>Total Fee : 00.00</p>
-              <p>Total Amount : {display.amount}</p>
+              <p>Total Amount : {details.amount}</p>
             </article>
             <button
               className="bg-red-600 py-2 text-sm text-white  w-44 rounded-[4px]"
               onClick={() => {
+                user.history = [...user.history, details]
+
+
                 setDisplay((prev) => ({
                   ...prev,
                   popUp2: false,
@@ -542,6 +552,8 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
                     popUp: true,
                   }));
                 }, 2000);
+                console.log(user.history)
+
               }}
             >
               OK
