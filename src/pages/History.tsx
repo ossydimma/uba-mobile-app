@@ -1,12 +1,16 @@
-import React, { useContext } from 'react'
+import{ useContext } from 'react'
 import { MoreHeader } from '../components/MoreHeader';
-import { BgContext, MorePageContext } from '../MyContext';
+import { BgContext, MorePageContext, UserInfo } from '../MyContext';
 import type { homeDisplaytype } from './LifeStyle';
 import { EmptyPage } from './EmptyPage';
+import { time } from 'console';
 
 export const History = ({ setDisplaysection }: homeDisplaytype) => {
      // contexts
+  const now = new Date()
+  
   const { setBg } = useContext(BgContext);
+  const user = useContext(UserInfo);
   const { setHideHome, showNoti, setShowNoti } = useContext(MorePageContext);
 
   return (
@@ -25,9 +29,29 @@ export const History = ({ setDisplaysection }: homeDisplaytype) => {
             }
           }}
         />
-        <div className=' mt-32'>
-            <p className=' text-center text-sm'>No recent Transaction</p>
-        </div>
+        <section>
+          <ul>
+            {user.history.length !== 0 ?
+            user.history.map((item, index)=> (
+              <li key={index}>
+
+              </li>
+            ))
+            : (<div className=' mt-32'>
+                <p className=' text-center text-sm'>No recent Transaction {now.toDateString()} {now.toLocaleTimeString([], {  hour: "numeric", minute: "2-digit",  hour12: true } )}</p>
+      
+              </div>)
+            }
+          </ul>
+          {/* {user.history.length !== 0 
+          ? (<ul>
+              
+            </ul>) 
+          : (<div className=' mt-32'>
+              <p className=' text-center text-sm'>No recent Transaction</p>
+            </div>)} */}
+        </section>
+        
         </div>
         {showNoti && (
         <EmptyPage

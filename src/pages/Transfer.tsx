@@ -19,6 +19,8 @@ export interface detailsType {
   number: string;
   amount : string;
   narrator : string;
+  date : string;
+  time : string;
 }
 
 interface addActiveType {
@@ -53,6 +55,10 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
   const input3Ref = useRef<HTMLInputElement>(null);
   const input4Ref = useRef<HTMLInputElement>(null);
 
+  
+  const now = new Date()
+
+
   //   States
   const [enteredPin, setEnteredPin] = useState<string>("");
   const [addActive, setAddActive] = useState<addActiveType>({
@@ -78,6 +84,8 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
     number: "",
     amount: "",
     narrator: "",
+    date : now.toDateString(),
+    time : now.toLocaleTimeString([], {  hour: "numeric", minute: "2-digit",  hour12: true } )
   });
   let pin = ''
   // functions
@@ -221,7 +229,7 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
       btnText: "Confirm Reciever",
     }));
     
-    setDetails({name : '', number : "", amount : "", narrator : "" })
+    setDetails((prev)=> ({...prev, name : '', number : "", amount : "", narrator : ""}))
     
     setEnteredPin('')
   }
@@ -537,9 +545,10 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
             <button
               className="bg-red-600 py-2 text-sm text-white  w-44 rounded-[4px]"
               onClick={() => {
+                const time = now.toDateString()
+                console.log(time)
+                setDetails((prev)=> ({...prev, date :now.toDateString(), time : now.toLocaleTimeString([],  { hour: "numeric", minute: "2-digit",  hour12: true })  }))
                 user.history = [...user.history, details]
-
-
                 setDisplay((prev) => ({
                   ...prev,
                   popUp2: false,
@@ -551,6 +560,7 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
                     loader: false,
                     popUp: true,
                   }));
+                  
                 }, 2000);
                 console.log(user.history)
 
