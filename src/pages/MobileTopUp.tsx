@@ -9,6 +9,8 @@ import { Loading } from "../components/Loading";
 import { PopUP } from "../components/PopUP";
 import successImg from "../assests/leo_uba_thubs_up.png";
 import { EmptyPage } from "./EmptyPage";
+import { detailsType } from "./Transfer";
+import { json } from "express";
 
 interface selectType {
   selected: selectedType;
@@ -31,6 +33,16 @@ export const MobileTopUp = ({
   const { setBg } = useContext(BgContext);
   const user = useContext(UserInfo);
   const { setHideHome, showNoti, setShowNoti } = useContext(MorePageContext);
+  const now = new Date()
+  const details = {
+    narrator : user.fullName,
+    number: selected.number,
+    amount : mobileAmount,
+    date : now.toDateString(),
+    time : now.toLocaleTimeString([], {  hour: "numeric", minute: "2-digit",  hour12: true } )
+  }
+  
+  const StoredData = JSON.parse(localStorage.getItem('history') || '[]')
 
   const [display, setDisplay] = useState({
     feedBack: false,
@@ -69,12 +81,11 @@ export const MobileTopUp = ({
         mobileAmount > 4 &&
         mobileAmount <= 50000
       ) {
-        setAddStyle((prev) => ({ ...prev, opacity: "opacity-[0.06]" }));
-        setAddStyle((prev) => ({ ...prev, scroll: "" }));
+        setAddStyle((prev) => ({ ...prev, opacity: "opacity-[0.06]", scroll: ""  }));
         setDisplay((prev) => ({ ...prev, loader: true }));
         setTimeout(() => {
-          setDisplay((prev) => ({ ...prev, loader: false }));
-          setDisplay((prev) => ({ ...prev, popUp: true }));
+          setDisplay((prev) => ({ ...prev, loader: false, popUp : true }));
+          localStorage.setItem('history', JSON.stringify([...StoredData, details]))
         }, 2000);
       }
       if (
@@ -217,10 +228,10 @@ export const MobileTopUp = ({
       {display.popUp && (
         <PopUP
           onClick={() => {
-            setAddStyle((prev) => ({ ...prev, opacity: "" }));
-            setAddStyle((prev) => ({ ...prev, scroll: "home-wrapper" }));
-            setDisplay((prev) => ({ ...prev, popUp: false }));
-            setDisplay((prev) => ({ ...prev, confirmDiv: false }));
+            setAddStyle((prev) => ({ ...prev, opacity: "", scroll: "home-wrapper"  }));
+            setDisplay((prev) => ({ ...prev, popUp: false, confirmDiv: false}));
+            setSelected((prev) => ({ ...prev, btnText: "Continue" }));
+            setMobileAmount(undefined)
           }}
           icon={
             <div className="successImg">

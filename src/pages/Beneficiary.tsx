@@ -159,7 +159,7 @@ export const Beneficiary = ({setDisplay, setDetails}: parentType) => {
                 if (
                     /^[0-9]+$/.test(data.number) &&
                     data.number.length === 10 &&
-                    /^[a-zA-Z]+$/.test(data.name) &&
+                    /^[a-zA-Z\s]+$/.test(data.name) &&
                     data.name !== "" &&
                     data.name.length > 2
                   ) {

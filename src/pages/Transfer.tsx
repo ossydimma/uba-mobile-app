@@ -43,6 +43,10 @@ export interface transferType {
 }
 
 export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
+
+
+  const storedData = JSON.parse(localStorage.getItem('history') || "[]")
+
   // contexts
   const { setBg } = useContext(BgContext);
   const user = useContext(UserInfo);
@@ -79,6 +83,7 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
     opacity: "",
     style: "home-wrapper h-screen",
   });
+
   const [details, setDetails] = useState<detailsType>({
     name: "",
     number: "",
@@ -87,7 +92,7 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
     date : now.toDateString(),
     time : now.toLocaleTimeString([], {  hour: "numeric", minute: "2-digit",  hour12: true } )
   });
-  let pin = ''
+
   // functions
   function handleInputs(event: React.ChangeEvent<HTMLInputElement>) {
     const input = event.target;
@@ -163,9 +168,8 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
         if (
           /^[0-9]+$/.test(details.number) &&
           details.number.length === 10 &&
-          /^[a-zA-Z]+$/.test(details.name) &&
-          details.name !== "" &&
-          details.name.length > 2
+          /^[a-zA-Z\s]+$/.test(details.name) &&
+          details.name.length > 1 
         ) {
           setDisplay((prev) => ({
             ...prev,
@@ -185,9 +189,8 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
       if (
         /^[0-9]+$/.test(details.number) &&
         details.number.length === 10 &&
-        /^[a-zA-Z]+$/.test(details.name) &&
-        details.name !== "" &&
-        details.name.length > 2 &&
+        /^[a-zA-Z\s]+$/.test(details.name) &&
+        details.name.length > 1 &&
         /^[0-9]+$/.test(details.amount) &&
         details.narrator !== ""
       ) {
@@ -200,7 +203,7 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
         setTimeout(() => {
           setDisplay((prev) => ({ ...prev, loader: false, popUp1: true }));
         }, 2000);
-      } else if (+details.amount < 5) {
+      } else if (+details.amount < 5 ) {
         setDisplay((prev) => ({
           ...prev,
           opacity: "opacity-5",
@@ -348,9 +351,6 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
                 type="checkbox"
                 checked={display.check}
                 onChange={() => {
-                  // display.check === false
-                  //   ? setDisplay((prev) => ({ ...prev, check: true }))
-                  //   : setDisplay((prev) => ({ ...prev, check: false }));
 
                     if (setBeneficiaries !== undefined) {
                       if (display.check === false) {
@@ -419,7 +419,7 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
       {display.popUp && (
         <PopUP
           icon={
-            details.number.length !== 10 || details.name.length < 2 ? (
+            details.number.length !== 10 || details.name.length < 1 ? (
               <i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>
             ) :  enteredPin !== user.pin ? (<i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>) : +details.amount < 5 ? (<i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>) : (
               <div className="successImg">
@@ -430,14 +430,14 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
           onClick={handleCancel}
           className="absolute top-[60px] left-4"
           title={
-            details.number.length !== 10 || details.name.length < 2
+            details.number.length !== 10 || details.name.length < 1
               ?  "Failed" : +details.amount < 5 ? 'Failed' : enteredPin !== user.pin ? "Failed"
               :"Success"
           }
           msg={
-            details.number.length !== 10 || details.name.length < 2
+            details.number.length !== 10 || details.name.length < 1
               ? "Your entered inputs are either invalid or empty, please check and enter a valid detail and retry" 
-              : enteredPin !== user.pin ? 'Incorrect PIN' : +details.amount < 5 ? `you can't tranfer below 5NGN`
+              : enteredPin !== user.pin ? 'Invalid PIN' : +details.amount < 5 ? `you can't tranfer below 5NGN`
               : `You have successfully transferred NGN${details.amount} to ${details.name} Account Number: ${details.number} `
           }
         />
@@ -490,8 +490,6 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
             <button
               className="bg-red-600 py-2 text-sm text-white  w-44 rounded-[4px]"
               onClick={() => {
-                
-                alert(enteredPin)
                 if (enteredPin !== user.pin) {
                   
                   setDisplay((prev) => ({
@@ -545,10 +543,11 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
             <button
               className="bg-red-600 py-2 text-sm text-white  w-44 rounded-[4px]"
               onClick={() => {
-                const time = now.toDateString()
-                console.log(time)
                 setDetails((prev)=> ({...prev, date :now.toDateString(), time : now.toLocaleTimeString([],  { hour: "numeric", minute: "2-digit",  hour12: true })  }))
-                user.history = [...user.history, details]
+                // storedData.push(details)
+                // localStorage.clear()
+                localStorage.setItem('history', JSON.stringify([...storedData, details]))
+                // user.history = [...user.history, details]
                 setDisplay((prev) => ({
                   ...prev,
                   popUp2: false,
