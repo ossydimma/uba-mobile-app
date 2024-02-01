@@ -9,8 +9,6 @@ import { Loading } from "../components/Loading";
 import { PopUP } from "../components/PopUP";
 import successImg from "../assests/leo_uba_thubs_up.png";
 import { EmptyPage } from "./EmptyPage";
-import { detailsType } from "./Transfer";
-import { json } from "express";
 
 interface selectType {
   selected: selectedType;
@@ -33,6 +31,7 @@ export const MobileTopUp = ({
   const { setBg } = useContext(BgContext);
   const user = useContext(UserInfo);
   const { setHideHome, showNoti, setShowNoti } = useContext(MorePageContext);
+  
   const now = new Date()
   const details = {
     narrator : user.fullName,

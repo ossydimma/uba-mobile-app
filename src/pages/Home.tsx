@@ -168,7 +168,7 @@ export const Home = () => {
   }
 
   function handleMobileBtn(): void {
-    if (selected.btnText === "Continue ") {
+    if (selected.btnText === "Continue") {
       if (
         /^[0-9]+$/.test(selected.number) &&
         selected.number.length === 11 &&
@@ -206,17 +206,18 @@ export const Home = () => {
         mobileAmount > 4 &&
         mobileAmount <= 50000
       ) {
-        setStyles((prev) => ({ ...prev, addOpacity: "opacity-0" }));
+        setStyles((prev) => ({ ...prev, addOpacity: "opacity-0", addHeight: "h-[600px]"  }));
         setDisplaysection((prev) => ({ ...prev, showLoader: true }));
-        setStyles((prev) => ({ ...prev, addHeight: "h-[600px]" }));
+        // setStyles((prev) => ({ ...prev,}));
         setTimeout(() => {
-          setDisplaysection((prev) => ({ ...prev, showLoader: false }));
-          setDisplaysection((prev) => ({ ...prev, showSucess: true }));
+          setDisplaysection((prev) => ({ ...prev, showLoader: false, showSucess: true }));
+          localStorage.setItem('history', JSON.stringify([...StoredData, details]))
+          // setDisplaysection((prev) => ({ ...prev }));
         }, 4000);
         setDisplaysection((prev) => ({ ...prev, showMobileSec2: false }));
-        setSelected((prev) => ({ ...prev, account: "Select Account" }));
-        setSelected((prev) => ({ ...prev, service: "Select Service" }));
-        setSelected((prev) => ({ ...prev, btnText: "Continue" }));
+        setSelected((prev) => ({ ...prev, account: "Select Account", service: "Select Service", btnText: "Continue" }));
+        // setSelected((prev) => ({ ...prev, }));
+        // setSelected((prev) => ({ ...prev, }));
       }
       if (
         mobileAmount === undefined ||
@@ -245,6 +246,17 @@ export const Home = () => {
     setDisplaysection((prev) => ({ ...prev, showCustomize: true }));
     setStyles((prev) => ({ ...prev, scroll: "home-wrapper" }));
   }
+
+  const now = new Date()
+  const details = {
+    narrator : selected.service,
+    number: selected.number,
+    amount : mobileAmount,
+    date : now.toDateString(),
+    time : now.toLocaleTimeString([], {  hour: "numeric", minute: "2-digit",  hour12: true } )
+  }
+
+  const StoredData = JSON.parse(localStorage.getItem('history') || '[]')
 
   return (
     <div>
