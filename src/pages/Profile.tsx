@@ -28,15 +28,15 @@ export const Profile = ({ setDisplaysection }: homeDisplaytype) => {
                 } }
             />
             <main className=" mt-8 mx-2">
-                <div className=" flex gap-7 items-center">
-                    <div className=" border border-gray-900 py-4 px-5 rounded-full text-center">
+                <div className=" flex gap-7">
+                    <div className=" border border-gray-900 py-4 px-6 rounded-full text-center">
                         <i className="fa-regular fa-user text-2xl  "></i>
                     </div>
                     <div className=" text-xs">
                         <p>Full Name</p>
                         <p className=" mb-2"> {user.fullName}</p>
                         <p>Mobile Number</p>
-                        <p>{user.contact}</p>
+                        <p>+234 {user.contact}</p>
                     </div>
                 </div>
                 <section className=" mt-4">
@@ -52,7 +52,7 @@ export const Profile = ({ setDisplaysection }: homeDisplaytype) => {
                     <p className="w-full bg-gray-400 py-1.5 pl-2 text-sm">Contact Information</p>
                     <article className=" text-xs pt-2 pl-2">
                         <p>Mobile Number</p>
-                        <p className=" mb-"> {user.contact}</p>
+                        <p className=" mb-"> +234 {user.contact}</p>
                         
                     </article>
                 </section>

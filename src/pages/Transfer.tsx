@@ -137,29 +137,6 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
     }
   }
 
-  // function handleActive(item: string) {
-  //   switch (item) {
-  //     case "uba":
-  //       setAddActive({
-  //         item1: "bg-red-100",
-  //         item1Sub: "bg-white",
-  //         item2: "",
-  //         item2Sub: "bg-red-100",
-  //       });
-  //       break;
-  //     case "other":
-  //       setAddActive({
-  //         item1: "",
-  //         item1Sub: "bg-red-100",
-  //         item2: "bg-red-100",
-  //         item2Sub: "bg-white",
-  //       });
-  //       break;
-
-  //     default:
-  //       break;
-  //   }
-  // }
 
   function handleBtn() {
     if (display.btnText === "Confirm Reciever") {
@@ -257,43 +234,7 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
         <p className="  py-2.5 text-sm text-center shadow-md shadow-gray-400">
           Select Tranfer Option
         </p>
-        {/* <section className=" mx-4 mt-3 flex justify-between">
-          <div
-            className={` w-[102px] h-[85px] ${addActive.item1} rounded-lg border border-red-600 cursor-pointer`}
-            onClick={() => handleActive("uba")}
-          >
-            <div
-              className={`ml-2 mr-[70px] mt-2 ${addActive.item1Sub}  py-1 px-1.5 rounded-full`}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="10"
-                height="15"
-                viewBox="0 0 40 48"
-                fill="none"
-              >
-                <path
-                  d="M0 47.8813L8.14387 8.97778C8.14387 8.97778 22.8028 33.6666 21.717 40.7739C20.6311 47.8813 7.05802 48.3177 0 47.8813Z"
-                  fill="red"
-                />
-                <path
-                  d="M39.1481 0.118729L31.0042 39.0223C31.0042 39.0223 16.3452 14.3335 17.4311 7.22611C18.5169 0.118731 32.09 -0.317687 39.1481 0.118729Z"
-                  fill="red"
-                />
-              </svg>
-            </div>
-            <p className=" text-[11px] text-center mt-4">UBA Accounts</p>
-          </div>
-          <div
-            className={`w-[102px] h-[85px]  rounded-lg border ${addActive.item2} border-red-600 cursor-pointer`}
-            onClick={() => handleActive("other")}
-          >
-            <i
-              className={`fa-solid fa-house cursor-pointer text-red-600 text-[10px] ml-2 mt-2 ${addActive.item2Sub}  py-1.5 px-1.5 rounded-full`}
-            ></i>
-            <p className=" text-[11px] text-center mt-5 ">Other Banks</p>
-          </div>
-        </section> */}
+        
 
         <section className=" w-[93%] h-auto mt-3 mx-2 pb-1 border border-gray-300 rounded-2xl overflow-hidden">
           <p className="text-sm pl-3 font-semibold  bg-gray-100 py-2 ">
@@ -544,10 +485,7 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
               className="bg-red-600 py-2 text-sm text-white  w-44 rounded-[4px]"
               onClick={() => {
                 setDetails((prev)=> ({...prev, date :now.toDateString(), time : now.toLocaleTimeString([],  { hour: "numeric", minute: "2-digit",  hour12: true })  }))
-                // storedData.push(details)
-                // localStorage.clear()
                 localStorage.setItem('history', JSON.stringify([...storedData, details]))
-                // user.history = [...user.history, details]
                 setDisplay((prev) => ({
                   ...prev,
                   popUp2: false,
