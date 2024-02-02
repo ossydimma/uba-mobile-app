@@ -16,7 +16,7 @@ export const MoreHeader = ({ name, onClick }: ProductProps) => {
 
   return (
     <div>
-      <div className="more-menu flex justify-between items-center pb-2 px-3 shadow-md shadow-gray-400">
+      <div className="more-menu flex justify-between items-center pb-2 px-3 shadow-md shadow-gray-400 ">
         <div className="flex gap-7 items-center">
           <i
             className="fa-solid fa-arrow-left cursor-pointer"

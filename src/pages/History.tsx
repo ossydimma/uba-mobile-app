@@ -32,22 +32,24 @@ export const History = ({ setDisplaysection }: homeDisplaytype) => {
   return (
     <div className={`text-black w-full h-screen top-0 absolute left-0 showMorePage pb-5 bg-white ${isShow}`} >
       <div>
-          <MoreHeader
-            name="Transaction History"
-            onClick={() => {
-              if (setHideHome !== undefined) {
-                setDisplaysection((prev) => ({
-                  ...prev,
-                  showHistoryPage: false,
-                }));
-                setHideHome(true);
-                setBg("dark-screen-mode");
-              }
-            }}
-          />
+        <div className="fixed w-60 z-10 bg-white -mt-[35px] mb-7">
+            <MoreHeader
+              name="Transaction History"
+              onClick={() => {
+                if (setHideHome !== undefined) {
+                  setDisplaysection((prev) => ({
+                    ...prev,
+                    showHistoryPage: false,
+                  }));
+                  setHideHome(true);
+                  setBg("dark-screen-mode");
+                }
+              }}
+            />
+        </div>
 
-          <section className=" mt-6">
-            <ul className="">
+          <section className=" mt-10">
+            <ul className="pt-3">
               {storedData.length === 0 ? (
                 <div className=" mt-32">
                   <p className=" text-center text-sm">No recent Transaction</p>
@@ -88,7 +90,7 @@ export const History = ({ setDisplaysection }: homeDisplaytype) => {
             </ul>
           </section>
           {selectedObj && (
-            <div className={` absolute top-0 bg-white h-full w-full `}>
+            <div className={` absolute top-0 bg-white h-full w-full z-20 `}>
               <MoreHeader name="Transaction Reciept" onClick={handleCancel} />
               <section className=" mx-[4%]">
                 <h2 className="mt-4 font-semibold border-b border-gray-800 text-[15px] pb-1 mb-3 ">

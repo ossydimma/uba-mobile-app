@@ -12,7 +12,7 @@ export const EmptyPage = ({pageName, article, onClick }: EmptyPageType) => {
   const {showNoti} = useContext(MorePageContext)
   return (
     <div>
-         <section className="bg-white text-black w-full h-screen top-0 absolute left-0 showMorePage">
+         <section className="bg-white text-black w-full h-screen top-0 absolute left-0 showMorePage z-30">
             <MoreHeader name={pageName} onClick={onClick} />
             <p className="text-center mt-40 text-sm font-serif">{article}</p>
          </section>
