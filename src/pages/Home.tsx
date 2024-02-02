@@ -24,6 +24,7 @@ import { LifeStyle } from "./LifeStyle";
 import { History } from "./History";
 import { EmptyPage } from "./EmptyPage";
 import { Transfer } from "./Transfer";
+import { Profile } from "./Profile";
 
 interface selectType {
   item1?: boolean;
@@ -55,6 +56,7 @@ export interface displaySectionType {
   showLifeStylePage : boolean;
   showHistoryPage : boolean;
   showTransferPage : boolean;
+  showProfile : boolean
 }
 interface checkedType {
   checkLoan: boolean;
@@ -116,7 +118,8 @@ export const Home = () => {
     showMobilePage: false,
     showLifeStylePage : false,
     showHistoryPage : false,
-    showTransferPage : false
+    showTransferPage : false,
+    showProfile : false
   });
 
   const [checked, setChecked] = useState<checkedType>({
@@ -268,8 +271,18 @@ export const Home = () => {
             <header className="h-24  bg-black ">
               <div className="w-60  h-11 -mt-2 bg-black text-white px-2 flex justify-between items-center fixed z-10">
                 <span className="flex gap-2">
-                  <div className=" ">
-                    <i className="fa-regular fa-user text-xs ml-1 "></i>
+                  <div>
+                    <i 
+                      className="fa-regular fa-user text-xs ml-1 "
+                      onClick={()=> {
+                        if (setHideHome !== undefined) {
+                          setHideHome(false);
+                        }
+                        setBg("light-screen-mode");
+                        setDisplaysection((prev)=> ({...prev, showProfile : true}))
+                      
+                      }}
+                      ></i>
                   </div>
                   <p className="text-xs">{`Hello, ${user.fullName}`}</p>
                 </span>
@@ -974,6 +987,7 @@ export const Home = () => {
             }
           }}
         />}
+      {displaySection.showProfile && <Profile setDisplaysection={setDisplaysection} />}
       {displaySection.showLifeStylePage &&<LifeStyle setDisplaysection={setDisplaysection}/>}
       {displaySection.showHistoryPage && <History setDisplaysection={setDisplaysection}/>}
       {displaySection.showTransferPage && <Transfer setDisplaysection={setDisplaysection}/>}

@@ -21,7 +21,7 @@ export const History = ({ setDisplaysection }: homeDisplaytype) => {
   const { setBg } = useContext(BgContext);
   const user = useContext(UserInfo);
   const { setHideHome, showNoti, setShowNoti } = useContext(MorePageContext);
-  console.log(user.history);
+ 
 
   const handleCancel = () => {
     setSelectedObj(undefined);
@@ -32,7 +32,6 @@ export const History = ({ setDisplaysection }: homeDisplaytype) => {
   return (
     <div className={`text-black w-full h-screen top-0 absolute left-0 showMorePage pb-5 bg-white ${isShow}`} >
       <div>
-        { <section >
           <MoreHeader
             name="Transaction History"
             onClick={() => {
@@ -131,7 +130,6 @@ export const History = ({ setDisplaysection }: homeDisplaytype) => {
               </section>
             </div>
           )}
-        </section>}
       </div>
       {showNoti && (
         <EmptyPage
