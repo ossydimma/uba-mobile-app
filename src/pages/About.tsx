@@ -10,9 +10,8 @@ export const About = () => {
     <>
         <div className="bg-white text-black w-full h-screen top-0 absolute left-0 showMorePage">
             <MoreHeader name="About" onClick={()=> {
-                if (setShowAbout !== undefined && setShowMorePage !== undefined) {
+                if (setShowAbout  !== undefined) {
                     setShowAbout(false);
-                    setShowMorePage(true);
                 }
             }
             }/>
