@@ -25,6 +25,7 @@ import { History } from "./History";
 import { EmptyPage } from "./EmptyPage";
 import { Transfer } from "./Transfer";
 import { Profile } from "./Profile";
+import { MoreFeatures } from "./MoreFeatures";
 
 interface selectType {
   item1?: boolean;
@@ -56,7 +57,8 @@ export interface displaySectionType {
   showLifeStylePage : boolean;
   showHistoryPage : boolean;
   showTransferPage : boolean;
-  showProfile : boolean
+  showProfile : boolean;
+  showMore : boolean;
 }
 interface checkedType {
   checkLoan: boolean;
@@ -119,7 +121,8 @@ export const Home = () => {
     showLifeStylePage : false,
     showHistoryPage : false,
     showTransferPage : false,
-    showProfile : false
+    showProfile : false,
+    showMore : false,
   });
 
   const [checked, setChecked] = useState<checkedType>({
@@ -698,13 +701,22 @@ export const Home = () => {
 
                 {/* ------------------footer----------------------------- */}
                 <div className=" relative ">
-                  <nav className="nav fixed w-[232px] h-10 bg-[#F1f1f1] border-b-[4px] border-black rounded-[18px] bottom-[67px] text-red-600  -ml-[115px] left-[50%] ">
+                  <nav className="nav fixed w-[232px] h-10 bg-[#F1f1f1] border-b-[4px] border-black rounded-[18px] bottom-[67px]  -ml-[115px] left-[50%] ">
                     <ul className="flex justify-around items-center gap-4 mt-1">
-                      <li className="flex flex-col items-center">
+                      <li className="flex flex-col items-center text-red-600">
                         <i className="fa-solid fa-house cursor-pointer"></i>
                         <p className="text-xs">Home</p>
                       </li>
-                      <li className="flex flex-col items-center">
+                      <li 
+                        className="flex flex-col items-center"
+                        onClick={()=> {
+                          if (setHideHome !== undefined) {
+                            setHideHome(false);
+                          }
+                          setBg("light-screen-mode");
+                          setDisplaysection((prev)=> ({...prev, showMore : true}))
+                        }}
+                        >
                         <i className="fa-solid fa-bars cursor-pointer"></i>
                         <p className="text-xs">More</p>
                       </li>
@@ -987,6 +999,7 @@ export const Home = () => {
             }
           }}
         />}
+      {displaySection.showMore && <MoreFeatures setDisplaysection={setDisplaysection} />}
       {displaySection.showProfile && <Profile setDisplaysection={setDisplaysection} />}
       {displaySection.showLifeStylePage &&<LifeStyle setDisplaysection={setDisplaysection}/>}
       {displaySection.showHistoryPage && <History setDisplaysection={setDisplaysection}/>}
