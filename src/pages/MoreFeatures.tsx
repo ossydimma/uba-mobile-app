@@ -44,10 +44,7 @@ export const MoreFeatures = ({ setDisplaysection }: homeDisplaytype) => {
             <span>Bank Services</span>
             <i className="fa-solid fa-angle-right"></i>
           </li>
-          <li className=" flex justify-between items-center py-3 border-b  ">
-            <span>Settings</span>
-            <i className="fa-solid fa-angle-right"></i>
-          </li>
+    
           <li 
             className=" flex justify-between items-center py-3 border-b"
             onClick={()=> {
