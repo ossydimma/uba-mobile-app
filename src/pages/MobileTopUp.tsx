@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useContext, useState } from "react";
 import { MoreHeader } from "../components/MoreHeader";
-import { BgContext, MorePageContext, UserInfo } from "../MyContext";
+import { BgContext, MorePageContext} from "../MyContext";
 import type { selectedType, displaySectionType } from "./Home";
 import { Slider } from "../components/Slider";
 import { SwiperSlide } from "swiper/react";
@@ -27,14 +27,16 @@ export const MobileTopUp = ({
   updateInputValueHandler,
   setDisplaysection,
 }: selectType) => {
+  
+  const userData = JSON.parse(localStorage.getItem('userInfo') || '{}')
+
   // contexts
   const { setBg } = useContext(BgContext);
-  const user = useContext(UserInfo);
   const { setHideHome, showNoti, setShowNoti } = useContext(MorePageContext);
   
   const now = new Date()
   const details = {
-    narrator : user.fullName,
+    narrator : userData.fullName,
     number: selected.number,
     amount : mobileAmount,
     date : now.toDateString(),
@@ -96,6 +98,7 @@ export const MobileTopUp = ({
       }
     }
   }
+
   return (
     <div
       className={`   text-black w-full h-screen top-0 absolute left-0 showMorePage bg-white ${addStyles.scroll}`}
@@ -117,12 +120,12 @@ export const MobileTopUp = ({
               Pay from
             </p>
             <div className=" py-2">
-              <p className="text-sm text-center ">{user.fullName}</p>
+              <p className="text-sm text-center ">{userData.fullName}</p>
               <p className="text-xs text-center ">
-                {user.accountType}: <span className="">{user.accountNo}</span>
+                {userData.accountType}: <span className="">{userData.accountNo}</span>
               </p>
               <p className="text-[11px] text-center ">
-                NGN<span className={` `}>{user.balance}</span>
+                NGN<span className={` `}>{userData.balance}</span>
               </p>
             </div>
           </section>

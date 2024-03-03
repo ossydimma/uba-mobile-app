@@ -1,6 +1,5 @@
 import React, {  useRef } from 'react';
-import SwiperCore from 'swiper';
-import { Swiper,useSwiper } from 'swiper/react';
+import { Swiper} from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import 'swiper/swiper-bundle.css';
 

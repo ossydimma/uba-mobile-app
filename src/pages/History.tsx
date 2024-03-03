@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { MoreHeader } from "../components/MoreHeader";
-import { BgContext, MorePageContext, UserInfo } from "../MyContext";
+import { BgContext, MorePageContext} from "../MyContext";
 import type { homeDisplaytype } from "./LifeStyle";
 import { EmptyPage } from "./EmptyPage";
 import { detailsType } from "./Transfer";
@@ -19,7 +19,6 @@ export const History = ({ setDisplaysection }: homeDisplaytype) => {
 
   // contexts
   const { setBg } = useContext(BgContext);
-  const user = useContext(UserInfo);
   const { setHideHome, showNoti, setShowNoti } = useContext(MorePageContext);
  
 

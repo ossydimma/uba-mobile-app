@@ -35,7 +35,7 @@ interface morePageType {
     showNairaSec?: boolean;
     setShowNairaSec? : Dispatch<SetStateAction<boolean>>;
 }
-interface userInfoType {
+export interface userInfoType {
     fullName : string | undefined;
     contact : string | undefined;
     balance : string;
@@ -55,5 +55,5 @@ interface beneficiariesType {
 
 export const BgContext = createContext<bgType>({} as bgType);
 export const MorePageContext = createContext<morePageType>({});
-export const UserInfo = createContext<userInfoType>( {} as userInfoType);
+// export const UserInfo = createContext<userInfoType>( {} as userInfoType);
 export const BeneficiariesContext = createContext<beneficiariesType>({} as beneficiariesType )

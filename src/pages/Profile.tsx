@@ -1,14 +1,15 @@
 import { useContext } from "react";
 import { MoreHeader } from "../components/MoreHeader"
-import { BgContext, MorePageContext, UserInfo } from "../MyContext";
+import { BgContext, MorePageContext,} from "../MyContext";
 import { homeDisplaytype } from "./LifeStyle";
 import { EmptyPage } from "./EmptyPage";
 
 
 export const Profile = ({ setDisplaysection }: homeDisplaytype) => {
+  const userData = JSON.parse(localStorage.getItem('userInfo') || '{}')
+
       // contexts
   const { setBg } = useContext(BgContext);
-  const user = useContext(UserInfo);
   const { setHideHome, showNoti, setShowNoti } = useContext(MorePageContext);
   return (
     <div className={`text-black w-full h-screen top-0 absolute left-0 showMorePage pb-5 bg-white`}>
@@ -34,25 +35,25 @@ export const Profile = ({ setDisplaysection }: homeDisplaytype) => {
                     </div>
                     <div className=" text-xs">
                         <p>Full Name</p>
-                        <p className=" mb-2"> {user.fullName}</p>
+                        <p className=" mb-2"> {userData.fullName}</p>
                         <p>Mobile Number</p>
-                        <p>+234 {user.contact}</p>
+                        <p>+234 {userData.contact}</p>
                     </div>
                 </div>
                 <section className=" mt-4">
                     <p className="w-full bg-gray-400 py-1.5 pl-2 text-sm">Basic Information</p>
                     <article className=" text-xs pt-2 pl-2">
                         <p>Account Name</p>
-                        <p className=" mb-2"> {user.fullName}</p>
+                        <p className=" mb-2"> {userData.fullName}</p>
                         <p>Account Number</p>
-                        <p>{user.accountNo}</p>
+                        <p>{userData.accountNo}</p>
                     </article>
                 </section>
                 <section className=" mt-4">
                     <p className="w-full bg-gray-400 py-1.5 pl-2 text-sm">Contact Information</p>
                     <article className=" text-xs pt-2 pl-2">
                         <p>Mobile Number</p>
-                        <p className=" mb-"> +234 {user.contact}</p>
+                        <p className=" mb-"> +234 {userData.contact}</p>
                         
                     </article>
                 </section>
