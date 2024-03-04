@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { BgContext, MorePageContext } from "../MyContext";
 import { PopUP } from "../components/PopUP";
 import successImg from "../assests/leo_uba_thubs_up.png";
@@ -6,12 +6,11 @@ interface MyComponentProps {
   setShowSignIn: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const SignUp = ({setShowSignIn}: MyComponentProps) => {
-  const userData = JSON.parse(localStorage.getItem('userInfo') || '{}')
+export const SignUp = ({ setShowSignIn }: MyComponentProps) => {
+  const userData = JSON.parse(localStorage.getItem("userInfo") || "{}");
 
   // Contexts
   const { setBg } = useContext(BgContext);
-  // const userData = useContext(UserInfo);
   const { setShowSignUp, setShowHome } = useContext(MorePageContext);
 
   // states
@@ -56,7 +55,6 @@ export const SignUp = ({setShowSignIn}: MyComponentProps) => {
       setshowPassPage(true);
       userData.fullName = inputValue1;
       userData.contact = inputValue2;
-      console.log(userData);
       localStorage.setItem("userInfo", JSON.stringify(userData));
     }
   }
@@ -99,7 +97,6 @@ export const SignUp = ({setShowSignIn}: MyComponentProps) => {
       setshowPassPage(false);
       setshowPinPage(true);
       userData.password = inputValue1;
-      console.log(userData);
       localStorage.setItem("userInfo", JSON.stringify(userData));
     }
   }
@@ -134,11 +131,10 @@ export const SignUp = ({setShowSignIn}: MyComponentProps) => {
     ) {
       userData.pin = inputValue1;
       setShowPopUP(true);
-      userData.balance = '2000.00'
-      userData.accountNo = '2763732737'
-      userData.accountTyp = 'Current Account'
+      userData.balance = "2000.00";
+      userData.accountNo = "2763732737";
+      userData.accountTyp = "Current Account";
       localStorage.setItem("userInfo", JSON.stringify(userData));
-      console.log(userData)
     }
   }
 
@@ -295,8 +291,7 @@ export const SignUp = ({setShowSignIn}: MyComponentProps) => {
             if (setShowSignUp) {
               setShowSignUp(false);
               setBg("phone-deafult-screen");
-              setShowSignIn(true)
-              console.log(userData)
+              setShowSignIn(true);
             }
           }}
           icon={

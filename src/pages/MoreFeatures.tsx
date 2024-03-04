@@ -20,6 +20,7 @@ export const MoreFeatures = ({ setDisplaysection }: homeDisplaytype) => {
     showFaq,
     setShowFaq,
     showNoti,
+    setShowHome,
   } = useContext(MorePageContext);
 
   const { setBg } = useContext(BgContext);
@@ -98,7 +99,17 @@ export const MoreFeatures = ({ setDisplaysection }: homeDisplaytype) => {
             <span>Contact us</span>
             <i className="fa-solid fa-angle-right"></i>
           </li>
-          <li className=" flex justify-between items-center py-3  text-red-600 ">
+          <li 
+            className=" flex justify-between items-center py-3  text-red-600 "
+            onClick={()=> {
+              
+              if(setShowHome) {
+                setBg("phone-deafult-screen");
+                setShowHome(false)
+                }
+
+            }}
+            >
             <span>Log Out</span>
           </li>
         </ul>

@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useState } from "react";
 import { MoreHeader } from "../components/MoreHeader";
 import { BeneficiariesContext, BgContext, MorePageContext } from "../MyContext";
 import type { homeDisplaytype } from "./LifeStyle";
@@ -7,6 +7,7 @@ import { Beneficiary } from "./Beneficiary";
 import { PopUP } from "../components/PopUP";
 import { Loading } from "../components/Loading";
 import successImg from "../assests/leo_uba_thubs_up.png";
+import { AuthPin } from "../components/AuthPin";
 
 export interface detailsType {
   name: string;
@@ -38,18 +39,12 @@ export interface transferType {
 
 export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
   const storedData = JSON.parse(localStorage.getItem("history") || "[]");
-  const userData = JSON.parse(localStorage.getItem('userInfo') || '{}')
+  const userData = JSON.parse(localStorage.getItem("userInfo") || "{}");
 
   // contexts
   const { setBg } = useContext(BgContext);
   const { setHideHome, showNoti, setShowNoti } = useContext(MorePageContext);
   const { beneficiaries, setBeneficiaries } = useContext(BeneficiariesContext);
-
-  //  ref
-  const input1Ref = useRef<HTMLInputElement>(null);
-  const input2Ref = useRef<HTMLInputElement>(null);
-  const input3Ref = useRef<HTMLInputElement>(null);
-  const input4Ref = useRef<HTMLInputElement>(null);
 
   const now = new Date();
 
@@ -88,48 +83,6 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
   });
 
   // functions
-  function handleInputs(event: React.ChangeEvent<HTMLInputElement>) {
-    const input = event.target;
-
-    if (input.value.length === input.maxLength) {
-      switch (input) {
-        case input1Ref.current:
-          setEnteredPin(enteredPin + input1Ref.current?.value);
-          input2Ref.current?.focus();
-          break;
-        case input2Ref.current:
-          setEnteredPin(enteredPin + input2Ref.current?.value);
-          input3Ref.current?.focus();
-
-          break;
-        case input3Ref.current:
-          setEnteredPin(enteredPin + input3Ref.current?.value);
-          input4Ref.current?.focus();
-
-          break;
-        case input4Ref.current:
-          setEnteredPin(enteredPin + input4Ref.current?.value);
-          break;
-        default:
-          break;
-      }
-    }
-    if (input.value === "") {
-      switch (input) {
-        case input4Ref.current:
-          input3Ref.current?.focus();
-          break;
-        case input3Ref.current:
-          input2Ref.current?.focus();
-          break;
-        case input2Ref.current:
-          input1Ref.current?.focus();
-          break;
-        default:
-          break;
-      }
-    }
-  }
 
   function handleBtn() {
     if (display.btnText === "Confirm Reciever") {
@@ -400,85 +353,12 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
       )}
 
       {display.popUp1 && (
-        <div className=" z-10  w-52 h-auto pt-6 pb-10 bg-white rounded-2xl mx-auto px-4 drop-shadow-xl absolute top-[60px] left-4 ">
-          <i
-            className="fa-solid fa-xmark cursor-pointer flex justify-end  pb-4 "
-            onClick={handleCancel}
-          ></i>
-          <div className="flex flex-col justify-center items-center gap-2">
-            <i className="fa-solid fa-lock-open bg-yellow-400 py-3 px-4 rounded-full text-white text-lg"></i>
-
-            <h3 className=" font-semibold">Authentication method</h3>
-            <p>PIN</p>
-            <p className="text-xs">
-              Transaction limits for PIN is 200,000NGN per day
-            </p>
-            <div className=" flex gap-1 pb-2">
-              <input
-                type="text"
-                onChange={handleInputs}
-                ref={input1Ref}
-                className=" w-[35px] h-[30px] outline-none border border-[#484848] text-center rounded-lg"
-                maxLength={1}
-              />
-              <input
-                type="text"
-                onChange={handleInputs}
-                ref={input2Ref}
-                className=" w-[35px] h-[30px] outline-none border border-[#484848] text-center rounded-lg"
-                maxLength={1}
-              />
-              <input
-                type="text"
-                onChange={handleInputs}
-                ref={input3Ref}
-                className=" w-[35px] h-[30px] outline-none border border-[#484848] text-center rounded-lg"
-                maxLength={1}
-              />
-              <input
-                type="text"
-                onChange={handleInputs}
-                ref={input4Ref}
-                className=" w-[35px] h-[30px] outline-none border border-[#484848] text-center rounded-lg"
-                maxLength={1}
-              />
-            </div>
-            <button
-              className="bg-red-600 py-2 text-sm text-white  w-44 rounded-[4px]"
-              onClick={() => {
-                if (enteredPin !== userData.pin) {
-                  setDisplay((prev) => ({
-                    ...prev,
-                    popUp1: false,
-                    loader: true,
-                  }));
-                  setTimeout(() => {
-                    setDisplay((prev) => ({
-                      ...prev,
-                      loader: false,
-                      popUp: true,
-                    }));
-                  }, 2000);
-                } else {
-                  setDisplay((prev) => ({
-                    ...prev,
-                    popUp1: false,
-                    loader: true,
-                  }));
-                  setTimeout(() => {
-                    setDisplay((prev) => ({
-                      ...prev,
-                      loader: false,
-                      popUp2: true,
-                    }));
-                  }, 2000);
-                }
-              }}
-            >
-              OK
-            </button>
-          </div>
-        </div>
+        <AuthPin
+          setDisplay={setDisplay}
+          handleCancel={handleCancel}
+          enteredPin={enteredPin}
+          setEnteredPin={setEnteredPin}
+        />
       )}
 
       {display.popUp2 && (

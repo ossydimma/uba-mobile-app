@@ -29,6 +29,7 @@ export const ScreenContent = () => {
     setShowForgottenPage,
     showHome,
     setShowHome,
+    setHideHome,
   } = useContext(MorePageContext);
   const { setBg } = useContext(BgContext);
 
@@ -37,13 +38,13 @@ export const ScreenContent = () => {
   const [showIcon, setShowIcon] = useState<boolean>(true);
   const [showSignIn, setShowSignIn] = useState<boolean>(false);
   const [showPrivacy, setShowPrivacy] = useState<boolean>(false);
-  const [showPopup, setShowPopup] = useState<boolean>(false);
   const [changeType, setChangeType] = useState<string>("password");
   const [btnText, setBtnText] = useState<string | ReactNode>("Sign In");
   const [inputValue, setInputValue] = useState<inputValueType>({
     number: userData.contact ? userData.contact : '' ,
     password: "",
   });
+  const [showPopup, setShowPopup] = useState(false);
 
   // functions
   function handleDisplayCountries(): void {
@@ -89,12 +90,17 @@ export const ScreenContent = () => {
       );
       setTimeout(() => {
         console.log(userData)
-        if (userData.contact !== undefined && userData.password !== undefined) {
+        if (userData.contact && userData.password) {
           if (inputValue.number === userData.contact && inputValue.password === userData.password) {
-            if(setShowHome) {
-            setBg('dark-screen-mode')
-            setShowHome(true)
+            if(setShowHome && setHideHome) {
+              setBg('dark-screen-mode')
+              setHideHome(true)
+              setShowHome(true)
+              setInputValue((prev)=> ({...prev, password : ""}))
             }
+          } else if (inputValue.password !== userData.password) {
+            setShowPopup(true);
+
           } else {
             alert('nopwee')
           }
@@ -238,7 +244,7 @@ export const ScreenContent = () => {
             <p
               className="text-xs text-right pt-1 cursor-pointer"
               onClick={() => {
-                if (setShowForgottenPage !== undefined) {
+                if (setShowForgottenPage) {
                   setShowSignIn(false);
                   setBg("light-screen-mode");
                   setShowForgottenPage(true);
@@ -265,27 +271,36 @@ export const ScreenContent = () => {
             {showPopup && (
               <section className="absolute top-1 right-4  bg-white text-black ml-5 w-52  rounded-xl p-5">
                 <i
-                  className="fa-solid fa-xmark cursor-pointer ml-36 mb-4"
+                  className="fa-solid fa-xmark cursor-pointer ml-36 mb-2"
                   onClick={() => setShowPopup(false)}
                 ></i>
                 <div className=" flex justify-center mb-1">
+                  
                   <i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>
                 </div>
-                <p className="text-center text-sm">
-                  You don't have an account with us.
+                <p className="text-center text-xs">
+                  {!userData.contact && !userData.password ? `You don't have an account with us.` : `Invalid password, Click the button below to change password` }
                 </p>
                 <button
                   className="bg-red-600 text-white mt-3 w-32 h-8 rounded-sm ml-6"
                   onClick={(e) => {
                     e.preventDefault();
-                    setShowPopup(false)
-                    setInputValue({ number : "", password : ""})
-                    setShowSignIn(false)
-                    setBg("light-screen-mode");
-                    if (setShowSignUpHomePage) setShowSignUpHomePage(true);
+                    if (!userData.contact && !userData.password) {
+                      setShowPopup(false)
+                      setInputValue({ number : "", password : ""})
+                      setShowSignIn(false)
+                      setBg("light-screen-mode");
+                      if (setShowSignUpHomePage) setShowSignUpHomePage(true);
+                    } else {
+                        if (setShowForgottenPage) setShowForgottenPage(true)
+                        setInputValue((prev)=> ({...prev, password : ""}))
+                        setShowPopup(false)
+                        setBg("light-screen-mode");
+                        setShowSignIn(false);
+                    }
                   }}
                 >
-                  Sign Up
+                  {!userData.contact && !userData.password ? `Sign Up` : `Change`}
                 </button>
               </section>
             )}
