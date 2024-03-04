@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useContext, useState } from "react";
 import { MoreHeader } from "../components/MoreHeader";
-import { BgContext, MorePageContext} from "../MyContext";
+import { BgContext, MorePageContext, UserInfo} from "../MyContext";
 import type { selectedType, displaySectionType } from "./Home";
 import { Slider } from "../components/Slider";
 import { SwiperSlide } from "swiper/react";
@@ -27,11 +27,10 @@ export const MobileTopUp = ({
   updateInputValueHandler,
   setDisplaysection,
 }: selectType) => {
-  
-  const userData = JSON.parse(localStorage.getItem('userInfo') || '{}')
 
   // contexts
   const { setBg } = useContext(BgContext);
+  const userData = useContext(UserInfo)
   const { setHideHome, showNoti, setShowNoti } = useContext(MorePageContext);
   
   const now = new Date()

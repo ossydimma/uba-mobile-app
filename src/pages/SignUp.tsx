@@ -1,13 +1,14 @@
 import { useContext, useState } from "react";
-import { BgContext, MorePageContext} from "../MyContext";
+import { BgContext, MorePageContext, UserInfo} from "../MyContext";
 import { userInfo } from "os";
 
 export const SignUp = () => {
 
-  const userData = JSON.parse(localStorage.getItem('userInfo') || '{}')
+  // const userData = JSON.parse(localStorage.getItem('userInfo') || '{}')
 
   // Contexts
   const { setBg } = useContext(BgContext);
+  const userData = useContext(UserInfo)
   const { setShowSignUp, setShowHome } = useContext(MorePageContext);
   
 
@@ -51,6 +52,8 @@ export const SignUp = () => {
       setshowPassPage(true);
       userData.fullName = inputValue1;
       userData.contact = inputValue2;
+      console.log(userData)
+      localStorage.setItem('userInfo', JSON.stringify(userData))
     }
   }
   function handleNext2Btn(e: React.MouseEvent<HTMLButtonElement>) {
@@ -92,6 +95,9 @@ export const SignUp = () => {
       setshowPassPage(false);
       setshowPinPage(true);
       userData.password = inputValue1;
+      console.log(userData)
+      localStorage.setItem('userInfo', JSON.stringify(userData))
+
     }
   }
 
@@ -127,8 +133,9 @@ export const SignUp = () => {
       
       if (setShowHome !== undefined) {
         setShowHome(true)
-        
         userData.pin = inputValue1;
+        localStorage.setItem('userInfo', JSON.stringify(userData))
+
       }
   }
 

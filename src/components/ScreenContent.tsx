@@ -1,16 +1,22 @@
 import arrowDown from "../assests/down-arrow-5-svgrepo-com.svg";
 import logo from "../assests/logo.svg";
 import ngFlag from "../assests/emojione_flag-for-nigeria.svg";
-import { useContext, useState } from "react";
+import { ReactNode, useContext, useState } from "react";
 import { More } from "../pages/More";
 import { BgContext, MorePageContext } from "../MyContext";
 import { SignUp } from "../pages/SignUp";
 import { SignUpHomePage } from "../pages/SignUpHomePage";
-import { EmptyPage } from "../pages/EmptyPage";
 import { ForgetPaswrd } from "../pages/ForgetPaswrd";
 import { Home } from "../pages/Home";
 
+interface inputValueType {
+  number: string;
+  password: string;
+}
+
 export const ScreenContent = () => {
+  const userData = JSON.parse(localStorage.getItem("userInfo") || "{}");
+
   // contexts
   const {
     showMorePage,
@@ -31,7 +37,13 @@ export const ScreenContent = () => {
   const [showIcon, setShowIcon] = useState<boolean>(true);
   const [showSignIn, setShowSignIn] = useState<boolean>(false);
   const [showPrivacy, setShowPrivacy] = useState<boolean>(false);
+  const [showPopup, setShowPopup] = useState<boolean>(false);
   const [changeType, setChangeType] = useState<string>("password");
+  const [btnText, setBtnText] = useState<string | ReactNode>("Sign In");
+  const [inputValue, setInputValue] = useState<inputValueType>({
+    number: "",
+    password: "",
+  });
 
   // functions
   function handleDisplayCountries(): void {
@@ -66,6 +78,29 @@ export const ScreenContent = () => {
       setChangeType("password");
     }
   }
+  const handleSignIn = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+
+    if (inputValue.number !== "" && inputValue.password !== "") {
+      setBtnText(
+        <div className="flex justify-center items-center h-full">
+          <span className="loader"></span>
+        </div>
+      );
+      setTimeout(() => {
+        console.log(userData)
+        if (userData.contact !== "" && userData.password !== "") {
+          if(setShowHome) {
+            setBg('dark-screen-mode')
+            setShowHome(true)
+          }
+        } else {
+          setShowPopup(true);
+        }
+        setBtnText("Sign In");
+      }, 2000);
+    }
+  };
 
   return (
     <div className={`text-white relative`}>
@@ -81,6 +116,7 @@ export const ScreenContent = () => {
             <img src={arrowDown} alt="arrow-icon" />
           </div>
         </div>
+
         {showDiv && (
           <section
             className={`countries absolute w-full h-full bg-white text-black  top-6 left-0 showCountries`}
@@ -166,12 +202,23 @@ export const ScreenContent = () => {
                 type="text"
                 className="bg-transparent border-2 border-gray-400 rounded py-1 pl-6 text-xs text-gray-400"
                 placeholder="Number"
+                value={inputValue.number}
+                onChange={(e) =>
+                  setInputValue((prev) => ({ ...prev, number: e.target.value }))
+                }
               />
               <i className="fa-solid fa-user fa-xs absolute top-3 left-2"></i>
               <input
                 type={changeType}
                 className="bg-transparent border-2 border-gray-400  rounded px-6 py-1 text-xs text-gray-400"
                 placeholder="Password"
+                value={inputValue.password}
+                onChange={(e) =>
+                  setInputValue((prev) => ({
+                    ...prev,
+                    password: e.target.value,
+                  }))
+                }
               />
               <i className="fa-solid fa-lock fa-xs absolute bottom-6 left-2"></i>
               <div onClick={handleChangeType} className="cursor-pointer">
@@ -197,20 +244,46 @@ export const ScreenContent = () => {
             </p>
 
             <div>
-              <button 
+              <button
                 className="bg-red-600 mt-3 w-32 h-8 rounded-sm ml-6"
-                onClick={(e)=> {
-                  e.preventDefault()
-                  if(setShowHome !== undefined) {
-                    setBg('dark-screen-mode')
-                    setShowHome(true)
-                  }
-                }}
+                onClick={handleSignIn}
+                // e.preventDefault()
+                // if(setShowHome !== undefined) {
+                //   setBg('dark-screen-mode')
+                //   setShowHome(true)
+                // }
               >
-                Sign In
+                {btnText}
               </button>
               <i className="fa-solid fa-fingerprint bg-red-600 p-2 rounded-md ml-2 cursor-pointer"></i>
             </div>
+            {showPopup && (
+              <section className="absolute top-1 right-4  bg-white text-black ml-5 w-52  rounded-xl p-5">
+                <i
+                  className="fa-solid fa-xmark cursor-pointer ml-36 mb-4"
+                  onClick={() => setShowPopup(false)}
+                ></i>
+                <div className=" flex justify-center mb-1">
+                  <i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>
+                </div>
+                <p className="text-center text-sm">
+                  You don't have an account with us.
+                </p>
+                <button
+                  className="bg-red-600 text-white mt-3 w-32 h-8 rounded-sm ml-6"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setShowPopup(false)
+                    setInputValue({ number : "", password : ""})
+                    setShowSignIn(false)
+                    setBg("light-screen-mode");
+                    if (setShowSignUpHomePage) setShowSignUpHomePage(true);
+                  }}
+                >
+                  Sign Up
+                </button>
+              </section>
+            )}
           </form>
         </section>
       )}
@@ -228,7 +301,7 @@ export const ScreenContent = () => {
           className="cursor-pointer"
           onClick={() => {
             if (setShowSignUpHomePage !== undefined) {
-              setBg('light-screen-mode')
+              setBg("light-screen-mode");
               setShowSignUpHomePage(true);
             }
           }}
@@ -258,7 +331,7 @@ export const ScreenContent = () => {
               onClick={() => {
                 if (setShowSignUp !== undefined) {
                   setShowPrivacy(false);
-                  setBg('dark-screen-mode');
+                  setBg("dark-screen-mode");
                   setShowSignUp(true);
                 }
               }}

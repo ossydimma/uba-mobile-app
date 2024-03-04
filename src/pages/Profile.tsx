@@ -1,15 +1,15 @@
 import { useContext } from "react";
 import { MoreHeader } from "../components/MoreHeader"
-import { BgContext, MorePageContext,} from "../MyContext";
+import { BgContext, MorePageContext, UserInfo,} from "../MyContext";
 import { homeDisplaytype } from "./LifeStyle";
 import { EmptyPage } from "./EmptyPage";
 
 
 export const Profile = ({ setDisplaysection }: homeDisplaytype) => {
-  const userData = JSON.parse(localStorage.getItem('userInfo') || '{}')
 
       // contexts
   const { setBg } = useContext(BgContext);
+  const userData = useContext(UserInfo)
   const { setHideHome, showNoti, setShowNoti } = useContext(MorePageContext);
   return (
     <div className={`text-black w-full h-screen top-0 absolute left-0 showMorePage pb-5 bg-white`}>

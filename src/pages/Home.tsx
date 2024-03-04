@@ -2,9 +2,10 @@ import React, {
   ChangeEvent,
   ReactNode,
   useContext,
+  useEffect,
   useState,
 } from "react";
-import { BgContext, MorePageContext } from "../MyContext";
+import { BgContext, MorePageContext, UserInfo } from "../MyContext";
 import sendSvg from "../assests/money-cash-svgrepo-com.svg";
 import billSvg from "../assests/money-cash-svgrepo-com (1).svg";
 import loadSvg from "../assests/history-svgrepo-com.svg";
@@ -75,6 +76,7 @@ export interface stylesType {
 export const Home = () => {
   // contexts
   const { setBg } = useContext(BgContext);
+  const userData = useContext(UserInfo);
   const { setShowNoti, showNoti, hideHome, setHideHome, showNairaSec, setShowNairaSec } =
     useContext(MorePageContext);
 
@@ -261,7 +263,6 @@ export const Home = () => {
   }
 
   const StoredData = JSON.parse(localStorage.getItem('history') || '[]')
-  const userData = JSON.parse(localStorage.getItem('userInfo') || '{}')
 
   return (
     <div>
