@@ -1,16 +1,18 @@
-import { useContext, useState } from "react";
-import { BgContext, MorePageContext, UserInfo} from "../MyContext";
-import { userInfo } from "os";
+import { Dispatch, SetStateAction, useContext, useState } from "react";
+import { BgContext, MorePageContext } from "../MyContext";
+import { PopUP } from "../components/PopUP";
+import successImg from "../assests/leo_uba_thubs_up.png";
+interface MyComponentProps {
+  setShowSignIn: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-export const SignUp = () => {
-
-  // const userData = JSON.parse(localStorage.getItem('userInfo') || '{}')
+export const SignUp = ({setShowSignIn}: MyComponentProps) => {
+  const userData = JSON.parse(localStorage.getItem('userInfo') || '{}')
 
   // Contexts
   const { setBg } = useContext(BgContext);
-  const userData = useContext(UserInfo)
+  // const userData = useContext(UserInfo);
   const { setShowSignUp, setShowHome } = useContext(MorePageContext);
-  
 
   // states
   const [showName, setshowName] = useState<boolean>(true);
@@ -22,6 +24,8 @@ export const SignUp = () => {
 
   const [inputValue1, setInputValue1] = useState<string>("");
   const [inputValue2, setInputValue2] = useState<string>("");
+
+  const [showPopUP, setShowPopUP] = useState<boolean>(false);
 
   // local functions
   function handleNextBtn(e: React.MouseEvent<HTMLButtonElement>) {
@@ -36,7 +40,7 @@ export const SignUp = () => {
       : inputValue1.length < 5
       ? setshowFeedBack1("Field must be more than 5 characters ")
       : setshowFeedBack1("");
-      
+
     !isNumber(inputValue2)
       ? setshowFeedBack2("Field must be a Number")
       : inputValue2.length < 11
@@ -52,8 +56,8 @@ export const SignUp = () => {
       setshowPassPage(true);
       userData.fullName = inputValue1;
       userData.contact = inputValue2;
-      console.log(userData)
-      localStorage.setItem('userInfo', JSON.stringify(userData))
+      console.log(userData);
+      localStorage.setItem("userInfo", JSON.stringify(userData));
     }
   }
   function handleNext2Btn(e: React.MouseEvent<HTMLButtonElement>) {
@@ -95,12 +99,10 @@ export const SignUp = () => {
       setshowPassPage(false);
       setshowPinPage(true);
       userData.password = inputValue1;
-      console.log(userData)
-      localStorage.setItem('userInfo', JSON.stringify(userData))
-
+      console.log(userData);
+      localStorage.setItem("userInfo", JSON.stringify(userData));
     }
   }
-
 
   function handleActivationBtn(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
@@ -129,14 +131,15 @@ export const SignUp = () => {
       inputValue1 === inputValue2 &&
       /^[0-9]+$/.test(inputValue2) &&
       inputValue1.length === 4
-    )
-      
-      if (setShowHome !== undefined) {
-        setShowHome(true)
-        userData.pin = inputValue1;
-        localStorage.setItem('userInfo', JSON.stringify(userData))
-
-      }
+    ) {
+      userData.pin = inputValue1;
+      setShowPopUP(true);
+      userData.balance = '2000.00'
+      userData.accountNo = '2763732737'
+      userData.accountTyp = 'Current Account'
+      localStorage.setItem("userInfo", JSON.stringify(userData));
+      console.log(userData)
+    }
   }
 
   function handleChangeInput1(e: React.ChangeEvent<HTMLInputElement>) {
@@ -285,6 +288,26 @@ export const SignUp = () => {
           </form>
         )}
       </section>
+      {showPopUP && (
+        <PopUP
+          msg="You have successfully signed up with us. Click OK to log in"
+          onClick={() => {
+            if (setShowSignUp) {
+              setShowSignUp(false);
+              setBg("phone-deafult-screen");
+              setShowSignIn(true)
+              console.log(userData)
+            }
+          }}
+          icon={
+            <div className="successImg">
+              <img src={successImg} alt="thumb up" />
+            </div>
+          }
+          className="absolute top-[13px] text-sm left-4 pb-[85px] text-black"
+          title="Success"
+        />
+      )}
     </>
   );
 };

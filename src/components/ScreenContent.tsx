@@ -3,7 +3,7 @@ import logo from "../assests/logo.svg";
 import ngFlag from "../assests/emojione_flag-for-nigeria.svg";
 import { ReactNode, useContext, useState } from "react";
 import { More } from "../pages/More";
-import { BgContext, MorePageContext } from "../MyContext";
+import { BgContext, MorePageContext} from "../MyContext";
 import { SignUp } from "../pages/SignUp";
 import { SignUpHomePage } from "../pages/SignUpHomePage";
 import { ForgetPaswrd } from "../pages/ForgetPaswrd";
@@ -15,7 +15,7 @@ interface inputValueType {
 }
 
 export const ScreenContent = () => {
-  const userData = JSON.parse(localStorage.getItem("userInfo") || "{}");
+  const userData = JSON.parse(localStorage.getItem('userInfo') || '{}')
 
   // contexts
   const {
@@ -41,7 +41,7 @@ export const ScreenContent = () => {
   const [changeType, setChangeType] = useState<string>("password");
   const [btnText, setBtnText] = useState<string | ReactNode>("Sign In");
   const [inputValue, setInputValue] = useState<inputValueType>({
-    number: "",
+    number: userData.contact ? userData.contact : '' ,
     password: "",
   });
 
@@ -89,11 +89,16 @@ export const ScreenContent = () => {
       );
       setTimeout(() => {
         console.log(userData)
-        if (userData.contact !== "" && userData.password !== "") {
-          if(setShowHome) {
+        if (userData.contact !== undefined && userData.password !== undefined) {
+          if (inputValue.number === userData.contact && inputValue.password === userData.password) {
+            if(setShowHome) {
             setBg('dark-screen-mode')
             setShowHome(true)
+            }
+          } else {
+            alert('nopwee')
           }
+          
         } else {
           setShowPopup(true);
         }
@@ -347,7 +352,7 @@ export const ScreenContent = () => {
           </div>
         </section>
       )}
-      {showSignUp && <SignUp />}
+      {showSignUp && <SignUp setShowSignIn={setShowSignIn}/>}
       {showSignUpHomePage && <SignUpHomePage />}
       {showHome && <Home />}
     </div>

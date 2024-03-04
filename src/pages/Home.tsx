@@ -1,11 +1,5 @@
-import React, {
-  ChangeEvent,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
-import { BgContext, MorePageContext, UserInfo } from "../MyContext";
+import React, { ChangeEvent, ReactNode, useContext, useState } from "react";
+import { BgContext, MorePageContext } from "../MyContext";
 import sendSvg from "../assests/money-cash-svgrepo-com.svg";
 import billSvg from "../assests/money-cash-svgrepo-com (1).svg";
 import loadSvg from "../assests/history-svgrepo-com.svg";
@@ -33,7 +27,7 @@ interface selectType {
   item3?: boolean;
 }
 export interface selectedType {
-  number: string;
+  number: string | undefined;
   account: string | ReactNode;
   service: string;
   btnText: string | ReactNode;
@@ -54,11 +48,11 @@ export interface displaySectionType {
   showFeedBack: boolean;
   showQickLoan: boolean;
   showMobilePage: boolean;
-  showLifeStylePage : boolean;
-  showHistoryPage : boolean;
-  showTransferPage : boolean;
-  showProfile : boolean;
-  showMore : boolean;
+  showLifeStylePage: boolean;
+  showHistoryPage: boolean;
+  showTransferPage: boolean;
+  showProfile: boolean;
+  showMore: boolean;
 }
 interface checkedType {
   checkLoan: boolean;
@@ -74,11 +68,17 @@ export interface stylesType {
 }
 
 export const Home = () => {
+  const userData = JSON.parse(localStorage.getItem('userInfo') || '{}');
   // contexts
   const { setBg } = useContext(BgContext);
-  const userData = useContext(UserInfo);
-  const { setShowNoti, showNoti, hideHome, setHideHome, showNairaSec, setShowNairaSec } =
-    useContext(MorePageContext);
+  const {
+    setShowNoti,
+    showNoti,
+    hideHome,
+    setHideHome,
+    showNairaSec,
+    setShowNairaSec,
+  } = useContext(MorePageContext);
 
   // states
   const [reload, setReload] = useState<boolean>(true);
@@ -97,7 +97,7 @@ export const Home = () => {
     item3: false,
   });
   const [selected, setSelected] = useState<selectedType>({
-    number: "07031690110",
+    number: userData.contact,
     account: "Select Account",
     service: "Select Service",
     btnText: "Continue",
@@ -118,11 +118,11 @@ export const Home = () => {
     showFeedBack: false,
     showQickLoan: false,
     showMobilePage: false,
-    showLifeStylePage : false,
-    showHistoryPage : false,
-    showTransferPage : false,
-    showProfile : false,
-    showMore : false,
+    showLifeStylePage: false,
+    showHistoryPage: false,
+    showTransferPage: false,
+    showProfile: false,
+    showMore: false,
   });
 
   const [checked, setChecked] = useState<checkedType>({
@@ -174,7 +174,7 @@ export const Home = () => {
   }
 
   function handleMobileBtn(): void {
-    if (selected.btnText === "Continue") {
+    if (selected.btnText === "Continue" && selected.number) {
       if (
         /^[0-9]+$/.test(selected.number) &&
         selected.number.length === 11 &&
@@ -212,16 +212,32 @@ export const Home = () => {
         mobileAmount > 4 &&
         mobileAmount <= 50000
       ) {
-        setStyles((prev) => ({ ...prev, addOpacity: "opacity-0", addHeight: "h-[600px]"  }));
+        setStyles((prev) => ({
+          ...prev,
+          addOpacity: "opacity-0",
+          addHeight: "h-[600px]",
+        }));
         setDisplaysection((prev) => ({ ...prev, showLoader: true }));
         // setStyles((prev) => ({ ...prev,}));
         setTimeout(() => {
-          setDisplaysection((prev) => ({ ...prev, showLoader: false, showSucess: true }));
-          localStorage.setItem('history', JSON.stringify([...StoredData, details]))
+          setDisplaysection((prev) => ({
+            ...prev,
+            showLoader: false,
+            showSucess: true,
+          }));
+          localStorage.setItem(
+            "history",
+            JSON.stringify([...StoredData, details])
+          );
           // setDisplaysection((prev) => ({ ...prev }));
         }, 4000);
         setDisplaysection((prev) => ({ ...prev, showMobileSec2: false }));
-        setSelected((prev) => ({ ...prev, account: "Select Account", service: "Select Service", btnText: "Continue" }));
+        setSelected((prev) => ({
+          ...prev,
+          account: "Select Account",
+          service: "Select Service",
+          btnText: "Continue",
+        }));
         // setSelected((prev) => ({ ...prev, }));
         // setSelected((prev) => ({ ...prev, }));
       }
@@ -253,16 +269,20 @@ export const Home = () => {
     setStyles((prev) => ({ ...prev, scroll: "home-wrapper" }));
   }
 
-  const now = new Date()
+  const now = new Date();
   const details = {
-    narrator : selected.service,
+    narrator: selected.service,
     number: selected.number,
-    amount : mobileAmount,
-    date : now.toDateString(),
-    time : now.toLocaleTimeString([], {  hour: "numeric", minute: "2-digit",  hour12: true } )
-  }
+    amount: mobileAmount,
+    date: now.toDateString(),
+    time: now.toLocaleTimeString([], {
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    }),
+  };
 
-  const StoredData = JSON.parse(localStorage.getItem('history') || '[]')
+  const StoredData = JSON.parse(localStorage.getItem("history") || "[]");
 
   return (
     <div>
@@ -275,17 +295,19 @@ export const Home = () => {
               <div className="w-60  h-11 -mt-2 bg-black text-white px-2 flex justify-between items-center fixed z-10">
                 <span className="flex gap-2">
                   <div>
-                    <i 
+                    <i
                       className="fa-regular fa-user text-xs ml-1 "
-                      onClick={()=> {
+                      onClick={() => {
                         if (setHideHome !== undefined) {
                           setHideHome(false);
                         }
                         setBg("light-screen-mode");
-                        setDisplaysection((prev)=> ({...prev, showProfile : true}))
-                      
+                        setDisplaysection((prev) => ({
+                          ...prev,
+                          showProfile: true,
+                        }));
                       }}
-                      ></i>
+                    ></i>
                   </div>
                   <p className="text-xs">{`Hello, ${userData.fullName}`}</p>
                 </span>
@@ -293,10 +315,10 @@ export const Home = () => {
                 <span className="flex  gap-2 ">
                   <i
                     className="fa-regular fa-bell text-gray-400 text-2xl cursor-pointer"
-                    onClick={()=> {
+                    onClick={() => {
                       if (setShowNoti && setHideHome !== undefined) {
-                        setHideHome(false)
-                        setBg("light-screen-mode")
+                        setHideHome(false);
+                        setBg("light-screen-mode");
                         setShowNoti(true);
                       }
                     }}
@@ -396,7 +418,7 @@ export const Home = () => {
                   <section className="sec-height mx-auto  w-48 bg-white rounded-lg drop-shadow-xl mt-2  pl-1.5 pt-2 ">
                     <h2 className="text-sm font-[600]">Service</h2>
                     <ul className="w-full h-full flex items-center justify-center gap-1.5 -mt-3">
-                      <li 
+                      <li
                         className="flex flex-col items-center gap-1 cursor-pointer"
                         onClick={() => {
                           if (setHideHome !== undefined) {
@@ -408,14 +430,14 @@ export const Home = () => {
                             showTransferPage: true,
                           }));
                         }}
-                        >
+                      >
                         <div className="border-2 p-1.5 drop-shadow-lg bg-white">
                           <img src={sendSvg} alt="icon" />
                         </div>
                         <p className="text-[9px]">Transfer</p>
                       </li>
 
-                      <li 
+                      <li
                         className="flex flex-col items-center gap-1 cursor-pointer "
                         onClick={() => {
                           if (setHideHome !== undefined) {
@@ -427,14 +449,14 @@ export const Home = () => {
                             showHistoryPage: true,
                           }));
                         }}
-                        >
+                      >
                         <div className="border-2 p-1.5   drop-shadow-lg bg-white">
                           <img src={loadSvg} alt="icon" />
                         </div>
                         <p className="text-[8px] text-center">History</p>
                       </li>
 
-                      <li 
+                      <li
                         className="flex flex-col items-center gap-1 cursor-pointer"
                         onClick={() => {
                           if (setHideHome !== undefined) {
@@ -446,7 +468,7 @@ export const Home = () => {
                             showLifeStylePage: true,
                           }));
                         }}
-                        >
+                      >
                         <div className="border-2 p-1.5 drop-shadow-lg bg-white ">
                           <img src={billSvg} alt="icon" />
                         </div>
@@ -707,16 +729,19 @@ export const Home = () => {
                         <i className="fa-solid fa-house cursor-pointer"></i>
                         <p className="text-xs">Home</p>
                       </li>
-                      <li 
+                      <li
                         className="flex flex-col items-center"
-                        onClick={()=> {
+                        onClick={() => {
                           if (setHideHome !== undefined) {
                             setHideHome(false);
                           }
                           setBg("light-screen-mode");
-                          setDisplaysection((prev)=> ({...prev, showMore : true}))
+                          setDisplaysection((prev) => ({
+                            ...prev,
+                            showMore: true,
+                          }));
                         }}
-                        >
+                      >
                         <i className="fa-solid fa-bars cursor-pointer"></i>
                         <p className="text-xs">More</p>
                       </li>
@@ -903,7 +928,8 @@ export const Home = () => {
                                 </span>
                               </p>
                               <p className="text-[8px] font-semibold ml-2">
-                                NGN <span className={`  `}>{userData.balance}</span>
+                                NGN{" "}
+                                <span className={`  `}>{userData.balance}</span>
                               </p>
                             </div>
                           </div>
@@ -927,7 +953,9 @@ export const Home = () => {
                       <div className="flex justify-between gap-6 items-center">
                         <p className="text-[10px]">
                           Account:{" "}
-                          <span className="tracking-wider">2763732737</span>
+                          <span className="tracking-wider">
+                            {userData.accountNo}
+                          </span>
                         </p>
                         <p className="text-[10px] font-semibold">
                           NGN <span className={`  `}>{userData.balance}</span>
@@ -988,22 +1016,34 @@ export const Home = () => {
           setDisplaysection={setDisplaysection}
         />
       )}
-       {showNoti &&<EmptyPage
+      {showNoti && (
+        <EmptyPage
           pageName="Notification"
           article="There Are No Notification"
           onClick={() => {
             if (setShowNoti && setHideHome !== undefined) {
               setShowNoti(false);
-              setBg("dark-screen-mode")
-              setHideHome(true)
+              setBg("dark-screen-mode");
+              setHideHome(true);
             }
           }}
-        />}
-      {displaySection.showMore && <MoreFeatures setDisplaysection={setDisplaysection} />}
-      {displaySection.showProfile && <Profile setDisplaysection={setDisplaysection} />}
-      {displaySection.showLifeStylePage &&<LifeStyle setDisplaysection={setDisplaysection}/>}
-      {displaySection.showHistoryPage && <History setDisplaysection={setDisplaysection}/>}
-      {displaySection.showTransferPage && <Transfer setDisplaysection={setDisplaysection}/>}
+        />
+      )}
+      {displaySection.showMore && (
+        <MoreFeatures setDisplaysection={setDisplaysection} />
+      )}
+      {displaySection.showProfile && (
+        <Profile setDisplaysection={setDisplaysection} />
+      )}
+      {displaySection.showLifeStylePage && (
+        <LifeStyle setDisplaysection={setDisplaysection} />
+      )}
+      {displaySection.showHistoryPage && (
+        <History setDisplaysection={setDisplaysection} />
+      )}
+      {displaySection.showTransferPage && (
+        <Transfer setDisplaysection={setDisplaysection} />
+      )}
     </div>
   );
 };
