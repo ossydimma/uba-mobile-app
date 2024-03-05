@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { BgContext, MorePageContext } from "../MyContext";
-import { PopUP } from "../components/PopUP";
+import { PopUP } from "./PopUP";
 import successImg from "../assests/leo_uba_thubs_up.png";
 interface MyComponentProps {
   setShowSignIn: React.Dispatch<React.SetStateAction<boolean>>;

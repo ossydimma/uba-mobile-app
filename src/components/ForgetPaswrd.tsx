@@ -1,8 +1,8 @@
 import { useContext, useState } from "react";
-import { MoreHeader } from "../components/MoreHeader";
+import { MoreHeader } from "./MoreHeader";
 import { BgContext, MorePageContext } from "../MyContext";
-import { AuthPin } from "../components/AuthPin";
-import { Loading } from "../components/Loading";
+import { AuthPin } from "./AuthPin";
+import { Loading } from "./Loading";
 
 interface forgottenType {
   setShowSignIn: React.Dispatch<React.SetStateAction<boolean>>;

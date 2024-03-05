@@ -4,9 +4,9 @@ import ngFlag from "../assests/emojione_flag-for-nigeria.svg";
 import { ReactNode, useContext, useState } from "react";
 import { More } from "../pages/More";
 import { BgContext, MorePageContext} from "../MyContext";
-import { SignUp } from "../pages/SignUp";
+import { SignUp } from "./SignUp";
 import { SignUpHomePage } from "../pages/SignUpHomePage";
-import { ForgetPaswrd } from "../pages/ForgetPaswrd";
+import { ForgetPaswrd } from "./ForgetPaswrd";
 import { Home } from "../pages/Home";
 
 interface inputValueType {
