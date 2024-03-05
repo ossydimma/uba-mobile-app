@@ -421,7 +421,7 @@ export const Home = () => {
                       <li
                         className="flex flex-col items-center gap-1 cursor-pointer"
                         onClick={() => {
-                          if (setHideHome !== undefined) {
+                          if (setHideHome) {
                             setHideHome(false);
                           }
                           setBg("light-screen-mode");
@@ -440,7 +440,7 @@ export const Home = () => {
                       <li
                         className="flex flex-col items-center gap-1 cursor-pointer "
                         onClick={() => {
-                          if (setHideHome !== undefined) {
+                          if (setHideHome) {
                             setHideHome(false);
                           }
                           setBg("light-screen-mode");
@@ -478,7 +478,7 @@ export const Home = () => {
                       <li
                         className="flex flex-col items-center gap-1 cursor-pointer"
                         onClick={() => {
-                          if (setHideHome !== undefined) {
+                          if (setHideHome) {
                             setHideHome(false);
                           }
                           setBg("light-screen-mode");

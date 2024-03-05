@@ -1,10 +1,11 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { homeDisplaytype } from "./LifeStyle";
 import { BgContext, MorePageContext } from "../MyContext";
 import { EmptyPage } from "./EmptyPage";
 import { Contact } from "./Contact";
 import { Faq } from "./Faq";
 import { About } from "./About";
+import { BankServices } from "./BankServices";
 
 export const MoreFeatures = ({ setDisplaysection }: homeDisplaytype) => {
   const {
@@ -22,6 +23,8 @@ export const MoreFeatures = ({ setDisplaysection }: homeDisplaytype) => {
     showNoti,
     setShowHome,
   } = useContext(MorePageContext);
+
+  const [showServices, setShowServices] = useState<boolean>(false)
 
   const { setBg } = useContext(BgContext);
   return (
@@ -41,7 +44,10 @@ export const MoreFeatures = ({ setDisplaysection }: homeDisplaytype) => {
       </nav>
       <main>
         <ul className="text-sm flex flex-col  mx-2 mt-2">
-          <li className=" flex justify-between items-center py-3 border-b  ">
+          <li 
+            className=" flex justify-between items-center py-3 border-b  "
+            onClick={()=> setShowServices(true)}
+            >
             <span>Bank Services</span>
             <i className="fa-solid fa-angle-right"></i>
           </li>
@@ -59,7 +65,7 @@ export const MoreFeatures = ({ setDisplaysection }: homeDisplaytype) => {
           <li
             className=" flex justify-between items-center py-3 border-b "
             onClick={() => {
-              if (setShowNoti && setHideHome !== undefined) {
+              if (setShowNoti && setHideHome) {
                 setHideHome(false);
                 setBg("light-screen-mode");
                 setShowNoti(true);
@@ -121,7 +127,7 @@ export const MoreFeatures = ({ setDisplaysection }: homeDisplaytype) => {
             <li
               className="flex flex-col items-center"
               onClick={() => {
-                if (setHideHome !== undefined) {
+                if (setHideHome) {
                   setHideHome(true);
                 }
                 setBg("dark-screen-mode");
@@ -163,6 +169,7 @@ export const MoreFeatures = ({ setDisplaysection }: homeDisplaytype) => {
       )}
       {showFaq && <Faq />}
       {showAbout && <About />}
+      {showServices && <BankServices setShowServices={setShowServices} setDisplaysection={setDisplaysection}/>}
     </div>
   );
 };
