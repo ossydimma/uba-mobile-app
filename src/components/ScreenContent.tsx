@@ -275,11 +275,10 @@ export const ScreenContent = () => {
                   onClick={() => setShowPopup(false)}
                 ></i>
                 <div className=" flex justify-center mb-1">
-                  
                   <i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>
                 </div>
                 <p className="text-center text-xs">
-                  {!userData.contact && !userData.password ? `You don't have an account with us.` : `Invalid password, Click the button below to change password` }
+                  {!userData.contact && !userData.password ? `You don't have an account with us.` : `Dear customer, You've entered an invalid password, Did you forget your password?` }
                 </p>
                 <button
                   className="bg-red-600 text-white mt-3 w-32 h-8 rounded-sm ml-6"
@@ -300,14 +299,14 @@ export const ScreenContent = () => {
                     }
                   }}
                 >
-                  {!userData.contact && !userData.password ? `Sign Up` : `Change`}
+                  {!userData.contact && !userData.password ? `Sign Up` : `Yes`}
                 </button>
               </section>
             )}
           </form>
         </section>
       )}
-      {showForgottenPage && <ForgetPaswrd />}
+      {showForgottenPage && <ForgetPaswrd setShowSignIn={setShowSignIn} />}
       <div className="new text-xs flex justify-between mx-3 mt-20 md:mt-24">
         <p
           className="cursor-pointer"

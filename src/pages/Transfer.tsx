@@ -164,6 +164,37 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
 
     setEnteredPin("");
   }
+  const handleNext = () : void => {
+    if (setDisplay) {
+        if ( enteredPin !== userData.pin) {
+          setDisplay((prev) => ({
+            ...prev,
+            popUp1: false,
+            loader: true,
+          }));
+          setTimeout(() => {
+            setDisplay((prev) => ({
+              ...prev,
+              loader: false,
+              popUp: true,
+            }));
+          }, 2000);
+        } else {
+          setDisplay((prev) => ({
+            ...prev,
+            popUp1: false,
+            loader: true,
+          }));
+          setTimeout(() => {
+            setDisplay((prev) => ({
+              ...prev,
+              loader: false,
+              popUp2: true,
+            }));
+          }, 2000);
+        }  
+    }
+  }
   return (
     <div
       className={` ${display.style} text-black w-full  top-0 absolute left-0 showMorePage bg-white pb-10 `}
@@ -354,10 +385,11 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
 
       {display.popUp1 && (
         <AuthPin
-          setDisplay={setDisplay}
           handleCancel={handleCancel}
+          handleNext={handleNext}
           enteredPin={enteredPin}
           setEnteredPin={setEnteredPin}
+          descrip="Transaction limits for PIN is 200,000NGN per day"
         />
       )}
 
