@@ -1,101 +1,87 @@
 import { useContext } from "react";
 import { MoreHeader } from "../components/MoreHeader";
-import { EmptyPage } from "./EmptyPage";
 import { BgContext, MorePageContext } from "../MyContext";
 import type { displaySectionType } from "./Home";
+import type { showType } from "./MoreFeatures"
 
 
 
 interface servicesType {
-    setShowServices: React.Dispatch<React.SetStateAction<boolean>>;
-    setDisplaysection : React.Dispatch<React.SetStateAction<displaySectionType>>;
+    setShow: React.Dispatch<React.SetStateAction<showType>>;
+    setDisplaysection: React.Dispatch<React.SetStateAction<displaySectionType>>;
 }
 
-export const BankServices = ({ setShowServices, setDisplaysection }: servicesType) => {
-    const { showNoti, setShowNoti, setHideHome, } = useContext(MorePageContext);
+export const BankServices = ({ setShow, setDisplaysection }: servicesType) => {
+    const { showNoti, setHideHome, } = useContext(MorePageContext);
     const { setBg } = useContext(BgContext);
 
     return (
         <div className=" absolute top-0 w-full bg-white h-full">
-            <section>
-                <MoreHeader
-                    name="Bank Services"
+            <MoreHeader
+                name="Bank Services"
+                onClick={() => {
+                    setShow((prev) => ({ ...prev, services: false }));
+                }}
+            />
+
+            <ul className="text-sm flex flex-col  mx-2 mt-2">
+                <li
+                    className=" flex justify-between items-center py-4 border-b  "
                     onClick={() => {
-                        setShowServices(false);
+                        setShow((prev) => ({ ...prev, services: false }));
+                        if (setHideHome) setHideHome(true)
+                        setDisplaysection((prev) => ({ ...prev, showMore: false }));
+                        setBg('dark-screen-mode')
                     }}
-                />
-
-                <ul className="text-sm flex flex-col  mx-2 mt-2">
-                    <li
-                        className=" flex justify-between items-center py-4 border-b  "
-                        onClick={()=> {
-                          setShowServices(false);
-                          if  (setHideHome) setHideHome(true) 
-                          setDisplaysection((prev) => ({ ...prev, showMore: false }));
-                          setBg('dark-screen-mode')
-                        }}
-                    >
-                        Home
-                    </li>
-                    <li 
-                        className=" flex justify-between items-center py-4 border-b  "
-                        onClick={() => {
-                            setShowServices(false);
-                            if (setHideHome) setHideHome(false);
-                            setBg("light-screen-mode");
-                            setDisplaysection((prev) => ({
-                              ...prev,
-                              showTransferPage: true, showMore: false
-                            }));
-                          }}
-                    >
-                        Send Money
-                    </li>
-                    <li 
-                        className=" flex justify-between items-center py-4 border-b  "
-                        onClick={()=> {
-                            setShowServices(false);
-                            if (setHideHome) setHideHome(false);
-                            setBg("light-screen-mode");
-                            setDisplaysection((prev) => ({
-                                ...prev,
-                                showMobilePage: true, showMore: false
-                            }));
-                        }}
-                    >
-                        Mobile Top-up
-                    </li>
-                    
-                    <li 
-                        className=" flex justify-between items-center py-4 border-b  "
-                        onClick={() => {
-                            setShowServices(false);
-                            if (setHideHome) {
-                              setHideHome(false);
-                            }
-                            setBg("light-screen-mode");
-                            setDisplaysection((prev) => ({
-                              ...prev,
-                              showHistoryPage: true, showMore: false
-                            }));
-                          }}    
-                    >
-                        Transaction History
-                    </li>
-                </ul>
-            </section>
-
-            {showNoti && (
-                <EmptyPage
-                    pageName="Notification"
-                    article="There Are No Notification"
+                >
+                    Home
+                </li>
+                <li
+                    className=" flex justify-between items-center py-4 border-b  "
                     onClick={() => {
-                        if (setShowNoti) {
-                            setShowNoti(false);
+                        setShow((prev) => ({ ...prev, services: false }));
+                        if (setHideHome) setHideHome(false);
+                        setBg("light-screen-mode");
+                        setDisplaysection((prev) => ({
+                            ...prev,
+                            showTransferPage: true, showMore: false
+                        }));
+                    }}
+                >
+                    Send Money
+                </li>
+                <li
+                    className=" flex justify-between items-center py-4 border-b  "
+                    onClick={() => {
+                        setShow((prev) => ({ ...prev, services: false }));
+                        if (setHideHome) setHideHome(false);
+                        setBg("light-screen-mode");
+                        setDisplaysection((prev) => ({
+                            ...prev,
+                            showMobilePage: true, showMore: false
+                        }));
+                    }}
+                >
+                    Mobile Top-up
+                </li>
+
+                <li
+                    className=" flex justify-between items-center py-4 border-b  "
+                    onClick={() => {
+                        setShow((prev) => ({ ...prev, services: false }));
+                        if (setHideHome) {
+                            setHideHome(false);
                         }
+                        setBg("light-screen-mode");
+                        setDisplaysection((prev) => ({
+                            ...prev,
+                            showHistoryPage: true, showMore: false
+                        }));
                     }}
-                />
-            )}
+                >
+                    Transaction History
+                </li>
+            </ul>
         </div>
     );
 };

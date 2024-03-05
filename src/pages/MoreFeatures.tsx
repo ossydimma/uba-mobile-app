@@ -6,6 +6,12 @@ import { Contact } from "./Contact";
 import { Faq } from "./Faq";
 import { About } from "./About";
 import { BankServices } from "./BankServices";
+import { Settings } from "./Settings";
+
+export interface showType {
+  services : boolean
+  settings : boolean
+}
 
 export const MoreFeatures = ({ setDisplaysection }: homeDisplaytype) => {
   const {
@@ -24,7 +30,10 @@ export const MoreFeatures = ({ setDisplaysection }: homeDisplaytype) => {
     setShowHome,
   } = useContext(MorePageContext);
 
-  const [showServices, setShowServices] = useState<boolean>(false)
+  const [show, setShow] = useState<showType>({
+    services : false,
+    settings : false,
+  })
 
   const { setBg } = useContext(BgContext);
   return (
@@ -46,9 +55,16 @@ export const MoreFeatures = ({ setDisplaysection }: homeDisplaytype) => {
         <ul className="text-sm flex flex-col  mx-2 mt-2">
           <li 
             className=" flex justify-between items-center py-3 border-b  "
-            onClick={()=> setShowServices(true)}
+            onClick={()=> setShow((prev)=> ({...prev, services : true}))}
             >
             <span>Bank Services</span>
+            <i className="fa-solid fa-angle-right"></i>
+          </li>
+          <li 
+            className=" flex justify-between items-center py-3 border-b  "
+            onClick={()=> setShow((prev)=> ({...prev, settings : true}))}
+            >
+            <span>Settings</span>
             <i className="fa-solid fa-angle-right"></i>
           </li>
     
@@ -169,7 +185,8 @@ export const MoreFeatures = ({ setDisplaysection }: homeDisplaytype) => {
       )}
       {showFaq && <Faq />}
       {showAbout && <About />}
-      {showServices && <BankServices setShowServices={setShowServices} setDisplaysection={setDisplaysection}/>}
+      {show.services && <BankServices setShow={setShow} setDisplaysection={setDisplaysection}/>}
+      {show.settings && <Settings setShow={setShow} setDisplaysection={setDisplaysection} />}
     </div>
   );
 };
