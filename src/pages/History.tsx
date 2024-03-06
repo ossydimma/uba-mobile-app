@@ -26,12 +26,11 @@ export const History = ({ setDisplaysection }: homeDisplaytype) => {
     setSelectedObj(undefined);
     setIsShow('home-wrapper')
   };
-  // localStorage.clear()
 
   return (
     <div className={`text-black w-full h-screen top-0 absolute left-0 showMorePage pb-5 bg-white ${isShow}`} >
       <div>
-        <div className="fixed w-60 z-10 bg-white -mt-[35px] mb-7">
+        <div className="fixed w-60 z-10 bg-white -mt-[40px] mb-7">
             <MoreHeader
               name="Transaction History"
               onClick={() => {

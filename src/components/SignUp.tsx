@@ -133,7 +133,7 @@ export const SignUp = ({ setShowSignIn }: MyComponentProps) => {
       setShowPopUP(true);
       userData.balance = "2000.00";
       userData.accountNo = "2763732737";
-      userData.accountTyp = "Current Account";
+      userData.accountType = "Current Account";
       localStorage.setItem("userInfo", JSON.stringify(userData));
     }
   }
