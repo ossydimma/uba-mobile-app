@@ -7,8 +7,7 @@ interface forgotType {
 }
 
 export const ForgottenPin = ({ setDisplay }: forgotType) => {
-
-  const userData = JSON.parse(localStorage.getItem('userInfo') || '{}')
+  const userData = JSON.parse(localStorage.getItem("userInfo") || "{}");
 
   // states
   const [show, setShow] = useState({
@@ -19,15 +18,15 @@ export const ForgottenPin = ({ setDisplay }: forgotType) => {
     feedback2: "",
     feedback3: "",
     btnText: "SUBMIT",
-    popUp : false,
+    popUp: false,
   });
   const [input, setInput] = useState({
-    Value1 : '',
-    Value2 : '',
-    Value3 : '',
-    Type1 : 'password',
-    Type2 : 'password',
-    Type3 : 'password',
+    Value1: "",
+    Value2: "",
+    Value3: "",
+    Type1: "password",
+    Type2: "password",
+    Type3: "password",
   });
 
   // functions
@@ -43,53 +42,59 @@ export const ForgottenPin = ({ setDisplay }: forgotType) => {
     }));
 
     setTimeout(() => {
-      
       if (input.Value1 === "") {
-        setShow((prev) => ({ ...prev, feedback1: "Field must be filled" }))
+        setShow((prev) => ({ ...prev, feedback1: "Field must be filled" }));
       } else if (input.Value1 !== userData.password) {
-        setShow((prev) => ({ ...prev, feedback1: "Enter a incorrect Password" }))
+        setShow((prev) => ({
+          ...prev,
+          feedback1: "Enter a incorrect Password",
+        }));
       } else {
-        setShow((prev) => ({ ...prev, feedback1: "" }))
+        setShow((prev) => ({ ...prev, feedback1: "" }));
       }
 
       input.Value2 === ""
-      ? setShow((prev)=> ({...prev, feedback2 : "Field must be filled"}))
-      : !/^[0-9]+$/.test(input.Value2)
-      ? setShow((prev)=> ({...prev, feedback2 : "PIN should contain only numbers"}))
-      : input.Value2.length !== 4
-      ? setShow((prev)=> ({...prev, feedback2 : "PIN shouldn't be less or greater than 4"}))
-      :  setShow((prev)=> ({...prev, feedback2 : ""}))
+        ? setShow((prev) => ({ ...prev, feedback2: "Field must be filled" }))
+        : !/^[0-9]+$/.test(input.Value2)
+        ? setShow((prev) => ({
+            ...prev,
+            feedback2: "PIN should contain only numbers",
+          }))
+        : input.Value2.length !== 4
+        ? setShow((prev) => ({
+            ...prev,
+            feedback2: "PIN shouldn't be less or greater than 4",
+          }))
+        : setShow((prev) => ({ ...prev, feedback2: "" }));
 
-    input.Value3 === ""
-      ? setShow((prev)=> ({...prev, feedback3 : "Field must be filled"}))
-      : input.Value2 !== input.Value3
-      ? setShow((prev)=> ({...prev, feedback3 : "Both PIN did not match"}))
-      : setShow((prev)=> ({...prev, feedback3 : ""}));
+      input.Value3 === ""
+        ? setShow((prev) => ({ ...prev, feedback3: "Field must be filled" }))
+        : input.Value2 !== input.Value3
+        ? setShow((prev) => ({ ...prev, feedback3: "Both PIN did not match" }))
+        : setShow((prev) => ({ ...prev, feedback3: "" }));
 
-    if (
-      input.Value2 !== "" &&
-      /^[0-9]+$/.test(input.Value2) &&
-      input.Value2.length === 4 &&
-      input.Value2 === input.Value3 &&
-      /^[0-9]+$/.test(input.Value3) &&
-      input.Value2.length === 4
-    ) {
-      userData.pin = input.Value2;
-      localStorage.setItem("userInfo", JSON.stringify(userData));
+      if (
+        input.Value2 !== "" &&
+        /^[0-9]+$/.test(input.Value2) &&
+        input.Value2.length === 4 &&
+        input.Value2 === input.Value3 &&
+        /^[0-9]+$/.test(input.Value3) &&
+        input.Value2.length === 4
+      ) {
+        userData.pin = input.Value2;
+        localStorage.setItem("userInfo", JSON.stringify(userData));
 
-      setShow((prev)=> ({...prev, popUp : true}))
+        setShow((prev) => ({ ...prev, popUp: true }));
 
-      setTimeout(()=> {
-        setShow((prev)=> ({...prev, popUp : false}))
-      }, 3000);
+        setTimeout(() => {
+          setShow((prev) => ({ ...prev, popUp: false }));
+        }, 3000);
 
-      setInput((prev)=> ({...prev, Value1 : '', Value2 : "", Value3 : ""}))
-    
-    }
+        setInput((prev) => ({ ...prev, Value1: "", Value2: "", Value3: "" }));
+      }
 
-    setShow((prev) => ({ ...prev, btnText: "SUBMIT" }));
+      setShow((prev) => ({ ...prev, btnText: "SUBMIT" }));
     }, 2000);
-
   }
 
   return (
@@ -106,17 +111,19 @@ export const ForgottenPin = ({ setDisplay }: forgotType) => {
               value={input.Value1}
               className=" border-2 border-gray-400  rounded pl-6 pr-12 py-3 text-xs  bg-slate-100 outline-none"
               placeholder="Password"
-              onChange={(e)=> setInput((prev)=> ({...prev, Value1 : e.target.value}))}
+              onChange={(e) =>
+                setInput((prev) => ({ ...prev, Value1: e.target.value }))
+              }
             />
             {/* <i className="fa-solid fa-lock fa-xs absolute top-20 left-2 text-red-600"></i> */}
             <div
-              onClick={()=> {
+              onClick={() => {
                 if (show.icon1) {
-                  setShow((prev)=> ({...prev, icon1 : false}))
-                  setInput((prev)=> ({...prev, Type1 : "text"}))
-                }else {
-                  setShow((prev)=> ({...prev, icon1 : true}))
-                  setInput((prev)=> ({...prev, Type1 : "password"}))
+                  setShow((prev) => ({ ...prev, icon1: false }));
+                  setInput((prev) => ({ ...prev, Type1: "text" }));
+                } else {
+                  setShow((prev) => ({ ...prev, icon1: true }));
+                  setInput((prev) => ({ ...prev, Type1: "password" }));
                 }
               }}
               className="cursor-pointer relative"
@@ -135,17 +142,19 @@ export const ForgottenPin = ({ setDisplay }: forgotType) => {
               value={input.Value2}
               className=" border-2 border-gray-400  rounded pl-6 pr-12 py-3 text-xs  bg-slate-100 outline-none"
               placeholder="PIN"
-              onChange={(e)=> setInput((prev)=> ({...prev, Value2 : e.target.value}))}
+              onChange={(e) =>
+                setInput((prev) => ({ ...prev, Value2: e.target.value }))
+              }
             />
             {/* <i className="fa-solid fa-lock fa-xs absolute top-20 left-2 text-red-600"></i> */}
             <div
-              onClick={()=> {
+              onClick={() => {
                 if (show.icon2) {
-                  setShow((prev)=> ({...prev, icon2 : false}))
-                  setInput((prev)=> ({...prev, Type2 : "text"}))
-                }else {
-                  setShow((prev)=> ({...prev, icon2 : true}))
-                  setInput((prev)=> ({...prev, Type2 : "password"}))
+                  setShow((prev) => ({ ...prev, icon2: false }));
+                  setInput((prev) => ({ ...prev, Type2: "text" }));
+                } else {
+                  setShow((prev) => ({ ...prev, icon2: true }));
+                  setInput((prev) => ({ ...prev, Type2: "password" }));
                 }
               }}
               className="cursor-pointer relative"
@@ -164,17 +173,19 @@ export const ForgottenPin = ({ setDisplay }: forgotType) => {
               value={input.Value3}
               className=" border-2 border-gray-400  rounded pl-6 pr-12 py-3 text-xs  bg-slate-100 outline-none"
               placeholder="Comfirm PIN"
-              onChange={(e)=> setInput((prev)=> ({...prev, Value3 : e.target.value}))}
+              onChange={(e) =>
+                setInput((prev) => ({ ...prev, Value3: e.target.value }))
+              }
             />
 
             <div
-              onClick={()=> {
+              onClick={() => {
                 if (show.icon3) {
-                  setShow((prev)=> ({...prev, icon3 : false}))
-                  setInput((prev)=> ({...prev, Type3 : "text"}))
-                }else {
-                  setShow((prev)=> ({...prev, icon3 : true}))
-                  setInput((prev)=> ({...prev, Type3 : "password"}))
+                  setShow((prev) => ({ ...prev, icon3: false }));
+                  setInput((prev) => ({ ...prev, Type3: "text" }));
+                } else {
+                  setShow((prev) => ({ ...prev, icon3: true }));
+                  setInput((prev) => ({ ...prev, Type3: "password" }));
                 }
               }}
               className="cursor-pointer relative"
@@ -195,9 +206,13 @@ export const ForgottenPin = ({ setDisplay }: forgotType) => {
             {show.btnText}
           </button>
         </form>
-        {show.popUp && <div className=" bg-white flex flex-col gap-5  justify-center z-40 absolute  top-8 right-8 left-6 px-1 py-4 shadow-md shadow-gray-600">
-            <p className="text-xs text-center">PIN has been Successfuly changed</p>
-        </div>}
+        {show.popUp && (
+          <div className=" bg-white flex flex-col gap-5  justify-center z-40 absolute  top-8 right-8 left-6 px-1 py-4 shadow-md shadow-gray-600">
+            <p className="text-xs text-center">
+              PIN has been Successfuly changed
+            </p>
+          </div>
+        )}
       </main>
     </div>
   );
