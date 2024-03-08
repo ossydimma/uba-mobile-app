@@ -30,8 +30,8 @@ export const Profile = ({ setDisplaysection }: homeDisplaytype) => {
         />
         <main className=" mt-8 mx-2">
           <div className=" flex gap-7">
-            <div className=" border border-gray-900 py-4 px-6 rounded-full text-center">
-              <i className="fa-regular fa-user text-2xl  "></i>
+            <div className=" border border-gray-900 h-[75px] w-[80px] rounded-full flex justify-center items-center">
+              <i className="fa-regular fa-user text-xl  "></i>
             </div>
             <div className=" text-xs">
               <p>Full Name</p>

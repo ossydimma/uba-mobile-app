@@ -11,9 +11,10 @@ export const History = ({ setDisplaysection }: homeDisplaytype) => {
   );
   const [isShow, setIsShow] = useState<string>('home-wrapper');
 
-  const storedData: detailsType[] = JSON.parse(
+  let storedData: detailsType[] = JSON.parse(
     localStorage.getItem("history") || "[]"
   );
+  storedData = storedData.reverse()
 
   const now = new Date();
 

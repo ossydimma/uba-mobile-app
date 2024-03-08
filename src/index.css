@@ -25,7 +25,7 @@
 .phone {
     
     border-radius: 40px;
-    height: 80%;
+    height: 512px;
 }
 
 .phone-deafult-screen {
@@ -171,8 +171,9 @@
   .sec-height {
     height: 105px;
   }
-  .nav {
-    box-shadow: 0px -5px 2px -5px rgba(0, 0, 0, 0.5);
+
+  .text {
+    text-shadow: 1px 1px #fff;
   }
 
   input[type="checkbox"] {

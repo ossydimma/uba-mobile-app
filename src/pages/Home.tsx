@@ -722,15 +722,9 @@ export const Home = () => {
                 )}
 
                 {/* ------------------footer----------------------------- */}
-                <div className=" relative ">
-                  <nav className="nav fixed w-[232px] h-10 bg-[#F1f1f1] border-b-[4px] border-black rounded-[18px] bottom-[67px]  -ml-[115px] left-[50%] ">
-                    <ul className="flex justify-around items-center gap-4 mt-1">
-                      <li className="flex flex-col items-center text-red-600">
-                        <i className="fa-solid fa-house cursor-pointer"></i>
-                        <p className="text-xs">Home</p>
-                      </li>
-                      <li
-                        className="flex flex-col items-center"
+                <div className=" fixed bottom-[19%] md:bottom-[30%] lg:bottom-[20%]  ">
+                      <div
+                        className="flex flex-col items-center text-[red] bg-white ml-[180px] border border-[red]  py-2 px-3 rounded-full shadow-2xl"
                         onClick={() => {
                           if (setHideHome !== undefined) {
                             setHideHome(false);
@@ -742,11 +736,9 @@ export const Home = () => {
                           }));
                         }}
                       >
-                        <i className="fa-solid fa-bars cursor-pointer"></i>
-                        <p className="text-xs">More</p>
-                      </li>
-                    </ul>
-                  </nav>
+                        <i className="fa-solid fa-bars  cursor-pointer"></i>
+                        <p className="text-[10px] text">More</p>
+                      </div>
                 </div>
 
                 {/*------------------------------------ customize select section-------------------- */}

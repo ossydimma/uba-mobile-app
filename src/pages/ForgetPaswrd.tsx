@@ -215,7 +215,7 @@ export const ForgetPaswrd = ({ setShowSignIn }: forgottenType) => {
           </form>
         </section>
         {display.div && (
-          <section className=" bg-white flex flex-col gap-5  justify-center z-40 absolute  top-10 right-8 left-6 px-1 py-4 shadow-md shadow-gray-600">
+          <section className=" bg-white flex flex-col gap-5  justify-center z-40 absolute  top-16 right-8 left-6 px-1 py-4 shadow-md shadow-gray-600">
             <i
               className="fa-solid fa-xmark cursor-pointer flex justify-end pr-5  "
               onClick={handleCancel}
@@ -265,7 +265,7 @@ export const ForgetPaswrd = ({ setShowSignIn }: forgottenType) => {
           <AuthPin
             enteredPin={enteredPin}
             setEnteredPin={setEnteredPin}
-            className=" top-[41.5px] left-[16.4px] w-[215px]"
+            className=" top-[75px] left-[16.4px] w-[215px]"
             descrip=""
             handleCancel={handleCancel}
             handleNext={() => {

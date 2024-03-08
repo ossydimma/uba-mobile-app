@@ -11,7 +11,7 @@ export const SignUp = ({ setShowSignIn }: MyComponentProps) => {
 
   // Contexts
   const { setBg } = useContext(BgContext);
-  const { setShowSignUp, setShowHome } = useContext(MorePageContext);
+  const { setShowSignUp } = useContext(MorePageContext);
 
   // states
   const [showName, setshowName] = useState<boolean>(true);
@@ -129,7 +129,9 @@ export const SignUp = ({ setShowSignIn }: MyComponentProps) => {
       /^[0-9]+$/.test(inputValue2) &&
       inputValue1.length === 4
     ) {
+      console.log(userData)
       userData.pin = inputValue1;
+      console.log(userData)
       setShowPopUP(true);
       userData.balance = "2000.00";
       userData.accountNo = "2763732737";

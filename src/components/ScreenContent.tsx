@@ -258,15 +258,19 @@ export const ScreenContent = () => {
               <button
                 className="bg-red-600 mt-3 w-32 h-8 rounded-sm ml-6"
                 onClick={handleSignIn}
-                // e.preventDefault()
-                // if(setShowHome !== undefined) {
-                //   setBg('dark-screen-mode')
-                //   setShowHome(true)
-                // }
               >
                 {btnText}
               </button>
-              <i className="fa-solid fa-fingerprint bg-red-600 p-2 rounded-md ml-2 cursor-pointer"></i>
+              <i className="fa-solid fa-fingerprint bg-red-600 p-2 rounded-md ml-2 cursor-pointer"
+                // onClick={()=> {
+                //   if(setShowHome && setHideHome) {
+                //     setBg('dark-screen-mode')
+                //     setHideHome(true)
+                //     setShowHome(true)
+                //     setInputValue((prev)=> ({...prev, password : ""}))
+                //   }
+                // }}
+              ></i>
             </div>
             {showPopup && (
               <section className="absolute top-1 right-4  bg-white text-black ml-5 w-52  rounded-xl p-5">
