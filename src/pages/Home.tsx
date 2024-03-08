@@ -721,9 +721,9 @@ export const Home = () => {
                   </section>
                 )}
 
-                {/* ------------------footer----------------------------- */}
+                {/* ------------------Nav----------------------------- */}
                 <div className=" fixed bottom-[19%] md:bottom-[30%] lg:bottom-[20%]  ">
-                      <div
+                      <nav
                         className="flex flex-col items-center text-[red] bg-white ml-[180px] border border-[red]  py-2 px-3 rounded-full shadow-2xl"
                         onClick={() => {
                           if (setHideHome !== undefined) {
@@ -738,7 +738,7 @@ export const Home = () => {
                       >
                         <i className="fa-solid fa-bars  cursor-pointer"></i>
                         <p className="text-[10px] text">More</p>
-                      </div>
+                      </nav>
                 </div>
 
                 {/*------------------------------------ customize select section-------------------- */}
