@@ -6,7 +6,7 @@ import { More } from "../pages/More";
 import { BgContext, MorePageContext} from "../MyContext";
 import { SignUp } from "./SignUp";
 import { SignUpHomePage } from "../pages/SignUpHomePage";
-import { ForgetPaswrd } from "./ForgetPaswrd";
+import { ForgetPaswrd } from "../pages/ForgetPaswrd";
 import { Home } from "../pages/Home";
 
 interface inputValueType {

@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { ForgottenPin } from "../components/ForgottenPin";
+import { ForgottenPin } from "./ForgottenPin";
 import { MoreHeader } from "../components/MoreHeader";
 import type { displaySectionType } from "./Home";
 import type {showType} from "./MoreFeatures"
+import { ChangePin } from "./ChangePin";
+import { ChangePwrd } from "./ChangePwrd";
 
 
 
@@ -12,7 +14,7 @@ interface settingsType {
 }
 export interface displayType {
     forgotPin : boolean;
-    forgotPwrd : boolean;
+    changePwrd : boolean;
     changePin : boolean;
 }
 
@@ -22,7 +24,7 @@ export interface displayType {
 export const Settings = ({ setShow, setDisplaysection }: settingsType) => {
     const [display, setDisplay] = useState<displayType>({
         forgotPin : false,
-        forgotPwrd : false,
+        changePwrd : false,
         changePin : false,
     })
   return (
@@ -38,8 +40,7 @@ export const Settings = ({ setShow, setDisplaysection }: settingsType) => {
                 <li
                     className=" flex justify-between items-center py-4 border-b  "
                     onClick={() => {
-                        setShow((prev) => ({ ...prev, services: false }));
-                        setDisplaysection((prev) => ({ ...prev, showMore: false }));
+                        setDisplay((prev)=> ({...prev, changePwrd : true}))
                     }}
                 >
                    Change password
@@ -55,14 +56,16 @@ export const Settings = ({ setShow, setDisplaysection }: settingsType) => {
                 <li
                     className=" flex justify-between items-center py-4 border-b  "
                     onClick={() => {
-                       setDisplay((prev)=> ({...prev, forgotPin : true}))
+                       setDisplay((prev)=> ({...prev, changePin : true}))
                     }}
                 >
                    Change PIN 
                 </li>
             </ul>
         </section>
+        {display.changePwrd && <ChangePwrd setDisplay={setDisplay}/>}
         {display.forgotPin && <ForgottenPin setDisplay={setDisplay}/>}
+        {display.changePin && <ChangePin setDisplay={setDisplay} />}
     </div>
   )
 }

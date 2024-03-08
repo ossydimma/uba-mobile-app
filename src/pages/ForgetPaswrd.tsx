@@ -1,8 +1,8 @@
 import { useContext, useState } from "react";
-import { MoreHeader } from "./MoreHeader";
+import { MoreHeader } from "../components/MoreHeader";
 import { BgContext, MorePageContext } from "../MyContext";
-import { AuthPin } from "./AuthPin";
-import { Loading } from "./Loading";
+import { AuthPin } from "../components/AuthPin";
+import { Loading } from "../components/Loading";
 
 interface forgottenType {
   setShowSignIn: React.Dispatch<React.SetStateAction<boolean>>;
@@ -221,7 +221,11 @@ export const ForgetPaswrd = ({ setShowSignIn }: forgottenType) => {
               onClick={handleCancel}
             ></i>
             <div className=" flex justify-center mb-1">
-              <i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>
+              {userData.pin !== enteredPin ? (
+                <i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>
+              ) : (
+                ""
+              )}
             </div>
             <p className="text-xs text-center">
               {userData.pin === enteredPin && count < 3
@@ -261,8 +265,8 @@ export const ForgetPaswrd = ({ setShowSignIn }: forgottenType) => {
           <AuthPin
             enteredPin={enteredPin}
             setEnteredPin={setEnteredPin}
-            className=" top-[40px] left-[16.4px] w-[215px]"
-            descrip="Transaction limits for PIN is 200,000NGN per day"
+            className=" top-[41.5px] left-[16.4px] w-[215px]"
+            descrip=""
             handleCancel={handleCancel}
             handleNext={() => {
               if (count < 3 && enteredPin !== "") {

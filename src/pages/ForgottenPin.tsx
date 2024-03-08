@@ -1,8 +1,8 @@
-import { MoreHeader } from "./MoreHeader";
-import type { displayType } from "../pages/Settings";
+import { MoreHeader } from "../components/MoreHeader";
+import type { displayType } from "./Settings";
 import { useState } from "react";
 
-interface forgotType {
+export interface forgotType {
   setDisplay: React.Dispatch<React.SetStateAction<displayType>>;
 }
 
@@ -106,6 +106,7 @@ export const ForgottenPin = ({ setDisplay }: forgotType) => {
         />
         <form className=" mx-3">
           <div className="flex flex-col gap-4 relative mt-5 ">
+            <label className=' text-sm -mb-3' >Please enter your password</label>
             <input
               type={input.Type1}
               value={input.Value1}
@@ -135,8 +136,9 @@ export const ForgottenPin = ({ setDisplay }: forgotType) => {
                 <i className="fa-solid fa-eye-slash fa-xs absolute bottom-7 right-2 text-sm text-red-600 border-l-2 border-black px-2"></i>
               )}
             </div>
-            <p className="text-red-500 text-xs -mt-4 ">{show.feedback1}</p>
+            <p className="text-red-500 text-xs -mt-6 ">{show.feedback1}</p>
 
+            <label className=' text-sm -mb-3' >Please enter new PIN</label>
             <input
               type={input.Type2}
               value={input.Value2}
@@ -166,7 +168,7 @@ export const ForgottenPin = ({ setDisplay }: forgotType) => {
                 <i className="fa-solid fa-eye-slash fa-xs absolute bottom-7 right-2 text-sm text-red-600 border-l-2 border-black px-2"></i>
               )}
             </div>
-            <p className="text-red-500 text-xs -mt-4 ">{show.feedback2}</p>
+            <p className="text-red-500 text-xs -mt-6 ">{show.feedback2}</p>
 
             <input
               type={input.Type3}
@@ -197,7 +199,7 @@ export const ForgottenPin = ({ setDisplay }: forgotType) => {
                 <i className="fa-solid fa-eye-slash fa-xs absolute bottom-7 right-2 border-black px-2 border-l-2 text-red-600 text-sm"></i>
               )}
             </div>
-            <p className="text-red-500 text-xs -mt-4 ">{show.feedback3}</p>
+            <p className="text-red-500 text-xs -mt-6 ">{show.feedback3}</p>
           </div>
           <button
             className=" rounded-md py-3 bg-red-600 px-10 text-black ml-10 mt-6 border-white border-2 hover:bg-red-500 hover:scale-90 hover:border-black hover:border-2 hover:text-slate-100"
