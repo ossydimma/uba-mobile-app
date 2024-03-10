@@ -9,8 +9,8 @@ import { BankServices } from "./BankServices";
 import { Settings } from "./Settings";
 
 export interface showType {
-  services : boolean
-  settings : boolean
+  services: boolean;
+  settings: boolean;
 }
 
 export const MoreFeatures = ({ setDisplaysection }: homeDisplaytype) => {
@@ -31,9 +31,9 @@ export const MoreFeatures = ({ setDisplaysection }: homeDisplaytype) => {
   } = useContext(MorePageContext);
 
   const [show, setShow] = useState<showType>({
-    services : false,
-    settings : false,
-  })
+    services: false,
+    settings: false,
+  });
 
   const { setBg } = useContext(BgContext);
   return (
@@ -53,28 +53,29 @@ export const MoreFeatures = ({ setDisplaysection }: homeDisplaytype) => {
       </nav>
       <main>
         <ul className="text-sm flex flex-col  mx-2 mt-2">
-          <li 
+          <li
             className=" flex justify-between items-center py-3 border-b  "
-            onClick={()=> setShow((prev)=> ({...prev, services : true}))}
-            >
+            onClick={() => setShow((prev) => ({ ...prev, services: true }))}
+          >
             <span>Bank Services</span>
             <i className="fa-solid fa-angle-right"></i>
           </li>
-          <li 
+          <li
             className=" flex justify-between items-center py-3 border-b  "
-            onClick={()=> setShow((prev)=> ({...prev, settings : true}))}
-            >
+            onClick={() => setShow((prev) => ({ ...prev, settings: true }))}
+          >
             <span>Settings</span>
             <i className="fa-solid fa-angle-right"></i>
           </li>
-    
-          <li 
+
+          <li
             className=" flex justify-between items-center py-3 border-b"
-            onClick={()=> {
-                if (setShowInbox !== undefined) {
+            onClick={() => {
+              if (setShowInbox !== undefined) {
                 setShowInbox(true);
-              }}}
-            >
+              }
+            }}
+          >
             <span>My Inbox</span>
             <i className="fa-solid fa-angle-right"></i>
           </li>
@@ -91,73 +92,68 @@ export const MoreFeatures = ({ setDisplaysection }: homeDisplaytype) => {
             <span>Notification Center</span>
             <i className="fa-solid fa-angle-right"></i>
           </li>
-          <li 
+          <li
             className=" flex justify-between items-center py-3 border-b"
-            onClick={()=> {
-                if (setShowFaq !== undefined) {
+            onClick={() => {
+              if (setShowFaq !== undefined) {
                 setShowFaq(true);
-              }}}
-            >
+              }
+            }}
+          >
             <span>FAQ</span>
             <i className="fa-solid fa-angle-right"></i>
           </li>
-          <li 
+          <li
             className=" flex justify-between items-center py-3 border-b"
-            onClick={()=> {
-                if (setShowAbout !== undefined) {
+            onClick={() => {
+              if (setShowAbout !== undefined) {
                 setShowAbout(true);
-              }}}
-            >
+              }
+            }}
+          >
             <span>About</span>
             <i className="fa-solid fa-angle-right"></i>
           </li>
-          <li 
+          <li
             className=" flex justify-between items-center py-3 border-b"
-            onClick={()=> {
-                if (setShowContact !== undefined) {
+            onClick={() => {
+              if (setShowContact !== undefined) {
                 setShowContact(true);
-              }}}
-            >
+              }
+            }}
+          >
             <span>Contact us</span>
             <i className="fa-solid fa-angle-right"></i>
           </li>
-          <li 
-            className=" flex justify-between items-center py-3  text-red-600 "
-            onClick={()=> {
-              
-              if(setShowHome) {
-                setBg("phone-deafult-screen");
-                setShowHome(false)
+          <li className=" flex justify-between items-center py-3  text-red-600 ">
+            <p
+              className=" bg-black"
+              onClick={() => {
+                if (setShowHome) {
+                  setBg("phone-deafult-screen");
+                  setShowHome(false);
                 }
-
-            }}
+              }}
             >
-            <span>Log Out</span>
+              Log Out
+            </p>
           </li>
         </ul>
       </main>
-      {/* ------------------footer----------------------------- */}
-      <div className=" relative ">
-        <nav className=" fixed w-[232px] h-10    bottom-[70px]  -ml-[115px] left-[50%] ">
-          <ul className="flex justify-around items-center gap-4 mt-1">
-            <li
-              className="flex flex-col items-center"
-              onClick={() => {
-                if (setHideHome) {
-                  setHideHome(true);
-                }
-                setBg("dark-screen-mode");
-                setDisplaysection((prev) => ({ ...prev, showMore: false }));
-              }}
-            >
-              <i className="fa-solid fa-house cursor-pointer"></i>
-              <p className="text-xs">Home</p>
-            </li>
-            <li className="flex flex-col items-center text-red-600">
-              <i className="fa-solid fa-bars cursor-pointer"></i>
-              <p className="text-xs">More</p>
-            </li>
-          </ul>
+      {/* ----------------------NAV----------------------------- */}
+      <div className=" fixed bottom-[19%] md:bottom-[30%] lg:bottom-[19%]  ">
+        <nav
+          className="flex flex-col items-center text-[red] bg-white ml-[180px] border border-[red]  py-2 px-3 rounded-full shadow-2xl"
+          onClick={() => {
+            if (setHideHome) {
+              setHideHome(true);
+            }
+            setBg("dark-screen-mode");
+            setDisplaysection((prev) => ({ ...prev, showMore: false }));
+          }}
+        >
+          <i className="fa-solid fa-house cursor-pointer text-sm"></i>
+          <p className="text-[10px] text">Home</p>
         </nav>
       </div>
       {showNoti && (
@@ -185,8 +181,12 @@ export const MoreFeatures = ({ setDisplaysection }: homeDisplaytype) => {
       )}
       {showFaq && <Faq />}
       {showAbout && <About />}
-      {show.services && <BankServices setShow={setShow} setDisplaysection={setDisplaysection}/>}
-      {show.settings && <Settings setShow={setShow} setDisplaysection={setDisplaysection} />}
+      {show.services && (
+        <BankServices setShow={setShow} setDisplaysection={setDisplaysection} />
+      )}
+      {show.settings && (
+        <Settings setShow={setShow} setDisplaysection={setDisplaysection} />
+      )}
     </div>
   );
 };

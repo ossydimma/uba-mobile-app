@@ -68,7 +68,7 @@ export interface stylesType {
 }
 
 export const Home = () => {
-  const userData = JSON.parse(localStorage.getItem('userInfo') || '{}');
+  const userData = JSON.parse(localStorage.getItem("userInfo") || "{}");
   // contexts
   const { setBg } = useContext(BgContext);
   const {
@@ -723,22 +723,22 @@ export const Home = () => {
 
                 {/* ------------------Nav----------------------------- */}
                 <div className=" fixed bottom-[19%] md:bottom-[30%] lg:bottom-[20%]  ">
-                      <nav
-                        className="flex flex-col items-center text-[red] bg-white ml-[180px] border border-[red]  py-2 px-3 rounded-full shadow-2xl"
-                        onClick={() => {
-                          if (setHideHome !== undefined) {
-                            setHideHome(false);
-                          }
-                          setBg("light-screen-mode");
-                          setDisplaysection((prev) => ({
-                            ...prev,
-                            showMore: true,
-                          }));
-                        }}
-                      >
-                        <i className="fa-solid fa-bars  cursor-pointer"></i>
-                        <p className="text-[10px] text">More</p>
-                      </nav>
+                  <nav
+                    className="flex flex-col items-center text-[red] bg-white ml-[180px] border border-[red]  py-2 px-3 rounded-full shadow-2xl"
+                    onClick={() => {
+                      if (setHideHome !== undefined) {
+                        setHideHome(false);
+                      }
+                      setBg("light-screen-mode");
+                      setDisplaysection((prev) => ({
+                        ...prev,
+                        showMore: true,
+                      }));
+                    }}
+                  >
+                    <i className="fa-solid fa-bars  cursor-pointer"></i>
+                    <p className="text-[10px] text">More</p>
+                  </nav>
                 </div>
 
                 {/*------------------------------------ customize select section-------------------- */}
