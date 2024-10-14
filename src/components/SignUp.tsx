@@ -1,14 +1,43 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { BgContext, MorePageContext } from "../MyContext";
 import { PopUP } from "./PopUP";
 import successImg from "../assests/leo_uba_thubs_up.png";
+import axios from "axios";
 interface MyComponentProps {
   setShowSignIn: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const SignUp = ({ setShowSignIn }: MyComponentProps) => {
+interface userData{
+  fullname : string,
+  password : string,
+  pin : string,
+  contact : string
+}
+
+
+
+export  const SignUp = ({ setShowSignIn }: MyComponentProps) => {
   const userData = JSON.parse(localStorage.getItem("userInfo") || "{}");
 
+  useEffect(() => {
+
+    // fetch("https://localhost:7164/api/UbaClone")
+    // .then((response) => {
+    //   if (!response.ok) {
+    //     throw new Error('Network response was not ok');
+    //   }
+    //   return response.json();
+    // })
+    // .then((data)=> console.log(data))
+ 
+
+    axios.get('https://localhost:7164/api/UbaClone')
+      .then((response) => {
+        console.log(response.data)
+      })
+      .catch(error => console.error(error)) 
+  }, []);
+  
   // Contexts
   const { setBg } = useContext(BgContext);
   const { setShowSignUp } = useContext(MorePageContext);
@@ -25,6 +54,10 @@ export const SignUp = ({ setShowSignIn }: MyComponentProps) => {
   const [inputValue2, setInputValue2] = useState<string>("");
 
   const [showPopUP, setShowPopUP] = useState<boolean>(false);
+
+  const [data, setData] = useState<userData>();
+
+
 
   // local functions
   function handleNextBtn(e: React.MouseEvent<HTMLButtonElement>) {
@@ -133,9 +166,14 @@ export const SignUp = ({ setShowSignIn }: MyComponentProps) => {
       userData.pin = inputValue1;
       console.log(userData)
       setShowPopUP(true);
-      userData.balance = "2000.00";
-      userData.accountNo = "2763732737";
-      userData.accountType = "Current Account";
+      // userData.balance = "2000.00";
+      // userData.accountNumber = "2763732737";
+      // userData.accountType = "Current Account";
+
+      axios.post("https://localhost:7164/api/UbaClone/Sign-in", userData)
+        .then(response => console.log(response.data))
+        .catch(error => console.error('Error:', error));
+
       localStorage.setItem("userInfo", JSON.stringify(userData));
     }
   }

@@ -8,14 +8,18 @@ import { SignUp } from "./SignUp";
 import { SignUpHomePage } from "../pages/SignUpHomePage";
 import { ForgetPaswrd } from "../pages/ForgetPaswrd";
 import { Home } from "../pages/Home";
+import axios from "axios";
+import { error } from "console";
 
 interface inputValueType {
-  number: string;
+  contact: string;
   password: string;
 }
 
 export const ScreenContent = () => {
   const userData = JSON.parse(localStorage.getItem('userInfo') || '{}')
+
+
 
   // contexts
   const {
@@ -41,7 +45,7 @@ export const ScreenContent = () => {
   const [changeType, setChangeType] = useState<string>("password");
   const [btnText, setBtnText] = useState<string | ReactNode>("Sign In");
   const [inputValue, setInputValue] = useState<inputValueType>({
-    number: userData.contact ? userData.contact : '' ,
+    contact: "",
     password: "",
   });
   const [showPopup, setShowPopup] = useState(false);
@@ -79,37 +83,74 @@ export const ScreenContent = () => {
       setChangeType("password");
     }
   }
-  const handleSignIn = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const  handleSignIn = async  (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
 
-    if (inputValue.number !== "" && inputValue.password !== "") {
+    const loginData = {
+      contact: inputValue.contact,
+      password: inputValue.password
+    }
+
+    console.log(loginData)
+
+    if (inputValue.contact !== "" && inputValue.password !== "") {
       setBtnText(
         <div className="flex justify-center items-center h-full">
           <span className="loader"></span>
         </div>
       );
-      setTimeout(() => {
-        console.log(userData)
-        if (userData.contact && userData.password) {
-          if (inputValue.number === userData.contact && inputValue.password === userData.password) {
-            if(setShowHome && setHideHome) {
-              setBg('dark-screen-mode')
-              setHideHome(true)
-              setShowHome(true)
-              setInputValue((prev)=> ({...prev, password : ""}))
-            }
-          } else if (inputValue.password !== userData.password) {
-            setShowPopup(true);
-
-          } else {
-            alert('nopwee')
-          }
-          
-        } else {
-          setShowPopup(true);
+      try {
+        const res = await axios.post("https://localhost:7164/api/UbaClone/login", loginData);
+        const token = res.data;
+        localStorage.setItem("authToken", token);
+        console.log("Token :", token);
+        if(setShowHome && setHideHome) {
+            setBg('dark-screen-mode')
+            setHideHome(true)
+            setShowHome(true)
+            setInputValue((prev)=> ({...prev, password : ""}))
         }
-        setBtnText("Sign In");
-      }, 2000);
+      } catch (error) {
+        console.error(error)
+        setShowPopup(true);
+      }
+
+      setBtnText("Sign In");
+      
+        // .then(res => {
+        //   const token = res.data.token;
+        //   console.log("Token :", token);
+        //   localStorage.setItem("authToken", token);
+        //   if(setShowHome && setHideHome) {
+        //     setBg('dark-screen-mode')
+        //     setHideHome(true)
+        //     setShowHome(true)
+        //     setInputValue((prev)=> ({...prev, password : ""}))
+        //   }
+        // })
+        // .catch(error => console.error(error));
+      // setTimeout(() => {
+      //   console.log(userData)
+      //   if (userData.contact && userData.password) {
+      //     if (inputValue.contact === userData.contact && inputValue.password === userData.password) {
+      //       if(setShowHome && setHideHome) {
+      //         setBg('dark-screen-mode')
+      //         setHideHome(true)
+      //         setShowHome(true)
+      //         setInputValue((prev)=> ({...prev, password : ""}))
+      //       }
+      //     } else if (inputValue.password !== userData.password) {
+      //       setShowPopup(true);
+
+      //     } else {
+      //       alert('nopwee')
+      //     }
+          
+      //   } else {
+      //     setShowPopup(true);
+      //   }
+      //   setBtnText("Sign In");
+      // }, 2000);
     }
   };
 
@@ -213,9 +254,9 @@ export const ScreenContent = () => {
                 type="text"
                 className="bg-transparent border-2 border-gray-400 rounded py-1 pl-6 text-xs text-gray-400"
                 placeholder="Number"
-                value={inputValue.number}
+                value={inputValue.contact}
                 onChange={(e) =>
-                  setInputValue((prev) => ({ ...prev, number: e.target.value }))
+                  setInputValue((prev) => ({ ...prev, contact: e.target.value }))
                 }
               />
               <i className="fa-solid fa-user fa-xs absolute top-3 left-2"></i>
@@ -290,7 +331,7 @@ export const ScreenContent = () => {
                     e.preventDefault();
                     if (!userData.contact && !userData.password) {
                       setShowPopup(false)
-                      setInputValue({ number : "", password : ""})
+                      setInputValue({ contact : "", password : ""})
                       setShowSignIn(false)
                       setBg("light-screen-mode");
                       if (setShowSignUpHomePage) setShowSignUpHomePage(true);
