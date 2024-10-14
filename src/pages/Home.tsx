@@ -1,4 +1,4 @@
-import React, { ChangeEvent, ReactNode, useContext, useState } from "react";
+import React, { ChangeEvent, ReactNode, useContext, useState, useEffect } from "react";
 import { BgContext, MorePageContext } from "../MyContext";
 import sendSvg from "../assests/money-cash-svgrepo-com.svg";
 import billSvg from "../assests/money-cash-svgrepo-com (1).svg";
@@ -20,11 +20,21 @@ import { EmptyPage } from "./EmptyPage";
 import { Transfer } from "./Transfer";
 import { Profile } from "./Profile";
 import { MoreFeatures } from "./MoreFeatures";
+import { jwtDecode } from "jwt-decode";
+// import jwt_decode, { JwtPayload } from 'jwt-decode';
 
 interface selectType {
   item1?: boolean;
   item2?: boolean;
   item3?: boolean;
+}
+
+export interface UserType {
+  FullName: string,
+  Contact: string,
+  AccountNumber : string,
+  Balance : number,
+  History : []
 }
 export interface selectedType {
   number: string | undefined;
@@ -68,7 +78,8 @@ export interface stylesType {
 }
 
 export const Home = () => {
-  const userData = JSON.parse(localStorage.getItem("userInfo") || "{}");
+  // const userData = JSON.parse(localStorage.getItem("userInfo") || "{}");
+  
   // contexts
   const { setBg } = useContext(BgContext);
   const {
@@ -80,7 +91,20 @@ export const Home = () => {
     setShowNairaSec,
   } = useContext(MorePageContext);
 
+  //useEffect
+  useEffect(()=> {
+    const token =  localStorage.getItem("authToken") || "{}";
+    if (token) {
+     const decodeToken : UserType = jwtDecode(token);
+     console.log(decodeToken.Contact);
+    
+     setUserData(decodeToken)
+    }
+   
+ }, [])
+
   // states
+  const [userData, setUserData] = useState<UserType>({} as UserType )
   const [reload, setReload] = useState<boolean>(true);
   const [clickTime, setClickTime] = useState<string>("");
   let [mobileAmount, setMobileAmount] = useState<number | undefined>(undefined);
@@ -97,7 +121,7 @@ export const Home = () => {
     item3: false,
   });
   const [selected, setSelected] = useState<selectedType>({
-    number: userData.contact,
+    number: userData.Contact,
     account: "Select Account",
     service: "Select Service",
     btnText: "Continue",
@@ -238,8 +262,6 @@ export const Home = () => {
           service: "Select Service",
           btnText: "Continue",
         }));
-        // setSelected((prev) => ({ ...prev, }));
-        // setSelected((prev) => ({ ...prev, }));
       }
       if (
         mobileAmount === undefined ||
@@ -282,6 +304,8 @@ export const Home = () => {
     }),
   };
 
+
+//  StoredData = userData.History;
   const StoredData = JSON.parse(localStorage.getItem("history") || "[]");
 
   return (
@@ -309,7 +333,7 @@ export const Home = () => {
                       }}
                     ></i>
                   </div>
-                  <p className="text-xs">{`Hello, ${userData.fullName}`}</p>
+                  <p className="text-xs">{`Hello, ${userData.FullName}`}</p>
                 </span>
 
                 <span className="flex  gap-2 ">
@@ -349,14 +373,14 @@ export const Home = () => {
               {reload && (
                 <div>
                   <p className="text-xs text-center mt-2">
-                    {userData.accountType}:{" "}
-                    <span className="tracking-wider">{userData.accountNo}</span>
+                    Account:
+                    <span className="tracking-wider">{" "}{ userData.AccountNumber}</span>
                   </p>
                   <div className="flex justify-center items-center gap-5 font-semibold mr-1 mt-2">
                     <h1 className="ml-6 ">
                       NGN{" "}
                       <span className={`${styles.changeType} text-xs `}>
-                        {userData.balance}
+                        {userData.Balance}
                       </span>
                     </h1>
                     <div
@@ -909,19 +933,19 @@ export const Home = () => {
                           <div className=" -mx-2 text-gray-700">
                             <div className="flex justify-between items-center">
                               <p className=" uppercase text-[8px] ">
-                                {userData.fullName}
+                                {userData.FullName}
                               </p>
                             </div>
                             <div className="flex justify-between items-center">
                               <p className="text-[8px]">
-                                {userData.accountType}:
+                                Current Account:
                                 <span className="tracking-wider">
-                                  {userData.accountNo}
+                                  {userData.AccountNumber}
                                 </span>
                               </p>
                               <p className="text-[8px] font-semibold ml-2">
                                 NGN{" "}
-                                <span className={`  `}>{userData.balance}</span>
+                                <span className={`  `}>{userData.Balance}</span>
                               </p>
                             </div>
                           </div>
@@ -936,7 +960,7 @@ export const Home = () => {
                     <div className=" flex flex-col gap-3 ">
                       <div className="flex justify-between items-center">
                         <p className=" uppercase text-xs mb-1">
-                          {userData.fullName}
+                          {userData.FullName}
                         </p>
                         {select.item3 && (
                           <i className="fa-solid fa-check text-red-600"></i>
@@ -946,11 +970,11 @@ export const Home = () => {
                         <p className="text-[10px]">
                           Account:{" "}
                           <span className="tracking-wider">
-                            {userData.accountNo}
+                            {userData.AccountNumber}
                           </span>
                         </p>
                         <p className="text-[10px] font-semibold">
-                          NGN <span className={`  `}>{userData.balance}</span>
+                          NGN <span className={`  `}>{userData.Balance}</span>
                         </p>
                       </div>
                     </div>

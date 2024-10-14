@@ -1,15 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AuthPin } from "../components/AuthPin";
 import { Loading } from "../components/Loading";
 import { MoreHeader } from "../components/MoreHeader";
 import type { forgotType } from "./ForgottenPin";
+import { jwtDecode } from "jwt-decode";
+import axios from "axios";
+
+interface resType {
+  Contact: string;
+  OldPassword: string;
+  NewPassword: string;
+  Pin: string;
+}
 
 export const ChangePwrd = ({ setDisplay }: forgotType) => {
-  const userData = JSON.parse(localStorage.getItem("userInfo") || "{}");
+  useEffect(() => {
+    const token = localStorage.getItem("authToken") || "{}";
+    if (token) {
+      setDecodeToken(jwtDecode(token));
+    }
+  }, []);
 
   // states
   const [enteredPin, setEnteredPin] = useState<string>("");
-  // const [count, setCount] = useState<number>(0);
+  const [message, setMessage] = useState<string>();
 
   const [input, setInput] = useState({
     Value1: "",
@@ -19,6 +33,7 @@ export const ChangePwrd = ({ setDisplay }: forgotType) => {
     Type2: "password",
     Type3: "password",
   });
+  const [decodeToken, setDecodeToken] = useState<resType>({} as resType);
 
   const [Show, setShow] = useState({
     auth: false,
@@ -34,7 +49,7 @@ export const ChangePwrd = ({ setDisplay }: forgotType) => {
   });
 
   // functions
-  function handleSubmitBtn(e: React.MouseEvent<HTMLButtonElement>) {
+  async function handleSubmitBtn(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
 
     setShow((prev) => ({
@@ -45,76 +60,59 @@ export const ChangePwrd = ({ setDisplay }: forgotType) => {
       btnText: "Checking...",
     }));
 
-    setTimeout(() => {
-      input.Value1 === ""
-        ? setShow((prev) => ({ ...prev, feedback1: "Field must be filled" }))
-        : input.Value1 !== userData.password
-        ? setShow((prev) => ({
-            ...prev,
-            feedback1: "You have entered Incorrect password",
-          }))
-        : setShow((prev) => ({ ...prev, feedback1: "" }));
+    input.Value1 === ""
+      ? setShow((prev) => ({ ...prev, feedback1: "Field must be filled" }))
+      : setShow((prev) => ({ ...prev, feedback1: "" }));
 
-      input.Value2 === ""
-        ? setShow((prev) => ({ ...prev, feedback2: "Field must be filled" }))
-        : input.Value1 === userData.password &&
-          input.Value2 === userData.password
-        ? setShow((prev) => ({
-            ...prev,
-            feedback2: "Old and New password cannot be the same",
-          }))
-        : !/(?=.*[A-Z])/.test(input.Value2)
-        ? setShow((prev) => ({
-            ...prev,
-            feedback2: "password must be contain at least one Captial letter",
-          }))
-        : !/(?=.*[0-9])/.test(input.Value2)
-        ? setShow((prev) => ({
-            ...prev,
-            feedback2: "password must be contain a number",
-          }))
-        : !/(?=.*[!@#$%^&*])/.test(input.Value2)
-        ? setShow((prev) => ({
-            ...prev,
-            feedback2: "password must be contain a special symbol _,@,- ",
-          }))
-        : !/(?=.{8,})/.test(input.Value2)
-        ? setShow((prev) => ({
-            ...prev,
-            feedback2: "password must be more than 8 characters",
-          }))
-        : setShow((prev) => ({ ...prev, feedback2: "" }));
+    input.Value2 === ""
+      ? setShow((prev) => ({ ...prev, feedback2: "Field must be filled" }))
+      : !/(?=.*[A-Z])/.test(input.Value2)
+      ? setShow((prev) => ({
+          ...prev,
+          feedback2: "password must be contain at least one Captial letter",
+        }))
+      : !/(?=.*[0-9])/.test(input.Value2)
+      ? setShow((prev) => ({
+          ...prev,
+          feedback2: "password must be contain a number",
+        }))
+      : !/(?=.*[!@#$%^&*])/.test(input.Value2)
+      ? setShow((prev) => ({
+          ...prev,
+          feedback2: "password must be contain a special symbol _,@,- ",
+        }))
+      : !/(?=.{8,})/.test(input.Value2)
+      ? setShow((prev) => ({
+          ...prev,
+          feedback2: "password must be more than 8 characters",
+        }))
+      : setShow((prev) => ({ ...prev, feedback2: "" }));
 
-      input.Value3 === ""
-        ? setShow((prev) => ({ ...prev, feedback3: "Field must be filled" }))
-        : input.Value3 !== input.Value2
-        ? setShow((prev) => ({
-            ...prev,
-            feedback3: "Both passwords did not match",
-          }))
-        : setShow((prev) => ({ ...prev, feedback3: "" }));
+    input.Value3 === ""
+      ? setShow((prev) => ({ ...prev, feedback3: "Field must be filled" }))
+      : input.Value3 !== input.Value2
+      ? setShow((prev) => ({
+          ...prev,
+          feedback3: "Both passwords did not match",
+        }))
+      : setShow((prev) => ({ ...prev, feedback3: "" }));
 
-      setShow((prev) => ({ ...prev, btnText: "SUBMIT" }));
-      if (
-        input.Value1 !== "" &&
-        input.Value2 !== "" &&
-        input.Value1 === userData.password &&
-        /(?=.*[A-Z])/.test(input.Value2) &&
-        /(?=.*[!@#$%^&*])/.test(input.Value2) &&
-        /(?=.{8,})/.test(input.Value2) &&
-        /(?=.*[0-9])/.test(input.Value2) &&
-        /(?=.*[A-Z])/.test(input.Value3) &&
-        /(?=.*[!@#$%^&*])/.test(input.Value3) &&
-        /(?=.{8,})/.test(input.Value3) &&
-        /(?=.*[0-9])/.test(input.Value3) &&
-        input.Value3 === input.Value2 &&
-        input.Value2 !== userData.password
-      ) {
-        setTimeout(() => {
-          setShow((prev) => ({ ...prev, auth: true, btnText: "SUBMIT" }));
-        }, 2000);
-      }
-    }, 2000);
+    setShow((prev) => ({ ...prev, btnText: "SUBMIT" }));
+    if (
+      input.Value1 !== "" &&
+      input.Value2 !== "" &&
+      /(?=.*[A-Z])/.test(input.Value2) &&
+      /(?=.*[!@#$%^&*])/.test(input.Value2) &&
+      /(?=.{8,})/.test(input.Value2) &&
+      /(?=.*[0-9])/.test(input.Value2) &&
+      /(?=.*[A-Z])/.test(input.Value3) &&
+      /(?=.*[!@#$%^&*])/.test(input.Value3) &&
+      /(?=.{8,})/.test(input.Value3) &&
+      /(?=.*[0-9])/.test(input.Value3) &&
+      input.Value3 === input.Value2
+    ) {
+      setShow((prev) => ({ ...prev, auth: true, btnText: "SUBMIT" }));
+    }
   }
 
   const handleCancel = () => {
@@ -245,35 +243,29 @@ export const ChangePwrd = ({ setDisplay }: forgotType) => {
               }
             ></i>
             <div className=" flex justify-center mb-1">
-              {userData.pin !== enteredPin ? (
+              {message?.includes("invalid") ||
+              message?.includes("incorrect") ||
+              message?.includes("same") ? (
                 <i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>
               ) : (
                 ""
               )}
             </div>
-            <p className="text-xs text-center">
-              {userData.pin === enteredPin
-                ? `password has been changed Successfuly`
-                : userData.pin !== enteredPin
-                ? `You've entered an invalid PIN`
-                : userData.pin !== enteredPin
-                ? `You've entered invalid PIN many times, if you enter an invalid PIN again your account will be blocked`
-                : userData.pin !== enteredPin
-                ? `Your account has been blocked contact costumer service`
-                : ``}
-            </p>
+            <p className="text-xs text-center">{message}</p>
 
             <button
               className="bg-red-600 py-2 text-sm text-white w-36 rounded-[4px]"
               onClick={() => {
                 setEnteredPin("");
-                setShow((prev) => ({ ...prev, loader: false, auth: true }));
-                userData.pin === enteredPin
-                  ? setShow((prev) => ({ ...prev, div: false, auth: false }))
-                  : setShow((prev) => ({ ...prev, div: false }));
+                setShow((prev) => ({
+                  ...prev,
+                  loader: false,
+                  auth: false,
+                  div: false,
+                }));
               }}
             >
-              {userData.pin !== enteredPin ? `Try Again` : `ok`}
+              ok
             </button>
           </section>
         )}
@@ -284,24 +276,34 @@ export const ChangePwrd = ({ setDisplay }: forgotType) => {
             className=" top-[39.5px] left-[16.4px] w-[215px]"
             descrip=""
             handleCancel={() => setShow((prev) => ({ ...prev, auth: false }))}
-            handleNext={() => {
+            handleNext={async () => {
               if (enteredPin !== "") {
                 setShow((prev) => ({ ...prev, loader: true, auth: false }));
-                setTimeout(() => {
-                  if (userData.pin === enteredPin) {
-                    setShow((prev) => ({ ...prev, auth: false, div: true }));
-                    setInput((prev) => ({
-                      ...prev,
-                      Value1: "",
-                      Value2: "",
-                      Value3: "",
-                    }));
-                    userData.password = input.Value2;
-                    localStorage.setItem("userInfo", JSON.stringify(userData));
-                  } else {
-                    setShow((prev) => ({ ...prev, div: true }));
-                  }
-                }, 2000);
+                const data: resType = {
+                  Contact: decodeToken.Contact,
+                  OldPassword: input.Value1,
+                  NewPassword: input.Value2,
+                  Pin: enteredPin,
+                };
+                try {
+                  const res = await axios.put(
+                    "https://localhost:7164/api/UbaClone/change-password",
+                    data
+                  );
+                  setMessage(res.data);
+                  setShow((prev) => ({ ...prev, auth: false, div: true }));
+                  setInput((prev) => ({
+                    ...prev,
+                    Value1: "",
+                    Value2: "",
+                    Value3: "",
+                  }));
+                  setEnteredPin("");
+                } catch (err: any) {
+                  setMessage(err.response.data);
+                  setShow((prev) => ({ ...prev, div: true }));
+                  setEnteredPin("");
+                }
               }
             }}
           />

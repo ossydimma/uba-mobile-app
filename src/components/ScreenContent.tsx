@@ -91,8 +91,6 @@ export const ScreenContent = () => {
       password: inputValue.password
     }
 
-    console.log(loginData)
-
     if (inputValue.contact !== "" && inputValue.password !== "") {
       setBtnText(
         <div className="flex justify-center items-center h-full">
@@ -103,12 +101,10 @@ export const ScreenContent = () => {
         const res = await axios.post("https://localhost:7164/api/UbaClone/login", loginData);
         const token = res.data;
         localStorage.setItem("authToken", token);
-        console.log("Token :", token);
         if(setShowHome && setHideHome) {
             setBg('dark-screen-mode')
             setHideHome(true)
             setShowHome(true)
-            setInputValue((prev)=> ({...prev, password : ""}))
         }
       } catch (error) {
         console.error(error)
@@ -116,19 +112,7 @@ export const ScreenContent = () => {
       }
 
       setBtnText("Sign In");
-      
-        // .then(res => {
-        //   const token = res.data.token;
-        //   console.log("Token :", token);
-        //   localStorage.setItem("authToken", token);
-        //   if(setShowHome && setHideHome) {
-        //     setBg('dark-screen-mode')
-        //     setHideHome(true)
-        //     setShowHome(true)
-        //     setInputValue((prev)=> ({...prev, password : ""}))
-        //   }
-        // })
-        // .catch(error => console.error(error));
+
       // setTimeout(() => {
       //   console.log(userData)
       //   if (userData.contact && userData.password) {

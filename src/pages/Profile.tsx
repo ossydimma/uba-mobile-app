@@ -1,12 +1,26 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { MoreHeader } from "../components/MoreHeader";
 import { BgContext, MorePageContext } from "../MyContext";
 import { homeDisplaytype } from "./LifeStyle";
 import { EmptyPage } from "./EmptyPage";
+import { jwtDecode } from "jwt-decode";
+import { UserType } from "./Home";
 
 export const Profile = ({ setDisplaysection }: homeDisplaytype) => {
-  const userData = JSON.parse(localStorage.getItem("userInfo") || "{}");
+  //useEffect
+  useEffect(()=> {
+    const token =  localStorage.getItem("authToken") || "{}";
+    if (token) {
+     const decodeToken : UserType = jwtDecode(token);
+     console.log(decodeToken.Contact);
+    
+     setUserData(decodeToken)
+    }
+   
+ }, [])
 
+  // states
+  const [userData, setUserData] = useState<UserType>({} as UserType )
   // contexts
   const { setBg } = useContext(BgContext);
   const { setHideHome, showNoti, setShowNoti } = useContext(MorePageContext);
@@ -35,9 +49,9 @@ export const Profile = ({ setDisplaysection }: homeDisplaytype) => {
             </div>
             <div className=" text-xs">
               <p>Full Name</p>
-              <p className=" mb-2"> {userData.fullName}</p>
+              <p className=" mb-2"> {userData.FullName}</p>
               <p>Mobile Number</p>
-              <p>+234 {userData.contact}</p>
+              <p>+234 {userData.Contact}</p>
             </div>
           </div>
           <section className=" mt-4">
@@ -46,9 +60,9 @@ export const Profile = ({ setDisplaysection }: homeDisplaytype) => {
             </p>
             <article className=" text-xs pt-2 pl-2">
               <p>Account Name</p>
-              <p className=" mb-2"> {userData.fullName}</p>
+              <p className=" mb-2"> {userData.FullName}</p>
               <p>Account Number</p>
-              <p>{userData.accountNo}</p>
+              <p>{userData.AccountNumber}</p>
             </article>
           </section>
           <section className=" mt-4">
@@ -57,7 +71,7 @@ export const Profile = ({ setDisplaysection }: homeDisplaytype) => {
             </p>
             <article className=" text-xs pt-2 pl-2">
               <p>Mobile Number</p>
-              <p className=" mb-"> +234 {userData.contact}</p>
+              <p className=" mb-"> +234 {userData.Contact}</p>
             </article>
           </section>
         </main>

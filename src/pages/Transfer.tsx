@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { MoreHeader } from "../components/MoreHeader";
 import { BeneficiariesContext, BgContext, MorePageContext } from "../MyContext";
 import type { homeDisplaytype } from "./LifeStyle";
@@ -8,6 +8,8 @@ import { PopUP } from "../components/PopUP";
 import { Loading } from "../components/Loading";
 import successImg from "../assests/leo_uba_thubs_up.png";
 import { AuthPin } from "../components/AuthPin";
+import { UserType } from "./Home";
+import { jwtDecode } from "jwt-decode";
 
 export interface detailsType {
   name: string;
@@ -39,8 +41,18 @@ export interface transferType {
 
 export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
   const storedData = JSON.parse(localStorage.getItem("history") || "[]");
-  const userData = JSON.parse(localStorage.getItem("userInfo") || "{}");
-
+  const userData = JSON.parse(localStorage.getItem("userInfo") || "[]");
+  //useEffect
+//   useEffect(()=> {
+//     const token =  localStorage.getItem("authToken") || "{}";
+//     if (token) {
+//      const decodeToken : UserType = jwtDecode(token);
+//      console.log(decodeToken.Contact);
+    
+//      setUserData(decodeToken)
+//     }
+   
+//  }, [])
   // contexts
   const { setBg } = useContext(BgContext);
   const { setHideHome, showNoti, setShowNoti } = useContext(MorePageContext);
@@ -49,6 +61,7 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
   const now = new Date();
 
   //   States
+  // const [userData, setUserData] = useState<UserType>({} as UserType )
   const [enteredPin, setEnteredPin] = useState<string>("");
   const [addActive, setAddActive] = useState<addActiveType>({
     item1: "bg-red-100",
@@ -223,11 +236,11 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
           </p>
           <div className=" py-2">
             <p className="text-xs text-center font-semibold ">
-              {userData.fullName}
+              {userData.FullName}
             </p>
             <p className="text-[10px] text-center ">
-              {userData.accountType}:{" "}
-              <span className="">{userData.accountNo}</span>
+              Current Account:{" "}
+              <span className="">{userData.AccountNumber}</span>
             </p>
           </div>
         </section>
@@ -434,7 +447,6 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
                     popUp: true,
                   }));
                 }, 2000);
-                console.log(userData.history);
               }}
             >
               OK
