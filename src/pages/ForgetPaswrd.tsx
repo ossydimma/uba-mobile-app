@@ -1,24 +1,31 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { MoreHeader } from "../components/MoreHeader";
 import { BgContext, MorePageContext } from "../MyContext";
 import { AuthPin } from "../components/AuthPin";
 import { Loading } from "../components/Loading";
+import { jwtDecode } from "jwt-decode";
+import axios from "axios";
 
 interface forgottenType {
   setShowSignIn: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+interface resType {
+  Contact : string,
+  NewPassword : string,
+  Pin : string
+}
+
 export const ForgetPaswrd = ({ setShowSignIn }: forgottenType) => {
-  const userData = JSON.parse(localStorage.getItem("userInfo") || "{}");
 
   // contexts
   const { setBg } = useContext(BgContext);
   const { setShowForgottenPage } = useContext(MorePageContext);
 
   // states
+  const [message, setMessage] = useState<string>("");
   const [enteredPin, setEnteredPin] = useState<string>("");
   const [changeType, setChangeType] = useState<string>("password");
-  const [count, setCount] = useState<number>(0);
 
   const [inputValue1, setInputValue1] = useState<string>("");
   const [inputValue2, setInputValue2] = useState<string>("");
@@ -46,7 +53,7 @@ export const ForgetPaswrd = ({ setShowSignIn }: forgottenType) => {
     }
   }
 
-  function handleSubmitBtn(e: React.MouseEvent<HTMLButtonElement>) {
+  async function handleSubmitBtn(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
 
     const isNumber = (value: string) => {
@@ -60,11 +67,8 @@ export const ForgetPaswrd = ({ setShowSignIn }: forgottenType) => {
       btnText: "Checking...",
     }));
 
-    setTimeout(() => {
       inputValue1 === ""
         ? setDisplay((prev) => ({ ...prev, feedback1: "Field must be filled" }))
-        : inputValue1 !== userData.contact
-        ? setDisplay((prev) => ({ ...prev, feedback1: "Enter a valid Number" }))
         : setDisplay((prev) => ({ ...prev, feedback1: "" }));
 
       inputValue2 === ""
@@ -104,7 +108,6 @@ export const ForgetPaswrd = ({ setShowSignIn }: forgottenType) => {
       if (
         inputValue1 !== "" &&
         isNumber(inputValue1) &&
-        inputValue1.length >= 11 &&
         inputValue2 !== "" &&
         /(?=.*[A-Z])/.test(inputValue2) &&
         /(?=.*[!@#$%^&*])/.test(inputValue2) &&
@@ -116,12 +119,12 @@ export const ForgetPaswrd = ({ setShowSignIn }: forgottenType) => {
         /(?=.{8,})/.test(inputValue3) &&
         /(?=.*[0-9])/.test(inputValue3)
       ) {
+        setDisplay((prev) => ({ ...prev, btnText: "checking..." }));
         setTimeout(() => {
           setDisplay((prev) => ({ ...prev, auth: true }));
           setDisplay((prev) => ({ ...prev, btnText: "SUBMIT" }));
         }, 2000);
       }
-    }, 2000);
   }
 
   function handleChangeInput1(e: React.ChangeEvent<HTMLInputElement>) {
@@ -221,43 +224,28 @@ export const ForgetPaswrd = ({ setShowSignIn }: forgottenType) => {
               onClick={handleCancel}
             ></i>
             <div className=" flex justify-center mb-1">
-              {userData.pin !== enteredPin ? (
+              {!message?.includes("successfully") ? (
                 <i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>
               ) : (
                 ""
               )}
             </div>
-            <p className="text-xs text-center">
-              {userData.pin === enteredPin && count < 3
-                ? `password has been changed Successfuly`
-                : userData.pin !== enteredPin && count < 2
-                ? `You've entered an invalid PIN`
-                : count === 2 && userData.pin !== enteredPin
-                ? `You've entered invalid PIN many times, if you enter an invalid PIN again your account will be blocked`
-                : count === 3 && userData.pin !== enteredPin
-                ? `Your account has been blocked contact costumer service`
-                : ``}
-            </p>
+            <p className="text-xs text-center">{message}</p>
 
             <button
               className="bg-red-600 py-2 text-sm text-white ml-1  w-44 rounded-[4px]"
               onClick={() => {
                 setEnteredPin("");
                 setDisplay((prev) => ({ ...prev, loader: false, auth: true }));
-                userData.pin === enteredPin && count < 3
+                message?.includes("successfully")
                   ? handleLogIn()
-                  : userData.pin !== enteredPin && count < 3
-                  ? setDisplay((prev) => ({ ...prev, div: false }))
-                  : count === 3 && userData.pin !== enteredPin
-                  ? handleCancel()
                   : handleCancel();
-              }}
+               }}
             >
-              {userData.pin !== enteredPin
-                ? `Try Again`
-                : count === 3 && userData.pin !== enteredPin
-                ? `Exit`
-                : `Log in`}
+              {message?.includes("successfully")
+                ? "Log in"
+                : `Try Again`
+              }
             </button>
           </section>
         )}
@@ -268,20 +256,34 @@ export const ForgetPaswrd = ({ setShowSignIn }: forgottenType) => {
             className=" top-[75px] left-[16.4px] w-[215px]"
             descrip=""
             handleCancel={handleCancel}
-            handleNext={() => {
-              if (count < 3 && enteredPin !== "") {
-                setDisplay((prev) => ({ ...prev, loader: true, auth: false }));
-                setTimeout(() => {
-                  if (userData.pin === enteredPin) {
-                    setDisplay((prev) => ({ ...prev, auth: false, div: true }));
-                    userData.password = inputValue2;
-                    localStorage.setItem("userInfo", JSON.stringify(userData));
-                  } else if (userData.pin !== enteredPin) {
-                    setCount(count + 1);
-                    setDisplay((prev) => ({ ...prev, div: true }));
-                  }
-                }, 2000);
+            handleNext={async () => {
+
+              const data : resType = {
+                Contact : inputValue1,
+                NewPassword : inputValue2 ,
+                Pin : enteredPin
               }
+              setDisplay((prev) => ({ ...prev, loader: true, auth: false }));
+              console.log(data)
+
+              try {
+                const res = await axios.put("https://localhost:7164/api/UbaClone/Forgotten-Password", data);
+                setMessage(res.data);
+                console.log(res.data)
+                setEnteredPin("");
+                setInputValue1("");
+                setInputValue2("");
+                setInputValue3("");
+              }catch (err : any) {
+                setMessage(err.response.data);
+                console.log(err.response.data)
+                setEnteredPin("");
+              }
+
+              setDisplay((prev) => ({ ...prev, auth: false, div: true }));
+              setTimeout(()=> {
+                 setDisplay((prev) => ({ ...prev, auth: false, div: false, loader: false }));
+              }, 3000)
             }}
           />
         )}

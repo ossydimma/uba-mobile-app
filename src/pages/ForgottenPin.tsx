@@ -58,11 +58,6 @@ export const ForgottenPin = ({ setDisplay }: forgotType) => {
 
       if (input.Value1 === "") {
         setShow((prev) => ({ ...prev, feedback1: "Field must be filled" }));
-      // } else if (input.Value1 !== userData.password) {
-      //   setShow((prev) => ({
-      //     ...prev,
-      //     feedback1: "Enter a incorrect Password",
-      //   }));
       } else {
         setShow((prev) => ({ ...prev, feedback1: "" }));
       }
@@ -95,8 +90,6 @@ export const ForgottenPin = ({ setDisplay }: forgotType) => {
         /^[0-9]+$/.test(input.Value3) &&
         input.Value2.length === 4
       ) {
-        // userData.pin = input.Value2;
-        // localStorage.setItem("userInfo", JSON.stringify(userData));
 
         const data : resType = {
           Contact: decodeToken.Contact,
@@ -115,9 +108,6 @@ export const ForgottenPin = ({ setDisplay }: forgotType) => {
         setTimeout(() => {
           setShow((prev) => ({ ...prev, popUp: false }));
         }, 3000);
-
-
-
       }
 
       setShow((prev) => ({ ...prev, btnText: "SUBMIT" }));

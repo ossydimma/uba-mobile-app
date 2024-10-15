@@ -3,13 +3,12 @@ import logo from "../assests/logo.svg";
 import ngFlag from "../assests/emojione_flag-for-nigeria.svg";
 import { ReactNode, useContext, useState } from "react";
 import { More } from "../pages/More";
-import { BgContext, MorePageContext} from "../MyContext";
+import { BgContext, MorePageContext } from "../MyContext";
 import { SignUp } from "./SignUp";
 import { SignUpHomePage } from "../pages/SignUpHomePage";
 import { ForgetPaswrd } from "../pages/ForgetPaswrd";
 import { Home } from "../pages/Home";
 import axios from "axios";
-import { error } from "console";
 
 interface inputValueType {
   contact: string;
@@ -17,9 +16,6 @@ interface inputValueType {
 }
 
 export const ScreenContent = () => {
-  const userData = JSON.parse(localStorage.getItem('userInfo') || '{}')
-
-
 
   // contexts
   const {
@@ -38,6 +34,7 @@ export const ScreenContent = () => {
   const { setBg } = useContext(BgContext);
 
   // states
+  const [message, setMessage] = useState<string>("");
   const [showDiv, setShowDiv] = useState<boolean>(false);
   const [showIcon, setShowIcon] = useState<boolean>(true);
   const [showSignIn, setShowSignIn] = useState<boolean>(false);
@@ -83,13 +80,15 @@ export const ScreenContent = () => {
       setChangeType("password");
     }
   }
-  const  handleSignIn = async  (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleSignIn = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     e.preventDefault();
 
     const loginData = {
       contact: inputValue.contact,
-      password: inputValue.password
-    }
+      password: inputValue.password,
+    };
 
     if (inputValue.contact !== "" && inputValue.password !== "") {
       setBtnText(
@@ -98,43 +97,24 @@ export const ScreenContent = () => {
         </div>
       );
       try {
-        const res = await axios.post("https://localhost:7164/api/UbaClone/login", loginData);
+        const res = await axios.post(
+          "https://localhost:7164/api/UbaClone/login",
+          loginData
+        );
         const token = res.data;
         localStorage.setItem("authToken", token);
-        if(setShowHome && setHideHome) {
-            setBg('dark-screen-mode')
-            setHideHome(true)
-            setShowHome(true)
+        if (setShowHome && setHideHome) {
+          setBg("dark-screen-mode");
+          setHideHome(true);
+          setShowHome(true);
         }
-      } catch (error) {
-        console.error(error)
+      } catch (err: any) {
+        setMessage(err.response.data);
+        console.error(err);
         setShowPopup(true);
       }
 
       setBtnText("Sign In");
-
-      // setTimeout(() => {
-      //   console.log(userData)
-      //   if (userData.contact && userData.password) {
-      //     if (inputValue.contact === userData.contact && inputValue.password === userData.password) {
-      //       if(setShowHome && setHideHome) {
-      //         setBg('dark-screen-mode')
-      //         setHideHome(true)
-      //         setShowHome(true)
-      //         setInputValue((prev)=> ({...prev, password : ""}))
-      //       }
-      //     } else if (inputValue.password !== userData.password) {
-      //       setShowPopup(true);
-
-      //     } else {
-      //       alert('nopwee')
-      //     }
-          
-      //   } else {
-      //     setShowPopup(true);
-      //   }
-      //   setBtnText("Sign In");
-      // }, 2000);
     }
   };
 
@@ -240,7 +220,10 @@ export const ScreenContent = () => {
                 placeholder="Number"
                 value={inputValue.contact}
                 onChange={(e) =>
-                  setInputValue((prev) => ({ ...prev, contact: e.target.value }))
+                  setInputValue((prev) => ({
+                    ...prev,
+                    contact: e.target.value,
+                  }))
                 }
               />
               <i className="fa-solid fa-user fa-xs absolute top-3 left-2"></i>
@@ -286,15 +269,8 @@ export const ScreenContent = () => {
               >
                 {btnText}
               </button>
-              <i className="fa-solid fa-fingerprint bg-red-600 p-2 rounded-md ml-2 cursor-pointer"
-                // onClick={()=> {
-                //   if(setShowHome && setHideHome) {
-                //     setBg('dark-screen-mode')
-                //     setHideHome(true)
-                //     setShowHome(true)
-                //     setInputValue((prev)=> ({...prev, password : ""}))
-                //   }
-                // }}
+              <i
+                className="fa-solid fa-fingerprint bg-red-600 p-2 rounded-md ml-2 cursor-pointer"
               ></i>
             </div>
             {showPopup && (
@@ -306,29 +282,31 @@ export const ScreenContent = () => {
                 <div className=" flex justify-center mb-1">
                   <i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>
                 </div>
-                <p className="text-center text-xs">
-                  {!userData.contact && !userData.password ? `You don't have an account with us.` : `Dear customer, You've entered an invalid password, Did you forget your password?` }
-                </p>
+                <p className="text-center text-xs">{message}</p>
                 <button
                   className="bg-red-600 text-white mt-3 w-32 h-8 rounded-sm ml-6"
                   onClick={(e) => {
                     e.preventDefault();
-                    if (!userData.contact && !userData.password) {
-                      setShowPopup(false)
-                      setInputValue({ contact : "", password : ""})
-                      setShowSignIn(false)
-                      setBg("light-screen-mode");
-                      if (setShowSignUpHomePage) setShowSignUpHomePage(true);
-                    } else {
-                        if (setShowForgottenPage) setShowForgottenPage(true)
-                        setInputValue((prev)=> ({...prev, password : ""}))
-                        setShowPopup(false)
+                    if (message.length > 1) {
+                      if (
+                        message?.includes("You don't have an account with us.")
+                      ) {
+                        setShowPopup(false);
+                        setInputValue({ contact: "", password: "" });
+                        setShowSignIn(false);
+                        setBg("light-screen-mode");
+                        if (setShowSignUpHomePage) setShowSignUpHomePage(true);
+                      } else {
+                        if (setShowForgottenPage) setShowForgottenPage(true);
+                        setInputValue((prev) => ({ ...prev, password: "" }));
+                        setShowPopup(false);
                         setBg("light-screen-mode");
                         setShowSignIn(false);
+                      }
                     }
                   }}
                 >
-                  {!userData.contact && !userData.password ? `Sign Up` : `Yes`}
+                  {message?.includes("You don't have an account with us.") ? `Sign Up` : `Yes`}
                 </button>
               </section>
             )}
@@ -395,7 +373,7 @@ export const ScreenContent = () => {
           </div>
         </section>
       )}
-      {showSignUp && <SignUp setShowSignIn={setShowSignIn}/>}
+      {showSignUp && <SignUp setShowSignIn={setShowSignIn} />}
       {showSignUpHomePage && <SignUpHomePage />}
       {showHome && <Home />}
     </div>
