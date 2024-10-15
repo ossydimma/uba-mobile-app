@@ -1,15 +1,30 @@
+import axios from "axios";
 import { MoreHeader } from "../components/MoreHeader";
 import type { displayType } from "./Settings";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { jwtDecode } from "jwt-decode";
 
 export interface forgotType {
   setDisplay: React.Dispatch<React.SetStateAction<displayType>>;
 }
 
+interface resType {
+  Contact : string,
+  Password: string,
+  NewPin : string
+}
+
 export const ForgottenPin = ({ setDisplay }: forgotType) => {
-  const userData = JSON.parse(localStorage.getItem("userInfo") || "{}");
+  useEffect(() => {
+    const token = localStorage.getItem("authToken") || "{}";
+    if (token) {
+      setDecodeToken(jwtDecode(token));
+    }
+  }, []);
 
   // states
+  const [decodeToken, setDecodeToken] = useState<resType>({} as resType);
+  const [message, setMessage] = useState<string>();
   const [show, setShow] = useState({
     icon1: true,
     icon2: true,
@@ -30,7 +45,7 @@ export const ForgottenPin = ({ setDisplay }: forgotType) => {
   });
 
   // functions
-  function handleSubmitBtn(e: React.MouseEvent<HTMLButtonElement>) {
+  async function handleSubmitBtn(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
 
     setShow((prev) => ({
@@ -41,14 +56,13 @@ export const ForgottenPin = ({ setDisplay }: forgotType) => {
       btnText: "Checking...",
     }));
 
-    setTimeout(() => {
       if (input.Value1 === "") {
         setShow((prev) => ({ ...prev, feedback1: "Field must be filled" }));
-      } else if (input.Value1 !== userData.password) {
-        setShow((prev) => ({
-          ...prev,
-          feedback1: "Enter a incorrect Password",
-        }));
+      // } else if (input.Value1 !== userData.password) {
+      //   setShow((prev) => ({
+      //     ...prev,
+      //     feedback1: "Enter a incorrect Password",
+      //   }));
       } else {
         setShow((prev) => ({ ...prev, feedback1: "" }));
       }
@@ -81,20 +95,32 @@ export const ForgottenPin = ({ setDisplay }: forgotType) => {
         /^[0-9]+$/.test(input.Value3) &&
         input.Value2.length === 4
       ) {
-        userData.pin = input.Value2;
-        localStorage.setItem("userInfo", JSON.stringify(userData));
+        // userData.pin = input.Value2;
+        // localStorage.setItem("userInfo", JSON.stringify(userData));
 
+        const data : resType = {
+          Contact: decodeToken.Contact,
+          Password : input.Value1,
+          NewPin :  input.Value2
+        }
+        try {
+          const res = await axios.put("https://localhost:7164/api/UbaClone/Forgotten-PIN", data );
+          setMessage(res.data);      
+          setInput((prev) => ({ ...prev, Value1: "", Value2: "", Value3: "" }));
+        }catch (err: any) {
+          setMessage(err.response.data)
+
+        }
         setShow((prev) => ({ ...prev, popUp: true }));
-
         setTimeout(() => {
           setShow((prev) => ({ ...prev, popUp: false }));
         }, 3000);
 
-        setInput((prev) => ({ ...prev, Value1: "", Value2: "", Value3: "" }));
+
+
       }
 
       setShow((prev) => ({ ...prev, btnText: "SUBMIT" }));
-    }, 2000);
   }
 
   return (
@@ -210,9 +236,7 @@ export const ForgottenPin = ({ setDisplay }: forgotType) => {
         </form>
         {show.popUp && (
           <div className=" bg-white flex flex-col gap-5  justify-center z-40 absolute  top-8 right-8 left-6 px-1 py-4 shadow-md shadow-gray-600">
-            <p className="text-xs text-center">
-              PIN has been Successfuly changed
-            </p>
+            <p className="text-xs text-center">{message}</p>
           </div>
         )}
       </main>

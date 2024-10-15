@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react'
-import { MoreHeader } from '../components/MoreHeader';
-import type { forgotType } from './ForgottenPin';
-import axios from 'axios';
-import { jwtDecode } from 'jwt-decode';
+import { useEffect, useState } from "react";
+import { MoreHeader } from "../components/MoreHeader";
+import type { forgotType } from "./ForgottenPin";
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 export interface resType {
   Contact: string;
@@ -12,7 +12,6 @@ export interface resType {
 }
 
 export const ChangePin = ({ setDisplay }: forgotType) => {
-
   useEffect(() => {
     const token = localStorage.getItem("authToken") || "{}";
     if (token) {
@@ -20,111 +19,115 @@ export const ChangePin = ({ setDisplay }: forgotType) => {
     }
   }, []);
 
-    // states
-    const [decodeToken, setDecodeToken] = useState<resType>({} as resType);
-    const [message, setMessage] = useState<string>();
-    const [show, setShow] = useState({
-      icon1: true,
-      icon2: true,
-      icon3: true,
-      icon4: true,
+  // states
+  const [decodeToken, setDecodeToken] = useState<resType>({} as resType);
+  const [message, setMessage] = useState<string>();
+  const [show, setShow] = useState({
+    icon1: true,
+    icon2: true,
+    icon3: true,
+    icon4: true,
+    feedback1: "",
+    feedback2: "",
+    feedback3: "",
+    feedback4: "",
+    btnText: "SUBMIT",
+    popUp: false,
+  });
+  const [input, setInput] = useState({
+    Value1: "",
+    Value2: "",
+    Value3: "",
+    Value4: "",
+    Type1: "password",
+    Type2: "password",
+    Type3: "password",
+    Type4: "password",
+  });
+
+  // functions
+  async function handleSubmitBtn(e: React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault();
+
+    setShow((prev) => ({
+      ...prev,
       feedback1: "",
       feedback2: "",
       feedback3: "",
-      feedback4: "",
-      btnText: "SUBMIT",
-      popUp: false,
-    });
-    const [input, setInput] = useState({
-      Value1: "",
-      Value2: "",
-      Value3: "",
-      Value4: "",
-      Type1: "password",
-      Type2: "password",
-      Type3: "password",
-      Type4: "password",
-    });
-  
-    // functions
-    async function handleSubmitBtn(e: React.MouseEvent<HTMLButtonElement>) {
-      e.preventDefault();
-  
-      setShow((prev) => ({
-        ...prev,
-        feedback1: "",
-        feedback2: "",
-        feedback3: "",
-        btnText: "Checking...",
-      }));
+      btnText: "Checking...",
+    }));
 
-        if (input.Value1 === "") {
-          setShow((prev) => ({ ...prev, feedback1: "Field must be filled" }));
-        } else {
-          setShow((prev) => ({ ...prev, feedback1: "" }));
-        }
-  
-        input.Value2 === ""
-          ? setShow((prev) => ({ ...prev, feedback2: "Field must be filled" }))
-          : !/^[0-9]+$/.test(input.Value2)
-          ? setShow((prev) => ({
-              ...prev,
-              feedback2: "PIN should contain only numbers",
-            }))
-          : input.Value2.length !== 4
-          ? setShow((prev) => ({
-              ...prev,
-              feedback2: "PIN shouldn't be less or greater than 4",
-            }))
-          : setShow((prev) => ({ ...prev, feedback2: "" }));
-  
-        input.Value3 === ""
-          ? setShow((prev) => ({ ...prev, feedback3: "Field must be filled" }))
-          : input.Value2 !== input.Value3
-          ? setShow((prev) => ({ ...prev, feedback3: "Both PIN did not match" }))
-          : setShow((prev) => ({ ...prev, feedback3: "" }));
-
-        input.Value4 === ""
-          ? setShow((prev) => ({ ...prev, feedback4: "Field must be filled" }))
-          : setShow((prev) => ({ ...prev, feedback4: "" }));
-
-            
-  
-        if (
-          input.Value2 !== "" &&
-          /^[0-9]+$/.test(input.Value2) &&
-          input.Value2.length === 4 &&
-          input.Value2 === input.Value3 &&
-          /^[0-9]+$/.test(input.Value3) &&
-          input.Value2.length === 4 
-        ) {
-          const data : resType = {
-            Contact : decodeToken.Contact,
-            Password : input.Value1,
-            OldPin : input.Value4,
-            NewPin : input.Value2
-
-          }
-          try {
-            const res = await axios.put("https://localhost:7164/api/UbaClone/change-PIN", data);
-            setMessage(res.data)
-            setShow((prev) => ({ ...prev, popUp: true }));
-            setInput((prev) => ({ ...prev, Value1: "", Value2: "", Value3: "", Value4: "" }));
-            setTimeout(() => {
-              setShow((prev) => ({ ...prev, popUp: false }));
-            }, 3000);
-
-          }catch (err : any) {
-            setMessage(err.response.data)
-            setShow((prev) => ({ ...prev, popUp: true }));
-            setTimeout(() => {
-              setShow((prev) => ({ ...prev, popUp: false }));
-            }, 3000);
-          }
-          setShow((prev) => ({ ...prev, btnText: "SUBMIT" })); 
-        }
-
+    if (input.Value1 === "") {
+      setShow((prev) => ({ ...prev, feedback1: "Field must be filled" }));
+    } else {
+      setShow((prev) => ({ ...prev, feedback1: "" }));
     }
+
+    input.Value2 === ""
+      ? setShow((prev) => ({ ...prev, feedback2: "Field must be filled" }))
+      : !/^[0-9]+$/.test(input.Value2)
+      ? setShow((prev) => ({
+          ...prev,
+          feedback2: "PIN should contain only numbers",
+        }))
+      : input.Value2.length !== 4
+      ? setShow((prev) => ({
+          ...prev,
+          feedback2: "PIN shouldn't be less or greater than 4",
+        }))
+      : setShow((prev) => ({ ...prev, feedback2: "" }));
+
+    input.Value3 === ""
+      ? setShow((prev) => ({ ...prev, feedback3: "Field must be filled" }))
+      : input.Value2 !== input.Value3
+      ? setShow((prev) => ({ ...prev, feedback3: "Both PIN did not match" }))
+      : setShow((prev) => ({ ...prev, feedback3: "" }));
+
+    input.Value4 === ""
+      ? setShow((prev) => ({ ...prev, feedback4: "Field must be filled" }))
+      : setShow((prev) => ({ ...prev, feedback4: "" }));
+
+    if (
+      input.Value2 !== "" &&
+      /^[0-9]+$/.test(input.Value2) &&
+      input.Value2.length === 4 &&
+      input.Value2 === input.Value3 &&
+      /^[0-9]+$/.test(input.Value3) &&
+      input.Value2.length === 4
+    ) {
+      const data: resType = {
+        Contact: decodeToken.Contact,
+        Password: input.Value1,
+        OldPin: input.Value4,
+        NewPin: input.Value2,
+      };
+      try {
+        const res = await axios.put(
+          "https://localhost:7164/api/UbaClone/change-PIN",
+          data
+        );
+        setMessage(res.data);
+        setShow((prev) => ({ ...prev, popUp: true }));
+        setInput((prev) => ({
+          ...prev,
+          Value1: "",
+          Value2: "",
+          Value3: "",
+          Value4: "",
+        }));
+        setTimeout(() => {
+          setShow((prev) => ({ ...prev, popUp: false }));
+        }, 3000);
+      } catch (err: any) {
+        setMessage(err.response.data);
+        setShow((prev) => ({ ...prev, popUp: true }));
+        setTimeout(() => {
+          setShow((prev) => ({ ...prev, popUp: false }));
+        }, 3000);
+      }
+      setShow((prev) => ({ ...prev, btnText: "SUBMIT" }));
+    }
+  }
   return (
     <div className=" absolute top-0 w-full bg-white h-full">
       <main className=" ">
@@ -132,7 +135,9 @@ export const ChangePin = ({ setDisplay }: forgotType) => {
           name="Change PIN"
           onClick={() => setDisplay((prev) => ({ ...prev, changePin: false }))}
         />
-        <p className=' text-xs mt-1.5 mx-3'>Please enter old and new mobile banking 4 digits PIN</p>
+        <p className=" text-xs mt-1.5 mx-3">
+          Please enter old and new mobile banking 4 digits PIN
+        </p>
         <form className=" mx-3">
           <div className="flex flex-col gap-2.5 relative mt-2 ">
             <input
@@ -268,12 +273,10 @@ export const ChangePin = ({ setDisplay }: forgotType) => {
         </form>
         {show.popUp && (
           <div className=" bg-white flex flex-col gap-5  justify-center z-40 absolute  top-8 right-8 left-6 px-1 py-4 shadow-md shadow-gray-600">
-            <p className="text-xs text-center">
-              {message}
-            </p>
+            <p className="text-xs text-center">{message}</p>
           </div>
         )}
       </main>
     </div>
-  )
-}
+  );
+};
