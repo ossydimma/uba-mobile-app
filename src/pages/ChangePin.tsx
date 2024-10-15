@@ -1,12 +1,28 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { MoreHeader } from '../components/MoreHeader';
 import type { forgotType } from './ForgottenPin';
+import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
+
+export interface resType {
+  Contact: string;
+  Password: string;
+  NewPin: string;
+  OldPin: string;
+}
 
 export const ChangePin = ({ setDisplay }: forgotType) => {
 
-    const userData = JSON.parse(localStorage.getItem("userInfo") || "{}");
+  useEffect(() => {
+    const token = localStorage.getItem("authToken") || "{}";
+    if (token) {
+      setDecodeToken(jwtDecode(token));
+    }
+  }, []);
 
     // states
+    const [decodeToken, setDecodeToken] = useState<resType>({} as resType);
+    const [message, setMessage] = useState<string>();
     const [show, setShow] = useState({
       icon1: true,
       icon2: true,
@@ -31,7 +47,7 @@ export const ChangePin = ({ setDisplay }: forgotType) => {
     });
   
     // functions
-    function handleSubmitBtn(e: React.MouseEvent<HTMLButtonElement>) {
+    async function handleSubmitBtn(e: React.MouseEvent<HTMLButtonElement>) {
       e.preventDefault();
   
       setShow((prev) => ({
@@ -41,23 +57,15 @@ export const ChangePin = ({ setDisplay }: forgotType) => {
         feedback3: "",
         btnText: "Checking...",
       }));
-  
-      setTimeout(() => {
+
         if (input.Value1 === "") {
           setShow((prev) => ({ ...prev, feedback1: "Field must be filled" }));
-        } else if (userData.password !== input.Value1) {
-          setShow((prev) => ({
-            ...prev,
-            feedback1: "Enter a incorrect Password",
-          }));
         } else {
           setShow((prev) => ({ ...prev, feedback1: "" }));
         }
   
         input.Value2 === ""
           ? setShow((prev) => ({ ...prev, feedback2: "Field must be filled" }))
-          : input.Value2 === userData.pin && input.Value4 === userData.pin
-          ? setShow((prev) => ({ ...prev, feedback2: "Old and New PIN cannot be the same" }))
           : !/^[0-9]+$/.test(input.Value2)
           ? setShow((prev) => ({
               ...prev,
@@ -78,8 +86,6 @@ export const ChangePin = ({ setDisplay }: forgotType) => {
 
         input.Value4 === ""
           ? setShow((prev) => ({ ...prev, feedback4: "Field must be filled" }))
-          : input.Value4 !== userData.pin 
-          ? setShow((prev) => ({ ...prev, feedback4: "Entered Incorrect PIN" }))
           : setShow((prev) => ({ ...prev, feedback4: "" }));
 
             
@@ -90,24 +96,34 @@ export const ChangePin = ({ setDisplay }: forgotType) => {
           input.Value2.length === 4 &&
           input.Value2 === input.Value3 &&
           /^[0-9]+$/.test(input.Value3) &&
-          input.Value2.length === 4 &&
-          input.Value2 !== userData.pin &&
-          input.Value4 === userData.pin
+          input.Value2.length === 4 
         ) {
-          userData.pin = input.Value2;
-          localStorage.setItem("userInfo", JSON.stringify(userData));
-  
-          setShow((prev) => ({ ...prev, popUp: true }));
-  
-          setTimeout(() => {
-            setShow((prev) => ({ ...prev, popUp: false }));
-          }, 3000);
-  
-          setInput((prev) => ({ ...prev, Value1: "", Value2: "", Value3: "", Value4: "" }));
+          const data : resType = {
+            Contact : decodeToken.Contact,
+            Password : input.Value1,
+            OldPin : input.Value4,
+            NewPin : input.Value2
+
+          }
+          try {
+            const res = await axios.put("https://localhost:7164/api/UbaClone/change-PIN", data);
+            setMessage(res.data)
+            setShow((prev) => ({ ...prev, popUp: true }));
+            setInput((prev) => ({ ...prev, Value1: "", Value2: "", Value3: "", Value4: "" }));
+            setTimeout(() => {
+              setShow((prev) => ({ ...prev, popUp: false }));
+            }, 3000);
+
+          }catch (err : any) {
+            setMessage(err.response.data)
+            setShow((prev) => ({ ...prev, popUp: true }));
+            setTimeout(() => {
+              setShow((prev) => ({ ...prev, popUp: false }));
+            }, 3000);
+          }
+          setShow((prev) => ({ ...prev, btnText: "SUBMIT" })); 
         }
-  
-        setShow((prev) => ({ ...prev, btnText: "SUBMIT" }));
-      }, 2000);
+
     }
   return (
     <div className=" absolute top-0 w-full bg-white h-full">
@@ -253,7 +269,7 @@ export const ChangePin = ({ setDisplay }: forgotType) => {
         {show.popUp && (
           <div className=" bg-white flex flex-col gap-5  justify-center z-40 absolute  top-8 right-8 left-6 px-1 py-4 shadow-md shadow-gray-600">
             <p className="text-xs text-center">
-              PIN has been Successfuly changed
+              {message}
             </p>
           </div>
         )}
