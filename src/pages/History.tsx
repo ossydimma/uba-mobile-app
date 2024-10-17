@@ -3,7 +3,16 @@ import { MoreHeader } from "../components/MoreHeader";
 import { BgContext, MorePageContext} from "../MyContext";
 import type { homeDisplaytype } from "./LifeStyle";
 import { EmptyPage } from "./EmptyPage";
-import { detailsType } from "./Transfer";
+// import { detailsType } from "./Transfer";
+ interface detailsType {
+  name: string;
+  number: string;
+  amount: string;
+  narrator: string;
+  date: string;
+  time: string;
+  // TypeOfTranscation : string
+}
 
 export const History = ({ setDisplaysection }: homeDisplaytype) => {
   const [selectedObj, setSelectedObj] = useState<detailsType | undefined>(

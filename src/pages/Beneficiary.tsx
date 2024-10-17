@@ -1,17 +1,20 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { Loading } from "../components/Loading";
 import { PopUP } from "../components/PopUP";
-import type {transferType, detailsType} from './Transfer'
-import { BeneficiariesContext } from "../MyContext";
+import type {transferType, detailsType, BeneficiaryType} from './Transfer';
+import axios from "axios";
 
 interface displayType {
   addNew: boolean;
   loader : boolean;
-  popUp : boolean
+  popUp : boolean;
+  div : boolean;
+  
 }
 export interface dataType {
   name: string;
   number: string;
+  btnText :string;
 }
 interface parentType {
     setDisplay : React.Dispatch<React.SetStateAction<transferType>>
@@ -19,28 +22,34 @@ interface parentType {
 }
 export const Beneficiary = ({setDisplay, setDetails}: parentType) => {
 
+
+  let userBeneficiaries : BeneficiaryType[] = JSON.parse(localStorage.getItem("Beneficiaries" ) || "[]") ;
+  
+
   // states
   const [displayer, setDisplayer] = useState<displayType>({
     addNew: false,
     loader : false,
     popUp : false,
+    div : false
   });
   const [data, setData] = useState<dataType>({
     name: "",
     number: "",
+    btnText : "Verify Account"
   });
   const [inputValue, setInputValue] = useState<string>('');
-  const [filteredObj, setFilteredObj] = useState<dataType[]>([]);
-  
+  const [message, setMessage] = useState<string>('');
+  const [filteredObj, setFilteredObj] = useState<BeneficiaryType[]>([]);
+  const [isValid, SetIsValid] = useState<boolean> (false)
 
-  // context
-  const {beneficiaries, setBeneficiaries} = useContext(BeneficiariesContext)
+
 
   function handleInputChange(e : React.ChangeEvent<HTMLInputElement>) {
-    const value = e.target.value;
+    let value = e.target.value.toUpperCase();
     setInputValue(value)
 
-    const filtered = beneficiaries.filter(obj => obj.name.includes(value))
+    const filtered = userBeneficiaries.filter(obj => obj.name.includes(value))
     setFilteredObj(filtered)
   }
   
@@ -58,7 +67,7 @@ export const Beneficiary = ({setDisplay, setDetails}: parentType) => {
         >
           Add beneficiary
         </button>
-        {beneficiaries.length !== 0 
+        {userBeneficiaries.length !== 0 
         ? ( <input
         type="text"
         placeholder="search beneficiary list"
@@ -71,13 +80,13 @@ export const Beneficiary = ({setDisplay, setDetails}: parentType) => {
         <section>
             <ul className=" flex flex-col gap-3 mt-5">
                 { inputValue === '' ? 
-                 beneficiaries.map((obj, index) => (
+                 userBeneficiaries.map((obj, index) => (
                     <li 
                       key={index} 
                       className="border w-[232px] h-[65px] ml-1 flex gap-4 items-center py-4 pl-4 pr-10 hover:bg-gray-300"
                       onClick={()=> {
                         setDetails((prev)=>({...prev, name: obj.name, number: obj.number}))
-                        setDisplay((prev)=> ({...prev, addNew : false}))
+                        setDisplay((prev)=> ({...prev, addNew : false, transferDiv: true , btnText : "Transfer"}))
                       
                       }}
                     >
@@ -129,7 +138,8 @@ export const Beneficiary = ({setDisplay, setDetails}: parentType) => {
               Add beneficiary
             </h4>
             <p className=" text-center  text-sm">Account</p>
-            <input
+        {  displayer.div && <section>
+              <input
               type="text"
               value={data.name}
               placeholder="Beneficiary account name "
@@ -138,8 +148,9 @@ export const Beneficiary = ({setDisplay, setDetails}: parentType) => {
                 setData((prev)=> ({...prev, name : e.target.value}))
                 
               }}
-            />
-            {data.name === '' ? <p className=" text-[10px] ml-4 text-red-600">please enter beneficiary name</p> : data.name.length < 2 ? <p className=" text-[10px] ml-4 text-red-600"> name must be more than 4 words</p> : !/^[a-zA-Z]+$/.test(data.name) ? <p className=" text-[10px] ml-4 text-red-600">must contain only letters</p> : '' }
+              />
+            </section>}
+            
             
             <input
               type="text"
@@ -150,33 +161,44 @@ export const Beneficiary = ({setDisplay, setDetails}: parentType) => {
                 setData((prev)=> ({...prev, number : e.target.value}))
               }}
             />
-            {! /^[0-9]+$/.test(data.number) || data.number.length !== 10  ? <p className=" text-[10px] ml-4 text-red-600">please enter valid account</p> :  '' }
 
             <button
               className="bg-red-600 py-2 mt-3 text-sm text-white ml-2.5 w-[180px] rounded-[4px]"
-              onClick={(e) => {
+              onClick={async (e) => {
                 e.preventDefault()
-                if (
-                    /^[0-9]+$/.test(data.number) &&
-                    data.number.length === 10 &&
-                    /^[a-zA-Z\s]+$/.test(data.name) &&
-                    data.name !== "" &&
-                    data.name.length > 2
-                  ) {
-                    if (setBeneficiaries !== undefined) {
-                      setBeneficiaries((prev)=>[...prev, data])
-                      setDisplayer((prev) => ({ ...prev, loader: true }));
-                      setTimeout(()=>{
-                          setDisplayer((prev) => ({ ...prev, loader: false }));
-                          setDisplayer((prev) => ({ ...prev, popUp: true }));
-                      },2000)
-
-                    }
-                    
+                if (data.btnText === "Verify Account" ) {
+                  
+                  setDisplayer((prev) => ({ ...prev, loader: true }));
+                  try {
+                    const res = await axios.get(`https://localhost:7164/api/UbaClone/${data.number}`);
+                    setData((prev)=> ({...prev, name: res.data}));
+                    SetIsValid(true)
+                    setData((prev)=> ({...prev, btnText: "Add Beneficiary"}));
+                    setDisplayer((prev) => ({...prev, loader: false, div: true}));
+                  }catch (err : any ) {
+                    setMessage(err.response.data);
+                    SetIsValid(false)
+                    setDisplayer((prev) => ({ ...prev, loader: false, popUp : true }));
+                  } 
+                }else  if (data.btnText === "Add Beneficiary"){
+                  const detials = {
+                    name : data.name,
+                    number : data.number 
                   }
+
+                  const containValue = userBeneficiaries.some(obj => obj.number === detials.number);
+
+                  if (!containValue) {
+                    userBeneficiaries = [...userBeneficiaries,  detials];
+                  }
+                  localStorage.setItem("Beneficiaries", JSON.stringify(userBeneficiaries));
+                  
+                  setMessage("Beneficiary has been added successfully");
+                  setDisplayer((prev) => ({ ...prev,  popUp : true }));
+                }
               }}
             >
-              Add beneficiary
+              {data.btnText}
             </button>
           </div>
           {displayer.loader && (
@@ -185,20 +207,23 @@ export const Beneficiary = ({setDisplay, setDetails}: parentType) => {
             {displayer.popUp && (
               <PopUP
                 icon={
-                  <i className="fa-solid fa-check bg-green-600 py-3 px-4 rounded-full text-white text-2xl"></i>
+                  isValid 
+                    ? <i className="fa-solid fa-check bg-green-600 py-3 px-4 rounded-full text-white text-2xl"></i>
+                    : <i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>
                 }
                 onClick={()=> {
-                    setData({name : "", number : ''})
-                    setDisplayer((prev) => ({ ...prev, popUp: false }));
-                    setDisplayer((prev) => ({ ...prev, loader: true}));
-                    setTimeout(()=> {
+                  if ( isValid ) {
 
-                      setDisplayer((prev)=> ({...prev,loader : false, addNew : false}))
-                    }, 1000)
+                    setData({name : "", number : '', btnText: "Verify Account"});
+                    setDisplayer((prev)=> ({...prev, addNew : false, div: false}));
+                  }else {
+                    setDisplayer((prev) => ({ ...prev, popUp: false }));
+                  }
+                  setDisplayer((prev) => ({ ...prev, popUp: false }));
                 }}
                 className="absolute top-[90px] left-4"
-                title="Success"
-                msg="Beneficiary has been added successfully"
+                title={ isValid ? "sucess" : "Failed"}
+                msg={message}
               />
             )}
         </section>

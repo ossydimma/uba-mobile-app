@@ -10,6 +10,7 @@ import successImg from "../assests/leo_uba_thubs_up.png";
 import { AuthPin } from "../components/AuthPin";
 import { UserType } from "./Home";
 import { jwtDecode } from "jwt-decode";
+import axios from "axios";
 
 export interface detailsType {
   name: string;
@@ -20,11 +21,25 @@ export interface detailsType {
   time: string;
 }
 
-interface addActiveType {
-  item1: string;
-  item1Sub: string;
-  item2: string;
-  item2Sub: string;
+export interface BeneficiaryType {
+  name : string,
+  number : string
+}
+
+export interface VerifyType {
+  Sender : string,
+  Receiver : string
+}
+
+export interface modelType {
+  amount : string;
+  senderPin : string;
+  receiversAccountNumber : string;
+  senderAccountNumber : string;
+  narrator : string;
+  date : string;
+  time : string;
+  
 }
 export interface transferType {
   addNew: boolean;
@@ -40,35 +55,26 @@ export interface transferType {
 }
 
 export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
-  const storedData = JSON.parse(localStorage.getItem("history") || "[]");
-  const userData = JSON.parse(localStorage.getItem("userInfo") || "[]");
-  //useEffect
-//   useEffect(()=> {
-//     const token =  localStorage.getItem("authToken") || "{}";
-//     if (token) {
-//      const decodeToken : UserType = jwtDecode(token);
-//      console.log(decodeToken.Contact);
-    
-//      setUserData(decodeToken)
-//     }
+
+  useEffect(()=> {
+    const token =  localStorage.getItem("authToken") || "{}";
+    if (token) {
+     const decodeToken : UserType = jwtDecode(token);
+     setUserData(decodeToken)
+    }
    
-//  }, [])
+ }, [])
+
   // contexts
   const { setBg } = useContext(BgContext);
   const { setHideHome, showNoti, setShowNoti } = useContext(MorePageContext);
-  const { beneficiaries, setBeneficiaries } = useContext(BeneficiariesContext);
 
   const now = new Date();
 
   //   States
-  // const [userData, setUserData] = useState<UserType>({} as UserType )
+  const [message, setMessage] = useState<string>("");
+  const [userData, setUserData] = useState<UserType>({} as UserType );
   const [enteredPin, setEnteredPin] = useState<string>("");
-  const [addActive, setAddActive] = useState<addActiveType>({
-    item1: "bg-red-100",
-    item1Sub: "bg-white",
-    item2: "bg-white",
-    item2Sub: "bg-red-100",
-  });
   const [display, setDisplay] = useState<transferType>({
     addNew: false,
     check: false,
@@ -81,8 +87,8 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
     opacity: "",
     style: "home-wrapper h-screen",
   });
-
-  const [details, setDetails] = useState<detailsType>({
+  const [details, setDetails] = useState<detailsType>(
+  {
     name: "",
     number: "",
     amount: "",
@@ -95,18 +101,20 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
     }),
   });
 
+
   // functions
 
-  function handleBtn() {
+  async function handleBtn() {
     if (display.btnText === "Confirm Reciever") {
       setDisplay((prev) => ({ ...prev, opacity: "opacity-5", loader: true }));
-      setTimeout(() => {
-        if (
-          /^[0-9]+$/.test(details.number) &&
-          details.number.length === 10 &&
-          /^[a-zA-Z\s]+$/.test(details.name) &&
-          details.name.length > 1
-        ) {
+      if (details.number !== "" && /^[0-9]+$/.test(details.number)) {
+        const data : VerifyType = {
+          Sender : userData.AccountNumber,
+          Receiver : details.number
+        }
+        try {
+          const res = await axios.post("https://localhost:7164/api/UbaClone/Verify-Account", data );
+          setDetails((prev)=> ({...prev, name: res.data}));
           setDisplay((prev) => ({
             ...prev,
             opacity: "",
@@ -114,100 +122,41 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
             transferDiv: true,
             btnText: "Transfer",
           }));
-        } else {
+        }catch (err : any ) {
+          setMessage(err.response.data);
           setDisplay((prev) => ({ ...prev, popUp: true, style: " h-screen " }));
         }
-      }, 2000);
+      }else {
+        setMessage("Enter a valid beneficiary account number and try again");
+        setDisplay((prev) => ({ ...prev, popUp: true, style: " h-screen " }));
+      }
     }
     if (display.btnText === "Transfer") {
       setDisplay((prev) => ({ ...prev, check: false }));
-      if (
-        /^[0-9]+$/.test(details.number) &&
-        details.number.length === 10 &&
-        /^[a-zA-Z\s]+$/.test(details.name) &&
-        details.name.length > 1 &&
-        /^[0-9]+$/.test(details.amount) &&
-        details.narrator !== ""
-      ) {
-        setDisplay((prev) => ({
-          ...prev,
-          opacity: "opacity-5",
-          loader: true,
-          style: "",
-        }));
-        setTimeout(() => {
-          setDisplay((prev) => ({ ...prev, loader: false, popUp1: true }));
-        }, 2000);
-      } else if (+details.amount < 5) {
-        setDisplay((prev) => ({
-          ...prev,
-          opacity: "opacity-5",
-          loader: true,
-          style: " h-screen",
-        }));
-        setTimeout(() => {
-          setDisplay((prev) => ({ ...prev, loader: false, popUp: true }));
-        }, 2000);
+      if (details.narrator !== ""){
+          setDisplay((prev) => ({ ...prev, opacity: "opacity-5", style: "", loader: false, popUp1: true }));
       }
     }
   }
 
   function handleCancel() {
-    setDisplay((prev) => ({
-      ...prev,
-      loader: false,
-      opacity: "",
-      style: " h-screen home-wrapper",
-      popUp: false,
-      popUp1: false,
-      popUp2: false,
-      transferDiv: false,
-      amount: "",
-      narrator: "",
-      btnText: "Confirm Reciever",
-    }));
-
-    setDetails((prev) => ({
-      ...prev,
-      name: "",
-      number: "",
-      amount: "",
-      narrator: "",
-    }));
-
+      setDisplay((prev) => ({
+        ...prev,
+        loader: false,
+        opacity: "",
+        style: " h-screen home-wrapper",
+        popUp: false,
+        popUp1: false,
+        popUp2: false,
+        // transferDiv: false,
+        amount: "",
+        narrator: "",
+        btnText: "Transfer",
+      }));
+    
     setEnteredPin("");
   }
-  const handleNext = () : void => {
-    if (setDisplay) {
-        if ( enteredPin !== userData.pin) {
-          setDisplay((prev) => ({
-            ...prev,
-            popUp1: false,
-            loader: true,
-          }));
-          setTimeout(() => {
-            setDisplay((prev) => ({
-              ...prev,
-              loader: false,
-              popUp: true,
-            }));
-          }, 2000);
-        } else {
-          setDisplay((prev) => ({
-            ...prev,
-            popUp1: false,
-            loader: true,
-          }));
-          setTimeout(() => {
-            setDisplay((prev) => ({
-              ...prev,
-              loader: false,
-              popUp2: true,
-            }));
-          }, 2000);
-        }  
-    }
-  }
+
   return (
     <div
       className={` ${display.style} text-black w-full  top-0 absolute left-0 showMorePage bg-white pb-10 `}
@@ -254,11 +203,17 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
               className=" border border-gray-300 outline-none w-52 ml-1.5 rounded px-2 mb-1 text-[12px] py-1"
               placeholder="Account Number"
               value={details.number}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>{
                 setDetails((prev) => ({ ...prev, number: e.target.value }))
+                if(display.transferDiv) {
+                  setDisplay((prev)=> ({...prev, transferDiv: false, btnText: "Confirm Reciever", check: false}))
+                }
+              }
+                
               }
             />
-            <input
+            {display.transferDiv && <input
+              readOnly
               type="text"
               className=" border border-gray-300 outline-none w-52 ml-1.5 mt-1 rounded px-2 mb-1 text-[12px] py-1"
               placeholder="Account Name"
@@ -266,7 +221,7 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setDetails((prev) => ({ ...prev, name: e.target.value }))
               }
-            />
+            />}
             {!display.transferDiv && (
               <p
                 className=" text-right text-[10px] text-red-600 mr-2 cursor-pointer"
@@ -287,25 +242,25 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
                 type="checkbox"
                 checked={display.check}
                 onChange={() => {
-                  if (setBeneficiaries !== undefined) {
-                    if (display.check === false) {
-                      setDisplay((prev) => ({ ...prev, check: true }));
-                      const isDuplicate = beneficiaries.some(
-                        (item) =>
-                          item.name === details.name &&
-                          item.number === details.number
-                      );
-                      if (!isDuplicate) {
-                        setBeneficiaries((prev) => [...prev, details]);
-                      }
-                    } else {
-                      setDisplay((prev) => ({ ...prev, check: false }));
-                      const updatedArray = beneficiaries.filter(
-                        (item) => item.number !== details.number
-                      );
-                      setBeneficiaries(updatedArray);
-                    }
+                  const data : BeneficiaryType = {
+                    name : details.name,
+                    number : details.number
                   }
+                  let userBeneficiaries : BeneficiaryType[] = JSON.parse(localStorage.getItem("Beneficiaries" ) || "[]") ;
+
+                  if (!display.check) {
+                    setDisplay((prev) => ({ ...prev, check: true }));
+                    const containValue = userBeneficiaries.some(obj => obj.number === data.number);
+
+                    if (!containValue) {
+                      userBeneficiaries = [...userBeneficiaries,  data];
+                    }
+                    localStorage.setItem("Beneficiaries", JSON.stringify(userBeneficiaries));
+                  } else {
+                    setDisplay((prev) => ({ ...prev, check: false }));
+                    userBeneficiaries = userBeneficiaries.filter((item) => item.number !== details.number);
+                      localStorage.setItem("Beneficiaries", JSON.stringify(userBeneficiaries));
+                  }  
                 }}
               />
             </div>
@@ -361,45 +316,55 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
       {display.popUp && (
         <PopUP
           icon={
-            details.number.length !== 10 || details.name.length < 1 ? (
-              <i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>
-            ) : enteredPin !== userData.pin ? (
-              <i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>
-            ) : +details.amount < 5 ? (
-              <i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>
-            ) : (
+            details.name.length < 1 || !message?.includes("successfully")
+            ?  <i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>
+            : (
               <div className="successImg">
                 <img src={successImg} alt="thumb up" />
               </div>
             )
           }
-          onClick={handleCancel}
+          onClick={()=> {
+            setDisplay((prev) => ({
+              ...prev,
+              loader: false,
+              opacity: "",
+              style: " h-screen home-wrapper",
+              popUp: false,
+              popUp1: false,
+              popUp2: false,
+              transferDiv: false,
+              amount: "",
+              narrator: "",
+              btnText: "Confirm Reciever",
+            }));
+            setDetails((prev) => ({
+              ...prev,
+              name: "",
+              number: "",
+              amount: "",
+              narrator: "",
+            }));
+            setEnteredPin("");
+          }}
           className="absolute top-[60px] left-4"
           title={
-            details.number.length !== 10 || details.name.length < 1
+            details.name.length < 1 || !message?.includes("successfully")
               ? "Failed"
-              : +details.amount < 5
-              ? "Failed"
-              : enteredPin !== userData.pin
-              ? "Failed"
-              : "Success"
+              : "Succes"
           }
-          msg={
-            details.number.length !== 10 || details.name.length < 1
-              ? "Your entered inputs are either invalid or empty, please check and enter a valid detail and retry"
-              : enteredPin !== userData.pin
-              ? "Invalid PIN"
-              : +details.amount < 5
-              ? `you can't tranfer below 5NGN`
-              : `You have successfully transferred NGN${details.amount} to ${details.name} Account Number: ${details.number} `
-          }
+          msg={message}
         />
       )}
 
       {display.popUp1 && (
         <AuthPin
           handleCancel={handleCancel}
-          handleNext={handleNext}
+          handleNext= {()=> {
+            if (enteredPin.length >= 4 && setDisplay)
+              setDisplay((prev) => ({...prev, popUp1: false, loader: false, popUp2: true}));
+             
+          }}
           enteredPin={enteredPin}
           setEnteredPin={setEnteredPin}
           descrip="Transaction limits for PIN is 200,000NGN per day"
@@ -421,32 +386,31 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
             </article>
             <button
               className="bg-red-600 py-2 text-sm text-white  w-44 rounded-[4px]"
-              onClick={() => {
-                setDetails((prev) => ({
-                  ...prev,
-                  date: now.toDateString(),
-                  time: now.toLocaleTimeString([], {
-                    hour: "numeric",
-                    minute: "2-digit",
-                    hour12: true,
-                  }),
-                }));
-                localStorage.setItem(
-                  "history",
-                  JSON.stringify([...storedData, details])
-                );
-                setDisplay((prev) => ({
-                  ...prev,
-                  popUp2: false,
-                  loader: true,
-                }));
-                setTimeout(() => {
-                  setDisplay((prev) => ({
-                    ...prev,
-                    loader: false,
-                    popUp: true,
-                  }));
-                }, 2000);
+              onClick={async () => {
+                    const data : modelType = {
+                      amount : details.amount,
+                      senderPin : enteredPin,
+                      senderAccountNumber : userData.AccountNumber,
+                      receiversAccountNumber : details.number,
+                      narrator : details.narrator,
+                      date : now.toDateString(),
+                      time :  now.toLocaleTimeString([], {
+                        hour: "numeric",
+                        minute: "2-digit",
+                        hour12: true,
+                      })
+
+                    };
+                    setDisplay((prev) => ({...prev, popUp2: false, loader: true}));
+                    try {
+                      const res = await axios.post("https://localhost:7164/api/UbaClone/Transfer-Money", data );
+                      setMessage(`You have successfully transferred NGN${details.amount} to ${details.name} Account Number: ${details.number}`);
+                      const Updatedtoken = res.data;
+                      localStorage.setItem("authToken", Updatedtoken);
+                    }catch (err: any) {
+                      setMessage(err.response.data)
+                    }
+                    setDisplay((prev) => ({...prev,loader: false,popUp: true}));
               }}
             >
               OK

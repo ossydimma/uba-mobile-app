@@ -78,7 +78,6 @@ export interface stylesType {
 }
 
 export const Home = () => {
-  // const userData = JSON.parse(localStorage.getItem("userInfo") || "{}");
   
   // contexts
   const { setBg } = useContext(BgContext);
@@ -96,7 +95,6 @@ export const Home = () => {
     const token =  localStorage.getItem("authToken") || "{}";
     if (token) {
      const decodeToken : UserType = jwtDecode(token);
-     console.log(decodeToken.Contact);
     
      setUserData(decodeToken)
     }
@@ -162,6 +160,11 @@ export const Home = () => {
     setReload(false);
 
     setTimeout(() => {
+      const token =  localStorage.getItem("authToken") || "{}";
+      if (token) {
+       const decodeToken : UserType = jwtDecode(token);
+       setUserData(decodeToken)
+      }
       const time = new Date().toLocaleTimeString([], {
         hour: "numeric",
         minute: "2-digit",
@@ -173,11 +176,11 @@ export const Home = () => {
     }, 2000);
   }
 
-  function handleNotiPage(): void {
-    if (setShowNoti !== undefined) {
-      setShowNoti(true);
-    }
-  }
+  // function handleNotiPage(): void {
+  //   if (setShowNoti !== undefined) {
+  //     setShowNoti(true);
+  //   }
+  // }
 
   function handleClick(): void {
     setTime();
@@ -249,10 +252,10 @@ export const Home = () => {
             showLoader: false,
             showSucess: true,
           }));
-          localStorage.setItem(
-            "history",
-            JSON.stringify([...StoredData, details])
-          );
+          // localStorage.setItem(
+          //   "history",
+          //   JSON.stringify([...StoredData, details])
+          // );
           // setDisplaysection((prev) => ({ ...prev }));
         }, 4000);
         setDisplaysection((prev) => ({ ...prev, showMobileSec2: false }));
@@ -305,8 +308,6 @@ export const Home = () => {
   };
 
 
-//  StoredData = userData.History;
-  const StoredData = JSON.parse(localStorage.getItem("history") || "[]");
 
   return (
     <div>
