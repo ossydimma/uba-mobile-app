@@ -176,7 +176,11 @@ export const Beneficiary = ({setDisplay, setDetails}: parentType) => {
                     setData((prev)=> ({...prev, btnText: "Add Beneficiary"}));
                     setDisplayer((prev) => ({...prev, loader: false, div: true}));
                   }catch (err : any ) {
-                    setMessage(err.response.data);
+                    if (err.status === 400 || 401 || 404 ) {
+                          setMessage(err.response.data)
+                      }else {
+                        setMessage("Server error contact costumer service");
+                      };
                     SetIsValid(false)
                     setDisplayer((prev) => ({ ...prev, loader: false, popUp : true }));
                   } 

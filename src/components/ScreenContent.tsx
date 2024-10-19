@@ -9,6 +9,15 @@ import { SignUpHomePage } from "../pages/SignUpHomePage";
 import { ForgetPaswrd } from "../pages/ForgetPaswrd";
 import { Home } from "../pages/Home";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
+// import { detailsType } from "../pages/History";
+interface detailsType {
+  FullName : string;
+  Contact : string;
+  AccountNumber : string;
+  Balance : string;
+  History : string;
+}
 
 interface inputValueType {
   contact: string;
@@ -102,6 +111,11 @@ export const ScreenContent = () => {
           loginData
         );
         const token = res.data;
+       
+        const decodedToken : detailsType = jwtDecode(token);
+        const data : detailsType = JSON.parse(decodedToken.History);
+        console.log(data);
+        localStorage.setItem("histories", decodedToken.History)
         localStorage.setItem("authToken", token);
         if (setShowHome && setHideHome) {
           setBg("dark-screen-mode");

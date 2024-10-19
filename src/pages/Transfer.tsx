@@ -11,6 +11,7 @@ import { AuthPin } from "../components/AuthPin";
 import { UserType } from "./Home";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
+import { DecodedToken } from "./History";
 
 export interface detailsType {
   name: string;
@@ -35,6 +36,7 @@ export interface modelType {
   amount : string;
   senderPin : string;
   receiversAccountNumber : string;
+  receiverFullName : string;
   senderAccountNumber : string;
   narrator : string;
   date : string;
@@ -73,6 +75,7 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
 
   //   States
   const [message, setMessage] = useState<string>("");
+  const [Success, setSuccess] = useState<boolean>(false)
   const [userData, setUserData] = useState<UserType>({} as UserType );
   const [enteredPin, setEnteredPin] = useState<string>("");
   const [display, setDisplay] = useState<transferType>({
@@ -115,6 +118,7 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
         try {
           const res = await axios.post("https://localhost:7164/api/UbaClone/Verify-Account", data );
           setDetails((prev)=> ({...prev, name: res.data}));
+          setSuccess(true);
           setDisplay((prev) => ({
             ...prev,
             opacity: "",
@@ -123,10 +127,16 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
             btnText: "Transfer",
           }));
         }catch (err : any ) {
-          setMessage(err.response.data);
+          setSuccess(false);
+          if (err.status === 400 || 401 || 404 ) {
+            setMessage(JSON.stringify(err.response.data))
+          }else {
+            setMessage("Server error contact costumer service");
+          }
           setDisplay((prev) => ({ ...prev, popUp: true, style: " h-screen " }));
         }
       }else {
+        setSuccess(false);
         setMessage("Enter a valid beneficiary account number and try again");
         setDisplay((prev) => ({ ...prev, popUp: true, style: " h-screen " }));
       }
@@ -316,7 +326,7 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
       {display.popUp && (
         <PopUP
           icon={
-            details.name.length < 1 || !message?.includes("successfully")
+            details.name.length < 1 || !Success
             ?  <i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>
             : (
               <div className="successImg">
@@ -349,7 +359,7 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
           }}
           className="absolute top-[60px] left-4"
           title={
-            details.name.length < 1 || !message?.includes("successfully")
+            details.name.length < 1 || !Success
               ? "Failed"
               : "Succes"
           }
@@ -392,6 +402,7 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
                       senderPin : enteredPin,
                       senderAccountNumber : userData.AccountNumber,
                       receiversAccountNumber : details.number,
+                      receiverFullName : details.name,
                       narrator : details.narrator,
                       date : now.toDateString(),
                       time :  now.toLocaleTimeString([], {
@@ -405,10 +416,19 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
                     try {
                       const res = await axios.post("https://localhost:7164/api/UbaClone/Transfer-Money", data );
                       setMessage(`You have successfully transferred NGN${details.amount} to ${details.name} Account Number: ${details.number}`);
-                      const Updatedtoken = res.data;
-                      localStorage.setItem("authToken", Updatedtoken);
+                      setSuccess(true);
+                      const token = res.data;
+                      const decodedToken : DecodedToken = jwtDecode(token);
+                      localStorage.setItem("histories", decodedToken.AllTransactions );
+                     
                     }catch (err: any) {
-                      setMessage(err.response.data)
+                      setSuccess(false)
+                      if (err.status === 400 || 401 || 404 ) {
+                        setMessage(JSON.stringify(err.response.data))
+                      }else {
+                        setMessage("Server error contact costumer service");
+                      }
+                      
                     }
                     setDisplay((prev) => ({...prev,loader: false,popUp: true}));
               }}

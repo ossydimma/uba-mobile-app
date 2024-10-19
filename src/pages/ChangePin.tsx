@@ -119,7 +119,11 @@ export const ChangePin = ({ setDisplay }: forgotType) => {
           setShow((prev) => ({ ...prev, popUp: false }));
         }, 3000);
       } catch (err: any) {
-        setMessage(err.response.data);
+        if (err.status === 400 || 401 || 404 ) {
+          setMessage(err.response.data)
+        }else {
+          setMessage("Server error contact costumer service");
+        };
         setShow((prev) => ({ ...prev, popUp: true }));
         setTimeout(() => {
           setShow((prev) => ({ ...prev, popUp: false }));

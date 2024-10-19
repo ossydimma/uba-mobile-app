@@ -3,28 +3,46 @@ import { MoreHeader } from "../components/MoreHeader";
 import { BgContext, MorePageContext} from "../MyContext";
 import type { homeDisplaytype } from "./LifeStyle";
 import { EmptyPage } from "./EmptyPage";
+import { UserType } from "./Home";
+import { jwtDecode } from "jwt-decode";
 // import { detailsType } from "./Transfer";
- interface detailsType {
+ export interface detailsType {
   name: string;
   number: string;
   amount: string;
   narrator: string;
   date: string;
   time: string;
-  // TypeOfTranscation : string
+  TypeOfTranscation : string
+}
+
+export interface DecodedToken {
+  AllTransactions: string;  
 }
 
 export const History = ({ setDisplaysection }: homeDisplaytype) => {
+  const [histories, setHistories] = useState<detailsType[]>([]);
   const [selectedObj, setSelectedObj] = useState<detailsType | undefined>(
     undefined
   );
   const [isShow, setIsShow] = useState<string>('home-wrapper');
 
-  let storedData: detailsType[] = JSON.parse(
-    localStorage.getItem("history") || "[]"
-  );
-  storedData = storedData.reverse()
+  useEffect(() => {
+    const histories : detailsType[] = JSON.parse(localStorage.getItem("histories") || "[]" );
 
+    console.log(histories)
+    if (histories) {
+      // const decodedToken : DecodedToken = jwtDecode(token);
+      // const data : detailsType[] = JSON.parse(decodedToken.AllTransactions)
+
+      setHistories(histories);
+    }
+  }, [])
+
+
+  // let storedData: detailsType[] = JSON.parse(
+  //   localStorage.getItem("history") || "[]"
+  // );
   const now = new Date();
 
   // contexts
@@ -58,12 +76,12 @@ export const History = ({ setDisplaysection }: homeDisplaytype) => {
 
           <section className=" mt-10">
             <ul className="pt-3">
-              {storedData.length === 0 ? (
+              {histories.length === 0 ? (
                 <div className=" mt-32">
                   <p className=" text-center text-sm">No recent Transaction</p>
                 </div>
               ) : (
-                storedData.map((item, index) => (
+                histories.map((item, index) => (
                   <li
                     key={index}
                     className=" mt-[5px] border-b border-red-600  "
@@ -127,7 +145,7 @@ export const History = ({ setDisplaysection }: homeDisplaytype) => {
                     Status: <span className=" font-normal">Successful</span>
                   </li>
                   <li className=" font-semibold">
-                    Type: <span className=" font-normal">Debit</span>
+                    Type: <span className=" font-normal">{selectedObj.TypeOfTranscation}</span>
                   </li>
                 </ul>
                 <button

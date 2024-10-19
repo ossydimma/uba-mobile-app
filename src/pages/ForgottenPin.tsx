@@ -101,7 +101,11 @@ export const ForgottenPin = ({ setDisplay }: forgotType) => {
           setMessage(res.data);      
           setInput((prev) => ({ ...prev, Value1: "", Value2: "", Value3: "" }));
         }catch (err: any) {
-          setMessage(err.response.data)
+          if (err.status === 400 || 401 || 404) {
+            setMessage(err.response.data)
+          }else {
+            setMessage("Server error contact costumer service");
+          }
 
         }
         setShow((prev) => ({ ...prev, popUp: true }));

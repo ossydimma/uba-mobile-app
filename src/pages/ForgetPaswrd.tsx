@@ -275,7 +275,11 @@ export const ForgetPaswrd = ({ setShowSignIn }: forgottenType) => {
                 setInputValue2("");
                 setInputValue3("");
               }catch (err : any) {
-                setMessage(err.response.data);
+                if (err.status === 400 || 401  || 404) {
+                  setMessage(err.response.data)
+                }else {
+                  setMessage("Server error contact costumer service");
+                }
                 console.log(err.response.data)
                 setEnteredPin("");
               }

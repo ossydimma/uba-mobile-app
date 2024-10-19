@@ -300,7 +300,11 @@ export const ChangePwrd = ({ setDisplay }: forgotType) => {
                   }));
                   setEnteredPin("");
                 } catch (err: any) {
-                  setMessage(err.response.data);
+                  if (err.status === 400 || 401 || 404 ) {
+                    setMessage(err.response.data)
+                  }else {
+                    setMessage("Server error contact costumer service");
+                  };
                   setShow((prev) => ({ ...prev, div: true }));
                   setEnteredPin("");
                 }
