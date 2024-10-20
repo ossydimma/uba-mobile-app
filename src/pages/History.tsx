@@ -7,12 +7,12 @@ import { UserType } from "./Home";
 import { jwtDecode } from "jwt-decode";
 // import { detailsType } from "./Transfer";
  export interface detailsType {
-  name: string;
-  number: string;
-  amount: string;
-  narrator: string;
-  date: string;
-  time: string;
+  Name: string;
+  Number: string;
+  Amount: string;
+  Narrator: string;
+  Date: string;
+  Time: string;
   TypeOfTranscation : string
 }
 
@@ -28,21 +28,16 @@ export const History = ({ setDisplaysection }: homeDisplaytype) => {
   const [isShow, setIsShow] = useState<string>('home-wrapper');
 
   useEffect(() => {
-    const histories : detailsType[] = JSON.parse(localStorage.getItem("histories") || "[]" );
+    const history : detailsType[] = JSON.parse(localStorage.getItem("histories") || "[]" );
 
-    console.log(histories)
-    if (histories) {
-      // const decodedToken : DecodedToken = jwtDecode(token);
-      // const data : detailsType[] = JSON.parse(decodedToken.AllTransactions)
+    console.log(history)
+    if (history) {
 
-      setHistories(histories);
+      setHistories(history);
     }
   }, [])
 
 
-  // let storedData: detailsType[] = JSON.parse(
-  //   localStorage.getItem("history") || "[]"
-  // );
   const now = new Date();
 
   // contexts
@@ -93,20 +88,20 @@ export const History = ({ setDisplaysection }: homeDisplaytype) => {
                     <div className="px-[4%] text-xs">
                       <div className=" flex justify-between items-center">
                         <span>
-                          {item.date} {item.time}
+                          {item.Date} {item.Time}
                         </span>
-                        <span className=" text-red-600">
-                          {" "}
-                          NGN({item.amount})
+                        
+                        <span className={item.TypeOfTranscation === "Debit" ? " text-red-600" : "text-green-600"} >
+                          NGN({item.Amount})
                         </span>
                       </div>
                       <p className="text-sm py-0.5">
                         TNF-
                         <span className=" uppercase">
-                          {item.name ? item.name : item.number}
+                          {item.Name ? item.Name : item.Number}
                         </span>
                         /tranfer from{" "}
-                        <span className=" uppercase">{item.narrator}</span>
+                        <span className=" uppercase">{item.Narrator}</span>
                       </p>
                       <p className=" pb-[5px]">Tap to display receipt</p>
                     </div>
@@ -126,19 +121,19 @@ export const History = ({ setDisplaysection }: homeDisplaytype) => {
                   <li className=" font-semibold">
                     Date:{" "}
                     <span className=" font-normal ">
-                      {selectedObj ? selectedObj.date : undefined}
+                      {selectedObj ? selectedObj.Date : undefined}
                     </span>
                   </li>
                   <li className=" font-semibold">
                     Time:{" "}
                     <span className=" font-normal">
-                      {selectedObj ? selectedObj.time : undefined}
+                      {selectedObj ? selectedObj.Time : undefined}
                     </span>
                   </li>
                   <li className=" font-semibold">
                     Amount:{" "}
                     <span className=" font-normal">
-                      {selectedObj ? selectedObj.amount : undefined}.00 NGN
+                      {selectedObj ? selectedObj.Amount : undefined}.00 NGN
                     </span>
                   </li>
                   <li className=" font-semibold">

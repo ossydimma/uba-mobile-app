@@ -12,6 +12,7 @@ import { UserType } from "./Home";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import { DecodedToken } from "./History";
+import { UserdetailsType } from "../components/ScreenContent";
 
 export interface detailsType {
   name: string;
@@ -418,9 +419,12 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
                       setMessage(`You have successfully transferred NGN${details.amount} to ${details.name} Account Number: ${details.number}`);
                       setSuccess(true);
                       const token = res.data;
-                      const decodedToken : DecodedToken = jwtDecode(token);
-                      localStorage.setItem("histories", decodedToken.AllTransactions );
-                     
+                      const decodedToken : UserdetailsType= jwtDecode(token);
+                      // const usersData : detailsType = JSON.parse(decodedToken.History);
+                      // console.log(data);
+                      localStorage.setItem("histories", decodedToken.History)
+                      localStorage.setItem("authToken", token);
+                                  
                     }catch (err: any) {
                       setSuccess(false)
                       if (err.status === 400 || 401 || 404 ) {

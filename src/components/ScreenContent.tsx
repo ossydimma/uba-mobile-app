@@ -11,7 +11,7 @@ import { Home } from "../pages/Home";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 // import { detailsType } from "../pages/History";
-interface detailsType {
+export interface UserdetailsType {
   FullName : string;
   Contact : string;
   AccountNumber : string;
@@ -112,8 +112,8 @@ export const ScreenContent = () => {
         );
         const token = res.data;
        
-        const decodedToken : detailsType = jwtDecode(token);
-        const data : detailsType = JSON.parse(decodedToken.History);
+        const decodedToken : UserdetailsType = jwtDecode(token);
+        const data : UserdetailsType = JSON.parse(decodedToken.History);
         console.log(data);
         localStorage.setItem("histories", decodedToken.History)
         localStorage.setItem("authToken", token);

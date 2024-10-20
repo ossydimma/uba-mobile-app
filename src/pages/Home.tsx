@@ -252,11 +252,6 @@ export const Home = () => {
             showLoader: false,
             showSucess: true,
           }));
-          // localStorage.setItem(
-          //   "history",
-          //   JSON.stringify([...StoredData, details])
-          // );
-          // setDisplaysection((prev) => ({ ...prev }));
         }, 4000);
         setDisplaysection((prev) => ({ ...prev, showMobileSec2: false }));
         setSelected((prev) => ({
