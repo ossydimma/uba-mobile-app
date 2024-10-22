@@ -26,11 +26,11 @@ export const SignUpHomePage = () => {
             setBg("phone-deafult-screen");
           }
         }}/>
-        <ul className="text-sm flex flex-col gap-3 mx-4 mt-4">
+        <ul className="text-xl sm:text-sm flex flex-col gap-4 sm:gap-3 mx-4 mt-4">
           <li>
             <article
               onClick={handleSignUpPage}
-              className="cursor-pointer flex items-center justify-between pb-2 text-xs mb-3  "
+              className="cursor-pointer flex items-center justify-between pb-2  mb-3  "
             >
               <p>Use Activation Code</p>
               <i className="fa-solid fa-angle-right text-gray-400"></i>
@@ -39,7 +39,7 @@ export const SignUpHomePage = () => {
           <li>
             <article
               onClick={handleSignUpPage}
-              className="cursor-pointer flex items-center justify-between pb-2 text-xs mb-3 "
+              className="cursor-pointer flex items-center justify-between pb-2  mb-3 "
             >
               <p>Use Activation Code(SME)</p>
               <i className="fa-solid fa-angle-right text-gray-400"></i>
@@ -47,7 +47,7 @@ export const SignUpHomePage = () => {
           </li>
           <li>
             <article
-              onClick={handleSignUpPage }             className="cursor-pointer flex items-center justify-between pb-2 text-xs mb-3 "
+              onClick={handleSignUpPage }             className="cursor-pointer flex items-center justify-between pb-2  mb-3 "
             >
               <p>Use Activation Code(Kids/Teens)</p>
               <i className="fa-solid fa-angle-right text-gray-400"></i>
@@ -56,7 +56,7 @@ export const SignUpHomePage = () => {
           <li>
             <article
               onClick={handleSignUpPage}
-              className="cursor-pointer flex items-center justify-between pb-2 text-xs mb-3 "
+              className="cursor-pointer flex items-center justify-between pb-2 mb-3 "
             >
               <p>Debit Card</p>
               <i className="fa-solid fa-angle-right text-gray-400"></i>
@@ -65,7 +65,7 @@ export const SignUpHomePage = () => {
           <li>
             <article
               onClick={handleSignUpPage}
-              className="cursor-pointer flex items-center justify-between pb-2 text-xs mb-3 "
+              className="cursor-pointer flex items-center justify-between pb-2 mb-3 "
             >
               <p>Prepaid Card</p>
               <i className="fa-solid fa-angle-right text-gray-400"></i>
@@ -74,7 +74,7 @@ export const SignUpHomePage = () => {
           <li>
             <article
               onClick={handleSignUpPage}
-              className="cursor-pointer flex items-center justify-between pb-2 text-xs mb-3 "
+              className="cursor-pointer flex items-center justify-between pb-2 mb-3 "
             >
               <p>Activation with *919# PIN</p>
               <i className="fa-solid fa-angle-right text-gray-400"></i>
@@ -83,7 +83,7 @@ export const SignUpHomePage = () => {
           <li>
             <article
               onClick={handleSignUpPage}
-              className="cursor-pointer flex items-center justify-between pb-2 text-xs mb-3 "
+              className="cursor-pointer flex items-center justify-between pb-2 mb-3 "
             >
               <p>Account + Secure Pass</p>
               <i className="fa-solid fa-angle-right text-gray-400"></i>
@@ -92,7 +92,7 @@ export const SignUpHomePage = () => {
           <li>
             <article
               onClick={handleSignUpPage}
-              className="cursor-pointer flex items-center justify-between pb-2 text-xs mb-3 "
+              className="cursor-pointer flex items-center justify-between pb-2 mb-3 "
             >
               <p>Registered in Branch</p>
               <i className="fa-solid fa-angle-right text-gray-400"></i>

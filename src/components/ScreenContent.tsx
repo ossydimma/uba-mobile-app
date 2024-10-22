@@ -12,11 +12,11 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 // import { detailsType } from "../pages/History";
 export interface UserdetailsType {
-  FullName : string;
-  Contact : string;
-  AccountNumber : string;
-  Balance : string;
-  History : string;
+  FullName: string;
+  Contact: string;
+  AccountNumber: string;
+  Balance: string;
+  History: string;
 }
 
 interface inputValueType {
@@ -25,7 +25,6 @@ interface inputValueType {
 }
 
 export const ScreenContent = () => {
-
   // contexts
   const {
     showMorePage,
@@ -111,11 +110,11 @@ export const ScreenContent = () => {
           loginData
         );
         const token = res.data;
-       
-        const decodedToken : UserdetailsType = jwtDecode(token);
-        const data : UserdetailsType = JSON.parse(decodedToken.History);
+
+        const decodedToken: UserdetailsType = jwtDecode(token);
+        const data: UserdetailsType = JSON.parse(decodedToken.History);
         console.log(data);
-        localStorage.setItem("histories", decodedToken.History)
+        localStorage.setItem("histories", decodedToken.History);
         localStorage.setItem("authToken", token);
         if (setShowHome && setHideHome) {
           setBg("dark-screen-mode");
@@ -124,7 +123,6 @@ export const ScreenContent = () => {
         }
       } catch (err: any) {
         setMessage(err.response.data);
-        console.error(err);
         setShowPopup(true);
       }
 
@@ -134,40 +132,62 @@ export const ScreenContent = () => {
 
   return (
     <div className={`text-white relative`}>
-      <div className="header flex items-center justify-between mx-4">
+      <div className="header flex items-center justify-between pt-6 sm:pt-0 mx-4">
         <div
           className="countries-container flex cursor-pointer"
           onClick={handleDisplayCountries}
         >
-          <div className="flag w-6 h-6 rounded-full overflow-hidden">
+          <div className="flag w-9 h-9 sm:w-6 sm:h-6 rounded-full overflow-hidden">
             <img src={ngFlag} alt="nigerian flag" className="rounded-full" />
           </div>
-          <div className="arrow-down-icon">
+          <svg
+            width="64px"
+            height="64px"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-9 h-9 sm:w-6 sm:h-6"
+          >
+            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g
+              id="SVGRepo_tracerCarrier"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            ></g>
+            <g id="SVGRepo_iconCarrier">
+              {" "}
+              <path
+                d="M5.70711 9.71069C5.31658 10.1012 5.31658 10.7344 5.70711 11.1249L10.5993 16.0123C11.3805 16.7927 12.6463 16.7924 13.4271 16.0117L18.3174 11.1213C18.708 10.7308 18.708 10.0976 18.3174 9.70708C17.9269 9.31655 17.2937 9.31655 16.9032 9.70708L12.7176 13.8927C12.3271 14.2833 11.6939 14.2832 11.3034 13.8927L7.12132 9.71069C6.7308 9.32016 6.09763 9.32016 5.70711 9.71069Z"
+                fill="#0F0F0F"
+              ></path>{" "}
+            </g>
+          </svg>
+          {/* <div className="arrow-down-icon">
             <img src={arrowDown} alt="arrow-icon" />
-          </div>
+          </div> */}
         </div>
 
         {showDiv && (
           <section
-            className={`countries absolute w-full h-full bg-white text-black  top-6 left-0 showCountries`}
+            className={`countries absolute h-screen pt-6 sm:pt-2 w-full sm:h-full bg-white text-black  top-6 left-0 showCountries`}
           >
             <div className="">
               <div className="flex justify-between">
-                <p className="text-xs pb-1 pt-2 border-b-2 border-red-600">
+                <p className="text-lg sm:text-xs pb-2 sm:pb-1 border-b-2 border-red-600">
                   Tap to change country
                 </p>
-                <div className="countries-header-icon flex gap-3 mr-2 mt-1">
+                <div className="countries-header-icon flex gap-5 sm:gap-3 mr-4 sm:mr-2 mt-1">
                   <i
-                    className="fa-solid fa-rotate-right cursor-pointer"
+                    className="fa-solid fa-rotate-right cursor-pointer text-2xl sm:text-sm"
                     onClick={handleReset}
                   ></i>
                   <i
-                    className="fa-solid fa-xmark cursor-pointer"
+                    className="fa-solid fa-xmark cursor-pointer text-2xl sm:text-sm"
                     onClick={handleHideCountries}
                   ></i>
                 </div>
               </div>
-              <ul className="countries-wrapper pl-6 flex flex-col gap-4 text-xs mt-5">
+              <ul className="countries-wrapper pl-6 flex flex-col gap-5 sm:gap-4 text-xl sm:text-xs mt-5">
                 <li className="cursor-pointer">Benin</li>
                 <li className="cursor-pointer">Burkina Faso</li>
                 <li className="cursor-pointer">Cameroon</li>
@@ -192,45 +212,45 @@ export const ScreenContent = () => {
             </div>
           </section>
         )}
-        <div className="icons flex gap-3 cursor-pointer text-lg ">
+        <div className="icons flex gap-5 sm:gap-3 cursor-pointer text-2xl sm:text-lg  ">
           <i className="fa-solid fa-camera"></i>
           <i className="fa-solid fa-ellipsis-vertical" onClick={changeBg}></i>
         </div>
         {showMorePage && <More />}
       </div>
-      <div className="logo ml-6 mt-8 flex justify-center items-center gap-2  pb-2">
-        <h1 className="font-bold text-5xl pt-3">UBA</h1>
+      <div className="logo ml-6 mt-[5rem] sm:mt-8 flex justify-center items-center gap-2  pb-2">
+        <h1 className="font-bold text-7xl sm:text-5xl pt-3">UBA</h1>
         <img src={logo} alt="logo" />
       </div>
-      <div className="topup cursor-pointer mt-3">
-        <div className="topUP-icon m-auto text-sm w-8 h-8 bg-white py-2 rounded-full">
-          <i className="fa-solid fa-file flex justify-center text-black"></i>
+      <div className="topup cursor-pointer mt-8 sm:mt-3">
+        <div className="topUP-icon m-auto text-sm w-14 h-14 sm:w-8 sm:h-8 bg-white py-3 sm:py-2 rounded-full">
+          <i className="fa-solid fa-file flex justify-center text-black text-xl sm:text-sm"></i>
         </div>
-        <p className="text-xs text-center mt-1">TOP-UP</p>
+        <p className="sm:text-xs text-xl text-center mt-1">TOP-UP</p>
       </div>
       <div
-        className="signin-btn text-center mt-28"
+        className="signin-btn text-center mt-[8rem] sm:mt-32"
         onClick={() => setShowSignIn(true)}
       >
-        <button className="bg-red-600 w-48 h-9 rounded-lg text-xs">
+        <button className="bg-red-600 w-48 h-14 sm:h-9 rounded-2xl sm:rounded-lg text-xl sm:text-xs">
           Sign in
         </button>
       </div>
       {showSignIn && (
-        <section className="signIn showCountries bg-black px-5 py-2 absolute w-full h-full top-56 border-x-2 border-gray-400  border-2 rounded-lg">
-          <div className="flex items-center justify-between pb-3 ">
+        <section className="signIn showCountries bg-black px-10 sm:px-5 py-3 sm:py-2 absolute w-full h-full top-[22rem] sm:top-56 border-x-2 border-gray-400  border-2 rounded-lg">
+          <div className="flex items-center justify-between pb-3 text-xl sm:text-lg ">
             <p>sign in</p>
             <i
-              className="fa-solid fa-arrow-down bg-red-600 p-2 rounded-full cursor-pointer"
+              className="fa-solid fa-arrow-down bg-red-600 p-3 sm:p-2 rounded-full cursor-pointer"
               onClick={() => setShowSignIn(false)}
             ></i>
           </div>
 
           <form>
-            <div className="flex flex-col gap-3 relative ">
+            <div className="flex flex-col gap-5 sm:gap-3 relative ">
               <input
                 type="text"
-                className="bg-transparent border-2 border-gray-400 rounded py-1 pl-6 text-xs text-gray-400"
+                className="bg-transparent border-2 border-gray-400 rounded p-3 pl-10 sm:py-1 sm:pl-6 text-lg sm:text-xs text-gray-400"
                 placeholder="Number"
                 value={inputValue.contact}
                 onChange={(e) =>
@@ -240,10 +260,10 @@ export const ScreenContent = () => {
                   }))
                 }
               />
-              <i className="fa-solid fa-user fa-xs absolute top-3 left-2"></i>
+              <i className="fa-solid fa-user fa-xs absolute top-2  sm:top-1.5  left-3 sm:left-2 text-lg sm:text-xs"></i>
               <input
                 type={changeType}
-                className="bg-transparent border-2 border-gray-400  rounded px-6 py-1 text-xs text-gray-400"
+                className="bg-transparent border-2 border-gray-400  rounded p-3 pl-10 sm:py-1 sm:pl-6 text-lg sm:text-xs text-gray-400"
                 placeholder="Password"
                 value={inputValue.password}
                 onChange={(e) =>
@@ -253,18 +273,18 @@ export const ScreenContent = () => {
                   }))
                 }
               />
-              <i className="fa-solid fa-lock fa-xs absolute bottom-6 left-2"></i>
+              <i className="fa-solid fa-lock fa-xs absolute bottom-9 sm:bottom-5 left-3 sm:left-2 sm:text-xs text-lg"></i>
               <div onClick={handleChangeType} className="cursor-pointer">
                 {showIcon && (
-                  <i className="fa-solid fa-eye fa-xs absolute bottom-6 right-2 text-gray-400"></i>
+                  <i className="fa-solid fa-eye fa-xs absolute bottom-9 sm:bottom-5 right-3 sm:right-2 text-gray-400 sm:text-xs text-lg"></i>
                 )}
                 {!showIcon && (
-                  <i className="fa-solid fa-eye-slash fa-xs absolute bottom-6 right-2 text-gray-400"></i>
+                  <i className="fa-solid fa-eye-slash fa-xs absolute bottom-9 sm:bottom-5 right-3 sm:right-2 text-gray-400 sm:text-xs text-lg"></i>
                 )}
               </div>
             </div>
             <p
-              className="text-xs text-right pt-1 cursor-pointer"
+              className="sm:text-xs text-right  sm:pt-1 cursor-pointer"
               onClick={() => {
                 if (setShowForgottenPage) {
                   setShowSignIn(false);
@@ -276,16 +296,14 @@ export const ScreenContent = () => {
               Forget Password?
             </p>
 
-            <div>
+            <div className="mt-3 flex justify-center ">
               <button
-                className="bg-red-600 mt-3 w-32 h-8 rounded-sm ml-6"
+                className="bg-red-600  w-32 sm:h-8 h-10 rounded-sm text-lg sm:text-sm"
                 onClick={handleSignIn}
               >
                 {btnText}
               </button>
-              <i
-                className="fa-solid fa-fingerprint bg-red-600 p-2 rounded-md ml-2 cursor-pointer"
-              ></i>
+              <i className="fa-solid fa-fingerprint bg-red-600 p-3 sm:p-2 rounded-md ml-3 cursor-pointer"></i>
             </div>
             {showPopup && (
               <section className="absolute top-1 right-4  bg-white text-black ml-5 w-52  rounded-xl p-5">
@@ -320,7 +338,9 @@ export const ScreenContent = () => {
                     }
                   }}
                 >
-                  {message?.includes("You don't have an account with us.") ? `Sign Up` : `Yes`}
+                  {message?.includes("You don't have an account with us.")
+                    ? `Sign Up`
+                    : `Yes`}
                 </button>
               </section>
             )}
@@ -328,9 +348,9 @@ export const ScreenContent = () => {
         </section>
       )}
       {showForgottenPage && <ForgetPaswrd setShowSignIn={setShowSignIn} />}
-      <div className="new text-xs flex justify-between mx-3 mt-20 md:mt-24">
+      <div className="new  text-xs flex justify-between mx-3 mt-16 md:mt-24">
         <p
-          className="cursor-pointer"
+          className="cursor-pointer  text-[1.1rem] sm:text-xs"
           onClick={() => {
             if (!showPrivacy) setShowPrivacy(true);
           }}
@@ -338,7 +358,7 @@ export const ScreenContent = () => {
           Open an Account
         </p>
         <p
-          className="cursor-pointer"
+          className="cursor-pointer  text-[1.1rem] sm:text-xs"
           onClick={() => {
             if (setShowSignUpHomePage !== undefined) {
               setBg("light-screen-mode");
@@ -351,13 +371,13 @@ export const ScreenContent = () => {
       </div>
 
       {showPrivacy && (
-        <section className="absolute top-6   bg-white text-black ml-5 w-52  rounded-xl p-5">
+        <section className="absolute text-lg sm:text-xs -bottom-8 sm:bottom-0 left-[0.3rem] xs:left-[1rem]  sm:left-0 sm:top-6 z-10  bg-white text-black ml-5 w-[20rem] sm:w-52  rounded-xl p-5">
           <i
-            className="fa-solid fa-xmark cursor-pointer ml-36 mb-4"
+            className="fa-solid fa-xmark cursor-pointer ml-60 sm:ml-36 mb-4"
             onClick={() => setShowPrivacy(false)}
           ></i>
           <h3 className="text-center font-bold mb-2">Privacy Notice</h3>
-          <article className="text-xs">
+          <article >
             We take your privacy seriously and only process your personal
             information to make your banking experience better. In accordance
             with NDPR, GDPR, and any applicable regulations, continuing to use
@@ -365,9 +385,9 @@ export const ScreenContent = () => {
             personal data by United Bank for Africa PLC, its subsidiaries and
             partners as detailed in our Privacy Policy.
           </article>
-          <div className="flex flex-col gap-2 mt-3 text-sm">
+          <div className="flex flex-col gap-2 mt-3 text-lg sm:text-sm">
             <button
-              className="bg-red-600 rounded-md py-1"
+              className="bg-red-600 rounded-md py-2 sm:py-1"
               onClick={() => {
                 if (setShowSignUp !== undefined) {
                   setShowPrivacy(false);
@@ -379,7 +399,7 @@ export const ScreenContent = () => {
               Accept
             </button>
             <button
-              className=" rounded-md py-1 text-red-600 border-red-600 border-2 hover:bg-gray-200"
+              className=" rounded-md py-2 sm:py-1 text-red-600 border-red-600 border-2 hover:bg-gray-200"
               onClick={() => setShowPrivacy(false)}
             >
               Reject

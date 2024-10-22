@@ -38,9 +38,9 @@ export function PhoneDisplay() {
   return (
     <div className="h-screen w-100% flex justify-center items-center ">
       <div
-        className={`phone w-64 border-black border-4 border-solid overflow-hidden pb-20 ${bg}`}
+        className={`w-screen h-screen sm:rounded-[40px] sm:h-[512px] sm:w-64 border-black border-4 border-solid overflow-hidden pb-20 ${bg}`}
       >
-        <div className="header flex my-3 items-center mx-5 gap-5">
+        <div className="header hidden sm:flex my-3 items-center mx-5 gap-5 ">
           <div className="time text-sm h-4 w-20   mx-1 overflow-hidden">
             <h1>
               {time.toLocaleTimeString([], {

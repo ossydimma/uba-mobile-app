@@ -58,7 +58,7 @@ export const More = () => {
             }
           }}
         />
-        <ul className="text-sm flex flex-col gap-3 mx-4 mt-2">
+        <ul className="text-xl sm:text-sm flex flex-col gap-3 mx-4 mt-6 Sm:mt-2">
           <li>
             <article
               onClick={()=> {
@@ -111,13 +111,13 @@ export const More = () => {
             </article>
           </li>
         </ul>
-        <div className="medias flex gap-3 text-sm justify-center mt-28 text-white ">
+        <div className="medias flex gap-3 text-xl sm:text-sm justify-center mt-28 text-white ">
           <i className="fa-brands fa-twitter bg-red-600 p-1.5 rounded-full cursor-pointer"></i>
           <i className="fa-brands fa-instagram bg-red-600 p-1.5 rounded-full cursor-pointer"></i>
           <i className="fa-brands fa-square-youtube bg-red-600 p-1.5 rounded-full cursor-pointer"></i>
           <i className="fa-brands fa-facebook bg-red-600 p-1.5 rounded-full cursor-pointer"></i>
         </div>
-        <p className="text-center text-sm mt-3 font-black">Ubagroup</p>
+        <p className="text-center text-xl sm:text-sm mt-3 font-black">Ubagroup</p>
       </section>
       {showNoti && (
         <EmptyPage

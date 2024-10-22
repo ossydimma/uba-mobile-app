@@ -29,8 +29,6 @@ export const History = ({ setDisplaysection }: homeDisplaytype) => {
 
   useEffect(() => {
     const history : detailsType[] = JSON.parse(localStorage.getItem("histories") || "[]" );
-
-    console.log(history)
     if (history) {
 
       setHistories(history);
@@ -38,7 +36,7 @@ export const History = ({ setDisplaysection }: homeDisplaytype) => {
   }, [])
 
 
-  const now = new Date();
+  // const now = new Date();
 
   // contexts
   const { setBg } = useContext(BgContext);
@@ -100,7 +98,7 @@ export const History = ({ setDisplaysection }: homeDisplaytype) => {
                         <span className=" uppercase">
                           {item.Name ? item.Name : item.Number}
                         </span>
-                        /tranfer from{" "}
+                        /tranfer for/{" "}
                         <span className=" uppercase">{item.Narrator}</span>
                       </p>
                       <p className=" pb-[5px]">Tap to display receipt</p>
@@ -141,6 +139,12 @@ export const History = ({ setDisplaysection }: homeDisplaytype) => {
                   </li>
                   <li className=" font-semibold">
                     Type: <span className=" font-normal">{selectedObj.TypeOfTranscation}</span>
+                  </li>
+                  <li className=" font-semibold">
+                    Narrator:{" "}
+                    <span className=" font-normal ">
+                      {selectedObj ? selectedObj.Narrator : undefined}
+                    </span>
                   </li>
                 </ul>
                 <button

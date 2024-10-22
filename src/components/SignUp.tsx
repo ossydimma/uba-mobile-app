@@ -20,20 +20,9 @@ export  const SignUp = ({ setShowSignIn }: MyComponentProps) => {
   const userData = JSON.parse(localStorage.getItem("userInfo") || "{}");
 
   useEffect(() => {
-
-    // fetch("https://localhost:7164/api/UbaClone")
-    // .then((response) => {
-    //   if (!response.ok) {
-    //     throw new Error('Network response was not ok');
-    //   }
-    //   return response.json();
-    // })
-    // .then((data)=> console.log(data))
- 
-
     axios.get('https://localhost:7164/api/UbaClone')
       .then((response) => {
-        console.log(response.data)
+        // console.log(response.data)
       })
       .catch(error => console.error(error)) 
   }, []);
@@ -166,9 +155,6 @@ export  const SignUp = ({ setShowSignIn }: MyComponentProps) => {
       userData.pin = inputValue1;
       console.log(userData)
       setShowPopUP(true);
-      // userData.balance = "2000.00";
-      // userData.accountNumber = "2763732737";
-      // userData.accountType = "Current Account";
 
       axios.post("https://localhost:7164/api/UbaClone/Sign-in", userData)
         .then(response => console.log(response.data))
@@ -216,10 +202,10 @@ export  const SignUp = ({ setShowSignIn }: MyComponentProps) => {
               }}
             ></i>
           )}
-          <h1 className="font-bold text-black ml-16 text-lg mb-4">Sign Up</h1>
+          <h1 className="font-bold text-black text-center  text-4xl sm:text-2xl mb-4">Sign Up</h1>
         </div>
         {showName && (
-          <form className="flex flex-col gap-5">
+          <form className="flex flex-col mt-5 sm:mt-0 ml-4 sm:ml-0 gap-5 text-xl">
             <label htmlFor="name">
               Full Name
               <input
@@ -229,9 +215,9 @@ export  const SignUp = ({ setShowSignIn }: MyComponentProps) => {
                 placeholder="Enter Your Full Name"
                 onChange={handleChangeInput1}
                 value={inputValue1}
-                className="bg-transparent border-2 border-white rounded py-2 px-6 text-xs  outline-none focus-within:bg-white focus-within:text-black"
+                className="bg-transparent border-2 border-white rounded py-6 sm:py-2 px-12 sm:px-6 text-lg sm:text-xs  outline-none focus-within:bg-white focus-within:text-black"
               />
-              <p className="text-red-500 text-xs mt-1 ">{showFeedBack1}</p>
+              <p className="text-red-500 text-lg sm:text-xs mt-1 ">{showFeedBack1}</p>
             </label>
             <label htmlFor="number">
               Number
@@ -242,13 +228,13 @@ export  const SignUp = ({ setShowSignIn }: MyComponentProps) => {
                 placeholder="Enter Your Number"
                 onChange={handleChangeInput2}
                 value={inputValue2}
-                className="bg-transparent border-2 border-white rounded py-2 px-6 text-xs outline-none focus-within:bg-white focus-within:text-black"
+                className="bg-transparent border-2 border-white rounded py-6 sm:py-2 px-12 sm:px-6 text-lg sm:text-xs outline-none focus-within:bg-white focus-within:text-black"
               />
-              <p className="text-red-500 text-xs mt-1 ">{showFeedBack2}</p>
+              <p className="text-red-500 text-lg sm:text-xs mt-1 ">{showFeedBack2}</p>
             </label>
             <button
               onClick={handleNextBtn}
-              className="mx-auto rounded-md py-3 bg-white text-black mt-4 border-white border-2 hover:bg-gray-200 hover:scale-90 hover:border-black hover:border-2 w-32"
+              className="mx-auto rounded-md text-2xl sm:text-xl py-5 sm:py-3 bg-white text-black mt-4 border-white border-2 hover:bg-gray-200 hover:scale-90 hover:border-black hover:border-2 w-44 sm:w-32"
             >
               NEXT
             </button>
@@ -256,7 +242,7 @@ export  const SignUp = ({ setShowSignIn }: MyComponentProps) => {
         )}
 
         {showPassPage && (
-          <form className="flex flex-col gap-5">
+          <form className="flex flex-col mt-5 sm:mt-0 ml-4 sm:ml-0 gap-5 text-xl">
             <label htmlFor="text">
               Password
               <input
@@ -265,9 +251,9 @@ export  const SignUp = ({ setShowSignIn }: MyComponentProps) => {
                 id="text"
                 placeholder="Enter Your Password"
                 onChange={handleChangeInput1}
-                className="bg-transparent border-2 border-white rounded py-2 px-6 text-xs  outline-none focus-within:bg-white focus-within:text-black"
+                className="bg-transparent border-2 border-white rounded py-6 sm:py-2 px-12 sm:px-6 text-lg sm:text-xs outline-none focus-within:bg-white focus-within:text-black"
               />
-              <p className="text-red-500 text-xs mt-1 ">{showFeedBack1}</p>
+              <p className="text-red-500 text-lg sm:text-xs mt-1 ">{showFeedBack1}</p>
             </label>
             <label htmlFor="number">
               Confirm Password
@@ -277,20 +263,20 @@ export  const SignUp = ({ setShowSignIn }: MyComponentProps) => {
                 id="number"
                 placeholder="Confirm Password"
                 onChange={handleChangeInput2}
-                className="bg-transparent border-2 border-white rounded py-2 px-6 text-xs outline-none focus-within:bg-white focus-within:text-black"
+                className="bg-transparent border-2 border-white rounded py-6 sm:py-2 px-12 sm:px-6 text-lg sm:text-xs outline-none focus-within:bg-white focus-within:text-black"
               />
-              <p className="text-red-500 text-xs mt-1 ">{showFeedBack2}</p>
+              <p className="text-red-500 text-lg sm:text-xs mt-1 ">{showFeedBack2}</p>
             </label>
             <button
               onClick={handleNext2Btn}
-              className="mx-auto rounded-md py-3 bg-white text-black mt-4 border-white border-2 hover:bg-gray-200 hover:scale-90 hover:border-black hover:border-2 w-32"
+              className="mx-auto rounded-md text-2xl sm:text-xl py-5 sm:py-3 bg-white text-black mt-4 border-white border-2 hover:bg-gray-200 hover:scale-90 hover:border-black hover:border-2 w-44 sm:w-32"
             >
               NEXT
             </button>
           </form>
         )}
         {showPinPage && (
-          <form className="flex flex-col gap-5">
+          <form className="flex flex-col mt-5 sm:mt-0 ml-4 sm:ml-0 gap-5 text-xl">
             <label htmlFor="text">
               PIN
               <input
@@ -299,9 +285,9 @@ export  const SignUp = ({ setShowSignIn }: MyComponentProps) => {
                 id="text"
                 placeholder="Enter PIN"
                 onChange={handleChangeInput1}
-                className="bg-transparent border-2 border-white rounded py-2 px-6 text-xs  outline-none focus-within:bg-white focus-within:text-black"
+                className="bg-transparent border-2 border-white rounded py-6 sm:py-2 px-12 sm:px-6 text-lg sm:text-xs outline-none focus-within:bg-white focus-within:text-black"
               />
-              <p className="text-red-500 text-xs mt-1 ">{showFeedBack1}</p>
+              <p className="text-red-500 ttext-lg sm:text-xs mt-1 ">{showFeedBack1}</p>
             </label>
             <label htmlFor="number">
               Confirm PIN
@@ -311,13 +297,13 @@ export  const SignUp = ({ setShowSignIn }: MyComponentProps) => {
                 id="number"
                 placeholder="Re-Type PIN"
                 onChange={handleChangeInput2}
-                className="bg-transparent border-2 border-white rounded py-2 px-6 text-xs outline-none focus-within:bg-white focus-within:text-black"
+                className="bg-transparent border-2 border-white rounded py-6 sm:py-2 px-12 sm:px-6 text-lg sm:text-xs outline-none focus-within:bg-white focus-within:text-black"
               />
-              <p className="text-red-500 text-xs mt-1 ">{showFeedBack2}</p>
+              <p className="text-red-500 ttext-lg sm:text-xs mt-1 ">{showFeedBack2}</p>
             </label>
             <button
               onClick={handleActivationBtn}
-              className=" rounded-md py-3 bg-white text-black mt-6 border-white border-2 hover:bg-gray-200 hover:scale-90 hover:border-black hover:border-2"
+              className=" rounded-md py-5 sm:py-3 text-2xl sm:text-xl bg-white text-black mt-6 border-white border-2 hover:bg-gray-200 hover:scale-90 hover:border-black hover:border-2"
             >
               ACTIVATE
             </button>
