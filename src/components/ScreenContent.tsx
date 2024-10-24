@@ -113,7 +113,6 @@ export const ScreenContent = () => {
 
         const decodedToken: UserdetailsType = jwtDecode(token);
         const data: UserdetailsType = JSON.parse(decodedToken.History);
-        console.log(data);
         localStorage.setItem("histories", decodedToken.History);
         localStorage.setItem("authToken", token);
         if (setShowHome && setHideHome) {
@@ -286,6 +285,7 @@ export const ScreenContent = () => {
             <p
               className="sm:text-xs text-right  sm:pt-1 cursor-pointer"
               onClick={() => {
+                setShowSignIn(false);
                 if (setShowForgottenPage) {
                   setShowSignIn(false);
                   setBg("light-screen-mode");
@@ -303,7 +303,15 @@ export const ScreenContent = () => {
               >
                 {btnText}
               </button>
-              <i className="fa-solid fa-fingerprint bg-red-600 p-3 sm:p-2 rounded-md ml-3 cursor-pointer"></i>
+              <i className="fa-solid fa-fingerprint bg-red-600 p-3 sm:p-2 rounded-md ml-3 cursor-pointer"
+                onClick={()=> {
+                if (setShowHome && setHideHome) {
+                setBg("dark-screen-mode");
+                  setHideHome(true);
+                  setShowHome(true);
+                }
+              }}
+              ></i>
             </div>
             {showPopup && (
               <section className="absolute top-1 right-4  bg-white text-black ml-5 w-52  rounded-xl p-5">
@@ -348,7 +356,7 @@ export const ScreenContent = () => {
         </section>
       )}
       {showForgottenPage && <ForgetPaswrd setShowSignIn={setShowSignIn} />}
-      <div className="new  text-xs flex justify-between mx-3 mt-16 md:mt-24">
+      <div className="new  text-xs flex justify-between mx-3 mt-16 sm:mt-16">
         <p
           className="cursor-pointer  text-[1.1rem] sm:text-xs"
           onClick={() => {

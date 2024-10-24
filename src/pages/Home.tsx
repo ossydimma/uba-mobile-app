@@ -307,16 +307,16 @@ export const Home = () => {
   return (
     <div>
       <div
-        className={`text-white w-full h-full top-0 absolute left-0 showMorePage bg-[#000] ${styles.scroll} scroll-smooth md:h-[465px]`}
+        className={`text-white w-full h-screen top-0 absolute left-0 showMorePage bg-[#000] ${styles.scroll} scroll-smooth md:h-[465px]`}
       >
         {hideHome && (
           <main className=" h-full relative text-black">
             <header className="h-24  bg-black ">
-              <div className="w-60  h-11 -mt-2 bg-black text-white px-2 flex justify-between items-center fixed z-10">
+              <div className="w-full sm:w-60 h-14 sm:h-11 -mt-2 bg-black text-white px-3.5  sm:px-2 flex justify-between items-center fixed z-10">
                 <span className="flex gap-2">
                   <div>
                     <i
-                      className="fa-regular fa-user text-xs ml-1 "
+                      className="fa-regular fa-user text-xl sm:text-xs  "
                       onClick={() => {
                         if (setHideHome !== undefined) {
                           setHideHome(false);
@@ -329,12 +329,12 @@ export const Home = () => {
                       }}
                     ></i>
                   </div>
-                  <p className="text-xs">{`Hello, ${userData.FullName}`}</p>
+                  <p className="text-lg sm:text-xs">{`Hello, ${userData.FullName}`}</p>
                 </span>
 
-                <span className="flex  gap-2 ">
+                <span className="flex gap-2 sm:gap-1.5  ">
                   <i
-                    className="fa-regular fa-bell text-gray-400 text-2xl cursor-pointer"
+                    className="fa-regular fa-bell text-gray-400 text-3xl sm:text-xl cursor-pointer"
                     onClick={() => {
                       if (setShowNoti && setHideHome !== undefined) {
                         setHideHome(false);
@@ -345,9 +345,10 @@ export const Home = () => {
                   ></i>
                   <span className="mt-1 ">
                     <svg
+                      className="w-7 sm:w-4 h-7 sm:h-4"
                       xmlns="http://www.w3.org/2000/svg"
-                      width="20"
-                      height="20"
+                      // width="20"
+                      // height="20"
                       viewBox="0 0 40 48"
                       fill="none"
                     >
@@ -365,17 +366,17 @@ export const Home = () => {
               </div>
             </header>
 
-            <section className=" absolute top-10 left-7 h-28 w-48 bg-white rounded-lg drop-shadow-xl">
+            <section className="  text-lg sm:text-xs absolute top-[3.5rem] sm:top-10 left-[3rem] xs:left-[5rem] sm:left-7 h-[10rem] sm:h-28 w-[14rem] sm:w-48 bg-white rounded-lg drop-shadow-xl">
               {reload && (
                 <div>
-                  <p className="text-xs text-center mt-2">
+                  <p className=" text-center mt-2">
                     Account:
                     <span className="tracking-wider">{" "}{ userData.AccountNumber}</span>
                   </p>
                   <div className="flex justify-center items-center gap-5 font-semibold mr-1 mt-2">
                     <h1 className="ml-6 ">
                       NGN{" "}
-                      <span className={`${styles.changeType} text-xs `}>
+                      <span className={`${styles.changeType}  `}>
                         {userData.Balance}
                       </span>
                     </h1>
@@ -408,14 +409,14 @@ export const Home = () => {
                       )}
                     </div>
                   </div>
-                  <p className="text-xs text-center mt-2">Current Account</p>
-                  <div className="flex x-1 justify-evenly mt-2 mb-1">
-                    <i className="fa-solid fa-plus text-xs text-red-600"></i>
-                    <p className="small-font mx-1">
+                  <p className="text-lg sm:text-xs text-center mt-2">Current Account</p>
+                  <div className="flex justify-evenly mx-1 item-center mt-2 mb-1 text-sm sm:text-xs">
+                    <i className="fa-solid fa-plus text-red-600"></i>
+                    <p className="sm:font-[700] text-sm font-[900] sm:text-xs text-center ">
                       Balance last updated on <span>{clickTime}</span>
                     </p>
                     <i
-                      className="fa-solid fa-rotate text-xs text-gray-900 cursor-pointer"
+                      className="fa-solid fa-rotate text-gray-900 cursor-pointer"
                       onClick={handleClick}
                     ></i>
                   </div>
@@ -435,11 +436,11 @@ export const Home = () => {
               <div className={`relative ${styles.addOpacity}`}>
                 {/* <------------------- SERVICE SECTION--------------------------> */}
                 {displaySection.showService && (
-                  <section className="sec-height mx-auto  w-48 bg-white rounded-lg drop-shadow-xl mt-2  pl-1.5 pt-2 ">
-                    <h2 className="text-sm font-[600]">Service</h2>
-                    <ul className="w-full h-full flex items-center justify-center gap-1.5 -mt-3">
+                  <section className=" mx-auto  h-[10rem] sm:h-28 w-[17rem] sm:w-48  bg-white rounded-lg drop-shadow-xl mt-[4rem] sm:mt-2  pl-1.5 pt-2 ">
+                    <h2 className=" text-xl sm:text-sm font-[600]">Service</h2>
+                    <ul className="w-full h-full flex items-center justify-center gap-2 sm:gap-1.5 -mt-6 sm:-mt-3">
                       <li
-                        className="flex flex-col items-center gap-1 cursor-pointer"
+                        className="flex flex-col items-center gap-1 cursor-pointer "
                         onClick={() => {
                           if (setHideHome) {
                             setHideHome(false);
@@ -452,9 +453,9 @@ export const Home = () => {
                         }}
                       >
                         <div className="border-2 p-1.5 drop-shadow-lg bg-white">
-                          <img src={sendSvg} alt="icon" />
+                          <img src={sendSvg} alt="icon" className="w-8 sm:w-4" />
                         </div>
-                        <p className="text-[9px]">Transfer</p>
+                        <p className="text-sm sm:text-[9px]">Transfer</p>
                       </li>
 
                       <li
@@ -471,9 +472,9 @@ export const Home = () => {
                         }}
                       >
                         <div className="border-2 p-1.5   drop-shadow-lg bg-white">
-                          <img src={loadSvg} alt="icon" />
+                          <img src={loadSvg} alt="icon" className="w-8 sm:w-4"/>
                         </div>
-                        <p className="text-[8px] text-center">History</p>
+                        <p className="text-sm sm:text-[9px]">History</p>
                       </li>
 
                       <li
@@ -490,9 +491,9 @@ export const Home = () => {
                         }}
                       >
                         <div className="border-2 p-1.5 drop-shadow-lg bg-white ">
-                          <img src={billSvg} alt="icon" />
+                          <img src={billSvg} alt="icon" className="w-8 sm:w-4" />
                         </div>
-                        <p className="text-[8px]">Lifestyle</p>
+                        <p className="text-sm sm:text-[9px]">Lifestyle</p>
                       </li>
 
                       <li
@@ -509,9 +510,9 @@ export const Home = () => {
                         }}
                       >
                         <div className="border-2 p-1.5 drop-shadow-lg bg-white">
-                          <img src={mobileSvg} alt="icon" />
+                          <img src={mobileSvg} alt="icon" className="w-8 sm:w-4" />
                         </div>
-                        <p className="text-[8px]">Mobile</p>
+                        <p className="text-sm sm:text-[9px]">Mobile</p>
                       </li>
                     </ul>
                   </section>
@@ -519,10 +520,10 @@ export const Home = () => {
 
                 {/*<-------------------------loan sec ---------------------------> */}
                 {displaySection.showLoan && (
-                  <section className="sec-height mx-auto  w-48 bg-white rounded-lg drop-shadow-xl mt-4 pl-1.5 pt-2">
-                    <h2 className="text-sm font-[600]">Loans</h2>
+                  <section className="mx-auto h-[10rem] sm:h-28 w-[17rem] sm:w-48 bg-white rounded-lg drop-shadow-xl mt-4 pl-1.5 pt-2">
+                    <h2 className="text-xl sm:text-sm font-[600]">Loans</h2>
                     <div
-                      className="w-24  mt-0.5 ml-1 cursor-pointer"
+                      className="w-24 mt-4 sm:mt-0.5 ml-3 sm:ml-1 cursor-pointer"
                       onClick={() => {
                         if (setHideHome !== undefined) {
                           setHideHome(false);
@@ -537,9 +538,9 @@ export const Home = () => {
                       <img
                         src={loanImage}
                         alt="loan"
-                        className="rounded-md h-[50px]"
+                        className="rounded-md h-16 sm:h-[50px]"
                       />
-                      <p className="text-[11px] mt-[2px] ml-0.5">Quick Loans</p>
+                      <p className="text-sm sm:text-[11px] mt-[10px] sm:mt-[2px] ml-0.5">Quick Loans</p>
                     </div>
                   </section>
                 )}

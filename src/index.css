@@ -91,7 +91,7 @@
   overflow-y: scroll;
 }
 .home-wrapper {
-  height: 454px;
+  /* height: 454px; */
   overflow-y: scroll;
   overflow-x: hidden;
   cursor: pointer;
