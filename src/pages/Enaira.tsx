@@ -63,17 +63,17 @@ export const Enaira = ({ setStyles, setDisplaysection }: childPropType) => {
             alt="eNaira logo"
             className=" w-[110px] mt-2 mx-auto"
           />
-          <h3 className=" text-center font-semibold text-sm mt-2">
+          <h3 className=" text-center font-semibold text-lg sm:text-sm mt-2">
             Login to your eNaira wallet
           </h3>
-          <p className=" mx-2 mt-2 text-xs">
+          <p className=" mx-2 mt-2 text-sm sm:text-xs">
             Please enter your login details to link your wallet to UBA app
           </p>
         </div>
         <form className=" flex flex-col gap-8 items-center mt-6 relative">
           <input
             type="text"
-            className=" border py-3 rounded-md bg-[#f1f3f3] px-2 w-[217px] text-xs outline-none"
+            className=" border py-3 rounded-md bg-[#f1f3f3] px-2 w-[20rem] sm:w-[217px] text-sm sm:text-xs outline-none"
             placeholder="Username"
             defaultValue={inputValue.username}
             onChange={(e)=> {
@@ -82,7 +82,7 @@ export const Enaira = ({ setStyles, setDisplaysection }: childPropType) => {
           />
           <input
             type={inputType}
-            className=" border py-3 rounded-md bg-[#f1f3f3] px-2 w-[217px] text-xs outline-none"
+            className=" border py-4 sm:py-3 rounded-md bg-[#f1f3f3] px-2 w-[20rem] sm:w-[217px] text-sm sm:text-xs outline-none"
             placeholder="Password"
             defaultValue={inputValue.password}
             onChange={(e)=> {
@@ -91,14 +91,14 @@ export const Enaira = ({ setStyles, setDisplaysection }: childPropType) => {
           />
           <div onClick={handleTypeChange} className="cursor-pointer">
             {displaysec.showIcon && (
-              <i className="fa-solid fa-eye fa-xs absolute top-[88px] right-6 text-gray-400"></i>
+              <i className="fa-solid fa-eye fa-xs absolute top-[6.5rem] sm:top-[88px] right-6 text-gray-400"></i>
             )}
             {!displaysec.showIcon && (
-              <i className="fa-solid fa-eye-slash fa-xs absolute top-[88px] right-6 text-gray-400"></i>
+              <i className="fa-solid fa-eye-slash fa-xs absolute top-[6.5rem] sm:top-[88px] right-6 text-gray-400"></i>
             )}
           </div>
           <button
-            className=" text-sm bg-red-600 text-white p-2.5 rounded-md -mt-8"
+            className="text-lg sm:text-sm bg-red-600 text-white p-3 sm:p-2.5 rounded-md -mt-8"
             onClick={(e) => {
               e.preventDefault();
               if (inputValue.username !== undefined && inputValue.password !== undefined) {

@@ -13,14 +13,14 @@ export interface childPropType {
 export const PopUP = ( {msg, icon, title, onClick, className}:childPropType ) => {
     
   return (
-    <div className={`${className} z-10  w-52 h-auto pt-4 pb-10 bg-white rounded-2xl mx-auto px-4 drop-shadow-xl`}>
-        <i className="fa-solid fa-xmark cursor-pointer flex justify-end  pb-6" onClick={onClick}></i>
+    <div className={`${className} z-10 w-60 sm:w-52 h-auto pt-4 pb-10 bg-white rounded-2xl mx-auto px-4 drop-shadow-xl`}>
+        <i className="fa-solid fa-xmark cursor-pointer flex justify-end  pb-6 text-xl sm:text-lg" onClick={onClick}></i>
         <main className="flex flex-col gap-5 justify-center items-center">
             <div>{icon}</div>
-            <p>{title}</p>
-            <p className=" text-xs">{msg}.</p>
+            <p className=" text-xl sm:text-lg font-bold">{title}</p>
+            <p className=" text-sm sm:text-xs">{msg}.</p>
             <button 
-              className="bg-red-600 py-2 text-sm text-white  w-44 rounded-[4px]"
+              className="bg-red-600 py-2 text-lg sm:text-sm text-white  w-44 rounded-[4px]"
               onClick={onClick}
               >OK</button>
         </main>

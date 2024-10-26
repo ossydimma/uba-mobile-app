@@ -204,7 +204,7 @@ export const Home = () => {
     if (selected.btnText === "Continue" && selected.number) {
       if (
         /^[0-9]+$/.test(selected.number) &&
-        selected.number.length === 11 &&
+        selected.number.length > 10 &&
         selected.account !== "Select Account" &&
         selected.service !== "Select Service"
       ) {
@@ -307,7 +307,7 @@ export const Home = () => {
   return (
     <div>
       <div
-        className={`text-white w-full h-screen top-0 absolute left-0 showMorePage bg-[#000] ${styles.scroll} scroll-smooth md:h-[465px]`}
+        className={`text-white w-full h-screen top-0 absolute left-0 showMorePage bg-[#000] ${styles.scroll} scroll-smooth sm:h-[465px]`}
       >
         {hideHome && (
           <main className=" h-full relative text-black">
@@ -366,7 +366,7 @@ export const Home = () => {
               </div>
             </header>
 
-            <section className="  text-lg sm:text-xs absolute top-[3.5rem] sm:top-10 left-[3rem] xs:left-[5rem] sm:left-7 h-[10rem] sm:h-28 w-[14rem] sm:w-48 bg-white rounded-lg drop-shadow-xl">
+            <section className="  text-lg sm:text-xs absolute top-[3.5rem] sm:top-10 left-[3rem] xs:left-[5rem] sm:left-7 h-[10rem] sm:h-28 w-[14rem] sm:w-48  bg-white rounded-lg drop-shadow-xl">
               {reload && (
                 <div>
                   <p className=" text-center mt-2">
@@ -432,11 +432,11 @@ export const Home = () => {
             <div
               className={`bg-[#f1f1f1] w-full text-black ${styles.addHeight} pt-20 pb-[50px] overflow-hidden  min-h-full`}
             >
-              <div className="bg-red-600 w-2.5 h-2.5 mx-auto rounded-full -mt-4 "></div>
+              <div className="bg-red-600 w-2.5 h-2.5 mx-auto rounded-full -mt-4 mb-[4rem] sm:mb-0 "></div>
               <div className={`relative ${styles.addOpacity}`}>
                 {/* <------------------- SERVICE SECTION--------------------------> */}
                 {displaySection.showService && (
-                  <section className=" mx-auto  h-[10rem] sm:h-28 w-[17rem] sm:w-48  bg-white rounded-lg drop-shadow-xl mt-[4rem] sm:mt-2  pl-1.5 pt-2 ">
+                  <section className=" mx-auto  h-[10rem] sm:h-28 w-[17rem] sm:w-48  bg-white rounded-lg drop-shadow-xl  sm:mt-2  pl-1.5 pt-2 ">
                     <h2 className=" text-xl sm:text-sm font-[600]">Service</h2>
                     <ul className="w-full h-full flex items-center justify-center gap-2 sm:gap-1.5 -mt-6 sm:-mt-3">
                       <li
@@ -547,7 +547,7 @@ export const Home = () => {
 
                 {/* -------------------Enaira sec-------------------------- */}
                 {displaySection.showEnaira && (
-                  <section className=" relative mx-auto pb-4 w-48 bg-white rounded-lg drop-shadow-xl mt-4  pt-2">
+                  <section className=" relative mx-auto h-auto  w-[17rem] sm:w-48 py-4 bg-white rounded-lg drop-shadow-xl mt-4  sm:pt-2">
                     <img
                       src="https://enaira.gov.ng/wp-content/uploads/2023/04/enaira-logo.jpg"
                       alt="eNaria"
@@ -557,23 +557,23 @@ export const Home = () => {
                       <p className="text-gray-600 text-lg font-[500] -mt-1">
                         eNaira
                       </p>
-                      <div className="text-[8px] flex flex-col -mt-[8px] gap-[-4px] text-green-900">
+                      <div className="text-[11px] sm:text-[8px] flex flex-col -mt-[8px] gap-[-4px] text-green-900">
                         <p>Same Naira</p>
                         <p className="-mt-1">More possibilities</p>
                       </div>
                     </div>
                     <div className="mx-[4px] mt-1">
-                      <p className="text-[10px] font-semibold">
+                      <p className="text-xs sm:text-[10px] font-semibold">
                         Access your eNaria Wallet from UBA App
                       </p>
-                      <p className="text-[9px] mt-0.5">
+                      <p className="text-xs sm:text-[9px] mt-0.5">
                         Secure,fast & easy way to deposit & withdraw & funds
                         from / to your UBA app
                       </p>
                     </div>
                     <div className="flex justify-center mt-3">
                       <button
-                        className="bg-red-600 w-[90%] h-8 rounded-md text-white text-sm"
+                        className="bg-red-600 w-[90%] py-2 sm:py-0 h-auto sm:h-8 rounded-md text-white  sm:text-sm"
                         onClick={() => {
                           if (setShowNairaSec && setHideHome !== undefined) {
                             setShowNairaSec(true);
@@ -594,14 +594,14 @@ export const Home = () => {
 
                 {/* --------------------------------mobile sec------------------------------- */}
                 {displaySection.showMobile && (
-                  <section className="relative mx-auto pb-4 pl-2 pr-2 w-48 bg-white rounded-lg drop-shadow-xl mt-4  pt-3">
-                    <h2 className=" text-sm font-bold mb-2">Mobile Top up</h2>
-                    <p className="text-[11px]">Customer Mobile Number</p>
+                  <section className="relative mx-auto h-auto w-[17rem] sm:w-48 py-4 pl-2 pr-2  bg-white rounded-lg drop-shadow-xl mt-4">
+                    <h2 className=" text-lg sm:text-sm font-bold mb-2">Mobile Top up</h2>
+                    <p className="text-lg sm:text-[11px]">Customer Mobile Number</p>
                     <div className="mr-8 relative flex flex-col gap-4">
                       <input
                         type="text"
                         value={selected.number}
-                        className="rounded-[4px] outline-none border py-2 pl-[60px] pr- text-xs w-44 text-gray-600"
+                        className="rounded-[4px] outline-none border py-3 sm:py-2 pl-[4.5rem] sm:pl-[60px] pr-7 text-sm sm:text-xs w-64 sm:w-44 text-gray-600"
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                           setSelected((prev) => ({
                             ...prev,
@@ -609,17 +609,17 @@ export const Home = () => {
                           }));
                         }}
                       />
-                      <p className=" bg-red-600 w-[53px] py-[8.3px] px-1 text-[11px] text-white absolute top-0">
+                      <p className=" bg-red-600  sm:w-[53px] py-3 sm:py-[8.3px] px-1.5 sm:px-1 text-sm sm:text-[11px] text-white absolute top-0">
                         NG +234
                       </p>
                       <i
-                        className="fa-solid fa-xmark bg-gray-300 py-[4px] px-[6px] rounded-full text-white text-[10px] absolute top-2 right-[-26px] cursor-pointer"
+                        className="fa-solid fa-xmark bg-gray-300 py-[4px] px-[6px] rounded-full text-white text-[10px] absolute top-4 sm:top-2 right-[-26px] cursor-pointer"
                         onClick={() => {
                           setSelected((prev) => ({ ...prev, number: "" }));
                         }}
                       ></i>
                       <div
-                        className=" w-44 h-9 border text-xs flex items-center px-3 justify-between rounded-[4px] cursor-pointer"
+                        className="w-64 sm:w-44 py-3 sm:py-2  border text-sm sm:text-xs flex items-center px-3 justify-between rounded-[4px] cursor-pointer"
                         onClick={() => {
                           setDisplaysection((prev) => ({
                             ...prev,
@@ -636,11 +636,11 @@ export const Home = () => {
                               }));
                         }}
                       >
-                        <div className="text-gray-600">{selected.account}</div>
-                        <i className="fa-solid fa-caret-down text-gray-600"></i>
+                        <div className="text-gray-600 ">{selected.account}</div>
+                        <i className="fa-solid fa-caret-down text-gray-600 "></i>
                       </div>
                       <div
-                        className=" w-44 h-9 border text-xs flex items-center px-3 justify-between rounded-[4px] cursor-pointer"
+                        className=" w-64 sm:w-44 py-3 sm:py-2 border text-sm sm:text-xs flex items-center px-3 justify-between rounded-[4px] cursor-pointer"
                         onClick={() => {
                           displaySection.showBuySec === false
                             ? setDisplaysection((prev) => ({
@@ -653,26 +653,26 @@ export const Home = () => {
                               }));
                         }}
                       >
-                        <p className="text-gray-600">{selected.service}</p>
+                        <p className="text-gray-600 ">{selected.service}</p>
                         <i className="fa-solid fa-caret-down text-gray-600"></i>
                       </div>
                       {displaySection.showMobileSec2 && (
                         <div>
                           <div className=" flex justify-center items-center gap-4 ml-6 -mt-3">
                             <img src={flag} alt="flag" className=" w-5 h-3 " />
-                            <p className=" text-xs">Nigeria</p>
+                            <p className=" text-sm sm:text-xs">Nigeria</p>
                           </div>
-                          <Slider className="w-44 mt-5">
+                          <Slider className="w-64 sm:w-44 mt-5">
                             <SwiperSlide>Nigeria MTN</SwiperSlide>
                             <SwiperSlide>Nigeria Airtel</SwiperSlide>
                             <SwiperSlide>Nigeria Glo</SwiperSlide>
                             <SwiperSlide>Nigeria 9Mobile</SwiperSlide>
                           </Slider>
-                          <div className=" text-xs  ml-9 my-4 text-center">
+                          <div className=" text-sm sm:text-xs  ml-9 my-4 text-center">
                             Enter Amount From <p>5 to 50000 NGN</p>
                           </div>
 
-                          <div className=" flex w-4 h-10 item-center gap-2 mx-1.5 mt-5">
+                          <div className=" flex w-64 sm:w-44 border h-10 justify-evenly item-center gap-4 sm:gap-2 mx-0 sm:mx-1.5 mt-5">
                             <i
                               className="fa-solid fa-minus  border-red-600 border px-3 pt-1 mt-1 h-6 rounded-lg text-xs hover:bg-gray-200 cursor-pointer"
                               onClick={() => {
@@ -685,7 +685,7 @@ export const Home = () => {
                             ></i>
                             <input
                               type="text"
-                              className=" w-20 h-8 border rounded-sm border-gray-300 outline-none text-xs px-1 text-center"
+                              className="  sm:w-20 h-8 border rounded-sm border-gray-300 outline-none text-xs px-1 text-center"
                               value={mobileAmount}
                               placeholder="Amount"
                               onChange={updateInputValueHandler}
@@ -716,7 +716,7 @@ export const Home = () => {
                         </div>
                       )}
                       <button
-                        className="bg-red-600 py-2 text-sm text-white  w-44 rounded-[4px]"
+                        className="bg-red-600 text-sm text-white w-64 sm:w-44 py-3 sm:py-2 rounded-[4px]"
                         onClick={handleMobileBtn}
                       >
                         {selected.btnText}
@@ -727,10 +727,10 @@ export const Home = () => {
 
                 {/* -------------------------customize sec ---------------------- */}
                 {displaySection.showCustomize && (
-                  <section className="flex  justify-between items-center gap-1 mx-auto pb-4 pl-2 pr-2 w-48 bg-white rounded-lg drop-shadow-xl mt-4  pt-4">
-                    <p className=" text-sm">Customize Your Home</p>
+                  <section className="flex  justify-between items-center gap-1 mx-auto pb-4 pl-2 pr-2 h-auto w-[17rem] sm:w-48 bg-white rounded-lg drop-shadow-xl mt-4  pt-4">
+                    <p className=" text-lg sm:text-sm">Customize Your Home</p>
                     <i
-                      className="fa-solid fa-plus bg-gray-300 py-2 px-2.5 text-red-600 text-sm rounded-md cursor-pointer"
+                      className="fa-solid fa-plus bg-gray-300 py-2 px-3 sm:px-2.5 text-red-600 text-[1rem] sm:text-sm rounded-md cursor-pointer"
                       onClick={() => {
                         setDisplaysection((prev) => ({
                           ...prev,
@@ -764,19 +764,19 @@ export const Home = () => {
 
                 {/*------------------------------------ customize select section-------------------- */}
                 {!displaySection.showCustomize && (
-                  <section className="showCountries bg-white px-2.5 py-2 absolute w-full h-[280px] top-0  z-10 rounded-lg">
+                  <section className="showCountries bg-white px-2.5 py-5 sm:py-2 absolute w-full h-auto sm:h-[280px] top-[11.5rem] sm:top-0  z-10 rounded-lg">
                     <div className="flex justify-between items-center">
-                      <p className=" text-sm text-gray-400 pl-2">
+                      <p className="text-lg sm:text-sm text-gray-400 pl-2">
                         Customize Your Home
                       </p>
                       <button
-                        className="  bg-red-600 text-white text-xs py-1.5 px-3 rounded"
+                        className="  bg-red-600 text-white text-sm sm:text-xs py-2.5 sm:py-1.5 px-5 sm:px-3 rounded"
                         onClick={handleCustomize}
                       >
                         Done
                       </button>
                     </div>
-                    <ul className=" mr-3 ml-1 mt-8 flex flex-col gap-7">
+                    <ul className=" mr-3 ml-1 mt-8 flex flex-col gap-7 ">
                       <li
                         className="flex justify-between"
                         onClick={() =>
@@ -791,10 +791,10 @@ export const Home = () => {
                               }))
                         }
                       >
-                        <label className=" text-gray-800">Services</label>
+                        <label className=" text-gray-800 text-lg sm:text-sm">Services</label>
                         <input
                           type="checkbox"
-                          className="custom-checkbox"
+                          className="custom-checkbox "
                           checked={checked.checkService}
                         />
                       </li>
@@ -812,7 +812,7 @@ export const Home = () => {
                               }))
                         }
                       >
-                        <label className=" text-gray-800">Loan</label>
+                        <label className=" text-gray-800 text-lg sm:text-sm">Loan</label>
                         <input
                           type="checkbox"
                           className="custom-checkbox"
@@ -833,7 +833,7 @@ export const Home = () => {
                               }))
                         }
                       >
-                        <label className=" text-gray-800">eNaira</label>
+                        <label className=" text-gray-800 text-lg sm:text-sm">eNaira</label>
                         <input
                           type="checkbox"
                           className="custom-checkbox"
@@ -854,7 +854,7 @@ export const Home = () => {
                               }))
                         }
                       >
-                        <label className=" text-gray-800">Mobile Top Up</label>
+                        <label className=" text-gray-800 text-lg sm:text-sm">Mobile Top Up</label>
                         <input
                           type="checkbox"
                           className="custom-checkbox"
@@ -921,7 +921,7 @@ export const Home = () => {
                 {/* **************************************mobile select Account******************* */}
                 {displaySection.showAccDetailSec && (
                   <section
-                    className=" showCountries bg-white px-2.5 flex items-center absolute w-full h-[105px] bottom-[88px]  z-10 rounded-lg cursor-pointer"
+                    className=" showCountries bg-white px-2.5 flex items-center absolute w-full h-[105px] bottom-[80px]  z-10 rounded-lg cursor-pointer"
                     onClick={() => {
                       setSelect((prev) => ({ ...prev, item3: true }));
                       setSelected((prev) => ({
@@ -929,18 +929,18 @@ export const Home = () => {
                         account: (
                           <div className=" -mx-2 text-gray-700">
                             <div className="flex justify-between items-center">
-                              <p className=" uppercase text-[8px] ">
+                              <p className=" uppercase text-sm sm:text-[8px] ">
                                 {userData.FullName}
                               </p>
                             </div>
-                            <div className="flex justify-between items-center">
-                              <p className="text-[8px]">
+                            <div className="flex justify-between items-center text-[10px] sm:text-[8px]">
+                              <p className="">
                                 Current Account:
                                 <span className="tracking-wider">
                                   {userData.AccountNumber}
                                 </span>
                               </p>
-                              <p className="text-[8px] font-semibold ml-2">
+                              <p className=" font-semibold ml-2">
                                 NGN{" "}
                                 <span className={`  `}>{userData.Balance}</span>
                               </p>
@@ -954,9 +954,9 @@ export const Home = () => {
                       }));
                     }}
                   >
-                    <div className=" flex flex-col gap-3 ">
-                      <div className="flex justify-between items-center">
-                        <p className=" uppercase text-xs mb-1">
+                    <div className=" flex mx-auto flex-col gap-3 ">
+                      <div className="flex justify-evenly items-center">
+                        <p className=" uppercase text-xl sm:text-xs mb-1">
                           {userData.FullName}
                         </p>
                         {select.item3 && (
@@ -964,13 +964,13 @@ export const Home = () => {
                         )}
                       </div>
                       <div className="flex justify-between gap-6 items-center">
-                        <p className="text-[10px]">
+                        <p className=" text-lg sm:text-[10px]">
                           Account:{" "}
                           <span className="tracking-wider">
                             {userData.AccountNumber}
                           </span>
                         </p>
-                        <p className="text-[10px] font-semibold">
+                        <p className="ext-lg sm:text-[10px] font-semibold">
                           NGN <span className={`  `}>{userData.Balance}</span>
                         </p>
                       </div>
@@ -981,7 +981,7 @@ export const Home = () => {
             </div>
 
             {displaySection.showLoader && (
-              <Loading className="absolute top-[480px] left-4" />
+              <Loading className="absolute top-[480px] left-[6rem] sm:left-4" />
             )}
             {displaySection.showError && (
               <PopUP
@@ -989,7 +989,7 @@ export const Home = () => {
                   <i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>
                 }
                 onClick={handleExitPopup}
-                className="absolute top-[330px] left-4"
+                className="absolute top-[330px] left-[4rem] sm:left-4"
                 title="Failed"
                 msg="Invalid mobile number, please use the right phone number format and retry"
               />
@@ -1003,7 +1003,7 @@ export const Home = () => {
                     <img src={successImg} alt="thumb up" />
                   </div>
                 }
-                className="absolute top-[330px] left-4"
+                className="absolute top-[330px] left-[4rem] sm:left-4"
                 title="Success"
                 msg={`Your ${
                   selected.service === "Buy Airtime" ? "Airtime" : "Data"

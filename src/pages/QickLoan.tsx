@@ -34,8 +34,8 @@ function handleExitLoan() {
 
   return (
     <>
-      <section className="  text-black  opacity-1 w-full h-auto absolute top-0  left-0 showMorePage bg-white">
-        <h2 className="ml-3 border-red-500 border-b w-[89px] mb-2">
+      <section className="  text-black  opacity-1 w-full h-screen sm:h-auto absolute top-0  left-0 showMorePage bg-white py-5 sm:py-0">
+        <h2 className="ml-3 border-red-500 border-b w-[7rem] sm:w-[89px] mb-2 text-lg sm:text-sm">
           Quick Loans
         </h2>
         <main className=" ml-4">
@@ -129,12 +129,12 @@ function handleExitLoan() {
               <i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>
             }
             onClick={handleExitLoan}
-            className="absolute top-[290px] left-4"
+            className="absolute top-[290px] left-[4rem] xs:left-[5rem] sm:left-4"
             title="Failed"
             msg="You are not eligible for loans, please contact costumer service for more info"
           />
         )}
-        {display.loader && <Loading className="absolute top-[450px] left-4" />}
+        {display.loader && <Loading className="absolute top-[450px] left-[6rem] sm:left-4" />}
       </section>
     </>
   );
