@@ -47,7 +47,7 @@ export const Profile = ({ setDisplaysection }: homeDisplaytype) => {
             <div className=" border border-gray-900 h-[75px] w-[80px] rounded-full flex justify-center items-center">
               <i className="fa-regular fa-user text-xl  "></i>
             </div>
-            <div className=" text-xs">
+            <div className=" sm:text-xs">
               <p>Full Name</p>
               <p className=" mb-2"> {userData.FullName}</p>
               <p>Mobile Number</p>
@@ -55,10 +55,10 @@ export const Profile = ({ setDisplaysection }: homeDisplaytype) => {
             </div>
           </div>
           <section className=" mt-4">
-            <p className="w-full bg-gray-400 py-1.5 pl-2 text-sm">
+            <p className="w-full bg-gray-400 py-1.5 pl-2 text-lg sm:text-sm">
               Basic Information
             </p>
-            <article className=" text-xs pt-2 pl-2">
+            <article className=" sm:text-xs pt-2 pl-2">
               <p>Account Name</p>
               <p className=" mb-2"> {userData.FullName}</p>
               <p>Account Number</p>
@@ -66,10 +66,10 @@ export const Profile = ({ setDisplaysection }: homeDisplaytype) => {
             </article>
           </section>
           <section className=" mt-4">
-            <p className="w-full bg-gray-400 py-1.5 pl-2 text-sm">
+            <p className="w-full bg-gray-400 py-1.5 pl-2 text-lg sm:text-sm">
               Contact Information
             </p>
-            <article className=" text-xs pt-2 pl-2">
+            <article className=" sm:text-xs pt-2 pl-2">
               <p>Mobile Number</p>
               <p className=" mb-"> +234 {userData.Contact}</p>
             </article>

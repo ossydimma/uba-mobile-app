@@ -47,22 +47,22 @@ export const LifeStyle = ({ setDisplaysection }: homeDisplaytype) => {
             }
           }}
         />
-        <div className=" w-[90%] mt-4 h-auto  mx-auto pb-4 border border-gray-300 rounded-lg overflow-hidden bg-[#f1f1f1]">
-          <h2 className=" text-center font-semibold py-3">Service</h2>
+        <div className=" w-[90%] mt-4 h-auto  mx-auto pb-5 sm:pb-4 border border-gray-300 rounded-lg overflow-hidden bg-[#f1f1f1]">
+          <h2 className=" text-center font-semibold py-5 sm:py-3 text-2xl sm:text-sm ">Service</h2>
           <div>
-            <ul className="w-full h-full flex items-center justify-evenly -mt-3">
+            <ul className="w-full h-full flex items-center justify-evenly  sm:-mt-3">
               <li className="flex flex-col items-center  cursor-pointer" onClick={handleClick}>
                 <div className=" p-1.5  ">
-                  <img src={sendSvg} alt="icon" className=" w-7" />
+                  <img src={sendSvg} alt="icon" className=" w-12 sm:w-7 " />
                 </div>
-                <p className="text-[11px]">Sport</p>
+                <p className="text-lg sm:text-[11px]">Sport</p>
               </li>
 
               <li className="flex flex-col items-center  cursor-pointer" onClick={handleClick}>
                 <div className=" p-1.5    ">
-                  <img src={loadSvg} alt="icon" className=" w-7" />
+                  <img src={loadSvg} alt="icon" className="  w-12 sm:w-7 " />
                 </div>
-                <p className="text-[11px] text-center">Event</p>
+                <p className="text-lg sm:text-[11px] text-center">Event</p>
               </li>
 
               <li
@@ -70,18 +70,18 @@ export const LifeStyle = ({ setDisplaysection }: homeDisplaytype) => {
                 
               >
                 <div className=" p-1.5   ">
-                  <img src={billSvg} alt="icon" className=" w-7" />
+                  <img src={billSvg} alt="icon" className="  w-12 sm:w-7 " />
                 </div>
-                <p className="text-[11px]">Lifestyle</p>
+                <p className="text-lg sm:text-[11px]">Lifestyle</p>
               </li>
 
               <li
                 className="flex flex-col items-center  cursor-pointer" onClick={handleClick}
               >
                 <div className=" p-1.5  ">
-                  <img src={mobileSvg} alt="icon" className=" w-7" />
+                  <img src={mobileSvg} alt="icon" className="  w-12 sm:w-7 " />
                 </div>
-                <p className="text-[11px]">Movies</p>
+                <p className="text-lg sm:text-[11px]">Movies</p>
               </li>
             </ul>
           </div>
@@ -98,7 +98,7 @@ export const LifeStyle = ({ setDisplaysection }: homeDisplaytype) => {
           }}
         />
       )}
-      {display.loader && <Loading className="absolute top-[180px] left-4" />}
+      {display.loader && <Loading className="absolute top-[180px] left-[6rem] sm:left-4" />}
       {display.popUp && (
         <PopUP
           icon={
@@ -108,7 +108,7 @@ export const LifeStyle = ({ setDisplaysection }: homeDisplaytype) => {
             setDisplay((prev)=> ({...prev, opacity : ''}))
             setDisplay((prev)=> ({...prev, popUp: false}))
           }}
-          className="absolute top-[75px] left-5 border border-gray-300"
+          className="absolute top-[75px] left-[5rem] sm:left-5 border border-gray-300"
           title="Failed"
           msg="Service not avaliable at the moment"
         />
