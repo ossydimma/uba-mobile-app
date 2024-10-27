@@ -51,7 +51,7 @@ export const History = ({ setDisplaysection }: homeDisplaytype) => {
   return (
     <div className={`text-black w-full h-screen top-0 absolute left-0 showMorePage pb-5 bg-white ${isShow}`} >
       <div>
-        <div className="fixed w-60 z-10 bg-white -mt-[40px] mb-7">
+        <div className="fixed mr-[20px] w-full sm:w-60 z-10 bg-white -mt-[40px] mb-7">
             <MoreHeader
               name="Transaction History"
               onClick={() => {
@@ -68,7 +68,7 @@ export const History = ({ setDisplaysection }: homeDisplaytype) => {
         </div>
 
           <section className=" mt-10">
-            <ul className="pt-3">
+            <ul className="pt-5 sm:pt-3">
               {histories.length === 0 ? (
                 <div className=" mt-32">
                   <p className=" text-center text-sm">No recent Transaction</p>

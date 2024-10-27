@@ -61,7 +61,7 @@ export const MobileTopUp = ({
       selected.number &&
       selected.btnText === "Continue" &&
       /^[0-9]+$/.test(selected.number) &&
-      selected.number.length === 11
+      selected.number.length > 11
     ) {
       setSelected((prev) => ({
         ...prev,
@@ -102,7 +102,7 @@ export const MobileTopUp = ({
 
   return (
     <div
-      className={`   text-black w-full h-screen top-0 absolute left-0 showMorePage bg-white ${addStyles.scroll}`}
+      className={`   text-black w-full h-screen top-0 absolute left-0 showMorePage bg-white ${addStyles.scroll} sm:h-[465px]`}
     >
       <div className={`${addStyles.opacity}`}>
         <MoreHeader
@@ -115,31 +115,31 @@ export const MobileTopUp = ({
             }
           }}
         />
-        <main className=" px-3 pt-4 ">
+        <main className=" px-6 sm:px-3 pt-4 ">
           <section className=" w-[100%] h-auto   border border-gray-300 rounded-3xl overflow-hidden">
-            <p className="text-sm pl-2.5 font-semibold  bg-gray-200 py-3 ">
+            <p className=" text-lg sm:text-sm pl-2.5 font-semibold  bg-gray-200 py-4 sm:py-3 ">
               Pay from
             </p>
-            <div className=" py-2">
-              <p className="text-sm text-center ">{userData.fullName}</p>
-              <p className="text-xs text-center ">
+            <div className=" py-4 sm:py-2">
+              <p className="text-lg sm:text-sm text-center ">{userData.fullName}</p>
+              <p className="text-sm sm:text-xs text-center ">
                 {userData.accountType}: <span className="">{userData.accountNo}</span>
               </p>
-              <p className="text-[11px] text-center ">
+              <p className="text-sm sm:text-[11px] text-center ">
                 NGN<span className={` `}>{userData.balance}</span>
               </p>
             </div>
           </section>
           <section className="relative w-[100%] h-auto pb-5 y-3 border border-gray-300  bg-white rounded-3xl drop-shadow-xl mt-4 mb-8 overflow-hidden">
-            <h2 className=" text-sm pl-2.5 font-semibold  bg-gray-200 py-3 ">
+            <h2 className=" text-lg sm:text-sm pl-2.5 font-semibold  bg-gray-200 py-4 sm:py-3 ">
               Mobile Top up
             </h2>
-            <p className="text-[11px] px-3 mt-3">Customer Mobile Number</p>
-            <div className="mr-8 relative flex flex-col gap-4 px-3 ">
+            <p className="text-lg sm:text-[11px] px-3 mt-4 sm:mt-3">Customer Mobile Number</p>
+            <div className="sm:mr-8 relative flex flex-col gap-4 px-3 ">
               <input
                 type="text"
                 value={selected.number}
-                className="rounded-md outline-none border py-2 pl-[60px] pr- text-xs w-[190px] text-gray-600"
+                className="rounded-md outline-none border py-4 sm:py-2 pl-24 sm:pl-[60px] pr-10 text-lg sm:text-xs w-[100%] sm:w-[190px] text-gray-600"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   setSelected((prev) => ({
                     ...prev,
@@ -147,11 +147,11 @@ export const MobileTopUp = ({
                   }));
                 }}
               />
-              <p className=" bg-red-600 w-[53px] py-[8.3px] px-1 text-[11px] text-white absolute top-0 rounded-s-md">
+              <p className=" bg-red-600 w-20 sm:w-[53px] py-[15.5px] sm:py-[3.5px] px-1 text-lg sm:text-[11px] text-white absolute top-0 rounded-s-md">
                 NG +234
               </p>
               <i
-                className="fa-solid fa-xmark bg-gray-300 py-[4px] px-[6px] rounded-full text-white text-[10px] absolute top-2 right-[-15px] cursor-pointer"
+                className="fa-solid fa-xmark bg-gray-300 py-2 sm:py-[0px] px-3 sm:px-[6px] text-sm rounded-full text-white sm:text-[10px] absolute top-3 sm:top-2 right-[20px] sm:right-[-15px] cursor-pointer"
                 onClick={() => {
                   setSelected((prev) => ({
                     ...prev,
@@ -159,27 +159,30 @@ export const MobileTopUp = ({
                   }));
                 }}
               ></i>
-              <Slider className="w-[180px] my-3">
-                <SwiperSlide>Buy Airtime</SwiperSlide>
-                <SwiperSlide>Buy Data</SwiperSlide>
+
+              <Slider className="sm:w-[180px] w-full my-3">
+                <SwiperSlide className="text-xl sm:text-xs ">Buy Airtime</SwiperSlide>
+                <SwiperSlide className="text-xl sm:text-xs">Buy Data</SwiperSlide>
               </Slider>
+
               {display.confirmDiv && (
                 <div>
-                  <div className=" flex justify-center items-center gap-4 ml-10 mt-3">
+                  <div className=" flex justify-center items-center gap-4 ml-0 sm:ml-10 mt-3">
                     <img src={flag} alt="flag" className=" w-5 h-3 " />
-                    <p className=" text-xs">Nigeria</p>
+                    <p className="text-sm sm:text-xs">Nigeria</p>
                   </div>
 
-                  <Slider className="w-[180px] my-8">
-                    <SwiperSlide>Nigeria MTN</SwiperSlide>
-                    <SwiperSlide>Nigeria Airtel</SwiperSlide>
-                    <SwiperSlide>Nigeria Glo</SwiperSlide>
-                    <SwiperSlide>Nigeria 9Mobile</SwiperSlide>
+                    <Slider className="sm:w-[180px] w-full my-8 ">
+                    <SwiperSlide className="text-xl sm:text-xs ">Nigeria MTN</SwiperSlide>
+                    <SwiperSlide className="text-xl sm:text-xs ">Nigeria Airtel</SwiperSlide>
+                    <SwiperSlide className="text-xl sm:text-xs ">Nigeria Glo</SwiperSlide>
+                    <SwiperSlide className="text-xl sm:text-xs ">Nigeria 9Mobile</SwiperSlide>
                   </Slider>
-                  <div className=" text-xs  ml-9 my-4 text-center">
+                  
+                  <div className=" text-sm sm:text-xs  sm:ml-9 my-4 text-center">
                     Enter Amount From <p>5 to 50000 NGN</p>
                   </div>
-                  <div className=" flex w-4 h-10 item-center gap-2 mx-1.5 mt-5">
+                  <div className=" flex sm:w-4 h-10 justify-evenly item-center gap-2 mx-1.5 mt-5">
                     <i
                       className="fa-solid fa-minus  border-red-600 border px-3 pt-1 mt-1 h-6 rounded-lg text-xs hover:bg-gray-200 cursor-pointer"
                       onClick={() => {
@@ -189,7 +192,7 @@ export const MobileTopUp = ({
                     ></i>
                     <input
                       type="text"
-                      className=" w-[85px] h-8 border rounded-sm border-gray-300 outline-none text-xs px-1 text-center"
+                      className=" sm:w-[85px] h-8 border rounded-sm border-gray-300 outline-none text-xs px-1 text-center"
                       value={mobileAmount}
                       placeholder="Amount"
                       onChange={updateInputValueHandler}
@@ -204,7 +207,7 @@ export const MobileTopUp = ({
                     ></i>
                   </div>
                   {display.feedBack && (
-                    <div className=" text-[10px] text-red-600 text-center w-28 ml-9 leading-3 -mt-1">
+                    <div className=" text-[13px] sm:text-[10px] text-red-600 text-center sm:w-28 sm:ml-9 leading-3 sm:-mt-1">
                       {mobileAmount === undefined ? (
                         <p>please enter correct amount number</p>
                       ) : mobileAmount !== undefined &&
@@ -218,7 +221,7 @@ export const MobileTopUp = ({
                 </div>
               )}
               <button
-                className="bg-red-600 py-2 text-sm text-white  w-[190px] rounded-[4px]"
+                className="bg-red-600 py-3 sm:py-2 sm:text-sm text-white  sm:w-[190px] rounded-[4px]"
                 onClick={handleMobileBtn}
               >
                 {selected.btnText}
@@ -227,7 +230,7 @@ export const MobileTopUp = ({
           </section>
         </main>
       </div>
-      {display.loader && <Loading className="absolute top-[170px] left-4" />}
+      {display.loader && <Loading className="absolute top-[170px] left-[6rem] sm:left-4" />}
       {display.popUp && (
         <PopUP
           onClick={() => {
@@ -241,7 +244,7 @@ export const MobileTopUp = ({
               <img src={successImg} alt="thumb up" />
             </div>
           }
-          className="absolute top-[65px] left-5 border border-gray-300"
+          className="absolute top-[65px] left-[4.5rem] sm:left-5 border border-gray-300"
           title="Success"
           msg={`Your ${
             selected.service === "Buy Airtime" ? "Airtime" : "Data"
