@@ -129,8 +129,9 @@ export const ChangePin = ({ setDisplay }: forgotType) => {
           setShow((prev) => ({ ...prev, popUp: false }));
         }, 3000);
       }
-      setShow((prev) => ({ ...prev, btnText: "SUBMIT" }));
+      // setShow((prev) => ({ ...prev, btnText: "SUBMIT" }));
     }
+    setShow((prev) => ({ ...prev, btnText: "SUBMIT" }));
   }
   return (
     <div className=" absolute top-0 w-full bg-white h-full">
@@ -139,7 +140,7 @@ export const ChangePin = ({ setDisplay }: forgotType) => {
           name="Change PIN"
           onClick={() => setDisplay((prev) => ({ ...prev, changePin: false }))}
         />
-        <p className=" text-xs mt-1.5 mx-3">
+        <p className=" text-lg sm:text-xs mt-1.5 mx-3">
           Please enter old and new mobile banking 4 digits PIN
         </p>
         <form className=" mx-3">
@@ -147,7 +148,7 @@ export const ChangePin = ({ setDisplay }: forgotType) => {
             <input
               type={input.Type1}
               value={input.Value1}
-              className=" border-2 border-gray-400  rounded pl-6 pr-12 py-3 text-xs  bg-slate-100 outline-none"
+              className=" border-2 border-gray-400  rounded pl-6 pr-12 py-3 text-lg sm:text-xs  bg-slate-100 outline-none"
               placeholder="Password"
               onChange={(e) =>
                 setInput((prev) => ({ ...prev, Value1: e.target.value }))
@@ -167,18 +168,18 @@ export const ChangePin = ({ setDisplay }: forgotType) => {
               className="cursor-pointer relative"
             >
               {show.icon1 && (
-                <i className="fa-solid fa-eye fa-xs absolute bottom-7 text-sm right-2 text-red-600 border-l-2 border-black px-2"></i>
+                <i className="fa-solid fa-eye fa-xs absolute bottom-7 text-lg sm:text-sm right-2 text-red-600 border-l-2 border-black px-2"></i>
               )}
               {!show.icon1 && (
-                <i className="fa-solid fa-eye-slash fa-xs absolute bottom-7 right-2 text-sm text-red-600 border-l-2 border-black px-2"></i>
+                <i className="fa-solid fa-eye-slash fa-xs absolute bottom-7 right-2 text-lg sm:text-sm text-red-600 border-l-2 border-black px-2"></i>
               )}
             </div>
-            <p className="text-red-500 text-xs -mt-4 ">{show.feedback1}</p>
+            <p className="text-red-500 text-sm sm:text-xs -mt-4 ">{show.feedback1}</p>
 
             <input
               type={input.Type4}
               value={input.Value4}
-              className=" border-2 border-gray-400  rounded pl-6 pr-12 py-3 text-xs  bg-slate-100 outline-none"
+              className=" border-2 border-gray-400  rounded pl-6 pr-12 py-3 text-lg sm:text-xs  bg-slate-100 outline-none"
               placeholder="Old PIN"
               onChange={(e) =>
                 setInput((prev) => ({ ...prev, Value4: e.target.value }))
@@ -198,18 +199,18 @@ export const ChangePin = ({ setDisplay }: forgotType) => {
               className="cursor-pointer relative"
             >
               {show.icon4 && (
-                <i className="fa-solid fa-eye fa-xs absolute bottom-7 text-sm right-2 text-red-600 border-l-2 border-black px-2"></i>
+                <i className="fa-solid fa-eye fa-xs absolute bottom-7 text-lg sm:text-sm right-2 text-red-600 border-l-2 border-black px-2"></i>
               )}
               {!show.icon4 && (
-                <i className="fa-solid fa-eye-slash fa-xs absolute bottom-7 right-2 text-sm text-red-600 border-l-2 border-black px-2"></i>
+                <i className="fa-solid fa-eye-slash fa-xs absolute bottom-7 right-2 text-lg sm:text-sm text-red-600 border-l-2 border-black px-2"></i>
               )}
             </div>
-            <p className="text-red-500 text-xs -mt-4 ">{show.feedback4}</p>
+            <p className="text-red-500 text-sm sm:text-xs -mt-4 ">{show.feedback4}</p>
 
             <input
               type={input.Type2}
               value={input.Value2}
-              className=" border-2 border-gray-400  rounded pl-6 pr-12 py-3 text-xs  bg-slate-100 outline-none"
+              className=" border-2 border-gray-400  rounded pl-6 pr-12 py-3 text-lg sm:text-xs  bg-slate-100 outline-none"
               placeholder="New PIN"
               onChange={(e) =>
                 setInput((prev) => ({ ...prev, Value2: e.target.value }))
@@ -229,18 +230,18 @@ export const ChangePin = ({ setDisplay }: forgotType) => {
               className="cursor-pointer relative"
             >
               {show.icon2 && (
-                <i className="fa-solid fa-eye fa-xs absolute bottom-7 text-sm right-2 text-red-600 border-l-2 border-black px-2"></i>
+                <i className="fa-solid fa-eye fa-xs absolute bottom-7 text-lg sm:text-sm right-2 text-red-600 border-l-2 border-black px-2"></i>
               )}
               {!show.icon2 && (
-                <i className="fa-solid fa-eye-slash fa-xs absolute bottom-7 right-2 text-sm text-red-600 border-l-2 border-black px-2"></i>
+                <i className="fa-solid fa-eye-slash fa-xs absolute bottom-7 right-2 text-lg sm:text-sm text-red-600 border-l-2 border-black px-2"></i>
               )}
             </div>
-            <p className="text-red-500 text-xs -mt-4 ">{show.feedback2}</p>
+            <p className="text-red-500 text-sm sm:text-xs -mt-4 ">{show.feedback2}</p>
 
             <input
               type={input.Type3}
               value={input.Value3}
-              className=" border-2 border-gray-400  rounded pl-6 pr-12 py-3 text-xs  bg-slate-100 outline-none"
+              className=" border-2 border-gray-400  rounded pl-6 pr-12 py-3 text-lg sm:text-xs  bg-slate-100 outline-none"
               placeholder="Comfirm New PIN"
               onChange={(e) =>
                 setInput((prev) => ({ ...prev, Value3: e.target.value }))
@@ -260,16 +261,16 @@ export const ChangePin = ({ setDisplay }: forgotType) => {
               className="cursor-pointer relative"
             >
               {show.icon3 && (
-                <i className="fa-solid fa-eye fa-xs absolute bottom-7 right-2 border-black px-2 border-l-2 text-red-600 text-sm"></i>
+                <i className="fa-solid fa-eye fa-xs absolute bottom-7 right-2 border-black px-2 border-l-2 text-red-600 text-lg sm:text-sm"></i>
               )}
               {!show.icon3 && (
-                <i className="fa-solid fa-eye-slash fa-xs absolute bottom-7 right-2 border-black px-2 border-l-2 text-red-600 text-sm"></i>
+                <i className="fa-solid fa-eye-slash fa-xs absolute bottom-7 right-2 border-black px-2 border-l-2 text-red-600 text-lg sm:text-sm"></i>
               )}
             </div>
-            <p className="text-red-500 text-xs -mt-4 ">{show.feedback3}</p>
+            <p className="text-red-500 text-sm sm:text-xs -mt-4 ">{show.feedback3}</p>
           </div>
           <button
-            className=" rounded-md py-3 bg-red-600 px-10 text-black ml-10 mt-6 border-white border-2 hover:bg-red-500 hover:scale-90 hover:border-black hover:border-2 hover:text-slate-100"
+            className=" rounded-md py-3 text-lg sm:text-sm bg-red-600 px-10 text-black ml-10 mt-6 border-white border-2 hover:bg-red-500 hover:scale-90 hover:border-black hover:border-2 hover:text-slate-100"
             onClick={handleSubmitBtn}
           >
             {show.btnText}
@@ -277,7 +278,7 @@ export const ChangePin = ({ setDisplay }: forgotType) => {
         </form>
         {show.popUp && (
           <div className=" bg-white flex flex-col gap-5  justify-center z-40 absolute  top-8 right-8 left-6 px-1 py-4 shadow-md shadow-gray-600">
-            <p className="text-xs text-center">{message}</p>
+            <p className="text-lg sm:text-xs text-center">{message}</p>
           </div>
         )}
       </main>

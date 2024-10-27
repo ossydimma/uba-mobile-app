@@ -124,14 +124,14 @@ export const ChangePwrd = ({ setDisplay }: forgotType) => {
       <main className="relative">
         <MoreHeader name="Change password" onClick={handleCancel} />
         <section className="mx-4 mt-3">
-          <p className="text-sm">Please enter old and new password</p>
+          <p className="text-lg sm:text-sm">Please enter old and new password</p>
 
           <form>
             <div className="flex flex-col gap-4 relative ">
               <input
                 type={input.Type1}
                 value={input.Value1}
-                className=" border-2 border-gray-400  rounded pl-6 pr-12 py-3 text-xs  bg-slate-100 outline-none"
+                className=" border-2 border-gray-400  rounded pl-6 pr-12 py-3 text-lg sm:text-xs  bg-slate-100 outline-none"
                 placeholder="Old Password"
                 onChange={(e) => {
                   setInput((prev) => ({ ...prev, Value1: e.target.value }));
@@ -151,18 +151,18 @@ export const ChangePwrd = ({ setDisplay }: forgotType) => {
                 className="cursor-pointer relative"
               >
                 {Show.icon1 && (
-                  <i className="fa-solid fa-eye fa-xs absolute bottom-7 text-sm right-2 text-red-600 border-l-2 border-black px-2"></i>
+                  <i className="fa-solid fa-eye fa-xs absolute bottom-7 text-lg sm:text-sm right-2 text-red-600 border-l-2 border-black px-2"></i>
                 )}
                 {!Show.icon1 && (
-                  <i className="fa-solid fa-eye-slash fa-xs absolute bottom-7 right-2 text-sm text-red-600 border-l-2 border-black px-2"></i>
+                  <i className="fa-solid fa-eye-slash fa-xs absolute bottom-7 right-2 text-lg sm:text-sm text-red-600 border-l-2 border-black px-2"></i>
                 )}
               </div>
-              <p className="text-red-500 text-xs -mt-6 ">{Show.feedback1}</p>
+              <p className="text-red-500 text-lg sm:text-xs -mt-6 ">{Show.feedback1}</p>
 
               <input
                 type={input.Type2}
                 value={input.Value2}
-                className=" border-2 border-gray-400  rounded pl-6 pr-12 py-3 text-xs  bg-slate-100 outline-none"
+                className=" border-2 border-gray-400  rounded pl-6 pr-12 py-3 text-lg sm:text-xs  bg-slate-100 outline-none"
                 placeholder="New Password"
                 onChange={(e) => {
                   setInput((prev) => ({ ...prev, Value2: e.target.value }));
@@ -182,18 +182,18 @@ export const ChangePwrd = ({ setDisplay }: forgotType) => {
                 className="cursor-pointer relative"
               >
                 {Show.icon2 && (
-                  <i className="fa-solid fa-eye fa-xs absolute bottom-7 text-sm right-2 text-red-600 border-l-2 border-black px-2"></i>
+                  <i className="fa-solid fa-eye fa-xs absolute bottom-7 text-lg sm:text-sm right-2 text-red-600 border-l-2 border-black px-2"></i>
                 )}
                 {!Show.icon2 && (
-                  <i className="fa-solid fa-eye-slash fa-xs absolute bottom-7 right-2 text-sm text-red-600 border-l-2 border-black px-2"></i>
+                  <i className="fa-solid fa-eye-slash fa-xs absolute bottom-7 right-2 text-lg sm:text-sm text-red-600 border-l-2 border-black px-2"></i>
                 )}
               </div>
-              <p className="text-red-500 text-xs -mt-6 ">{Show.feedback2}</p>
+              <p className="text-red-500 text-lg sm:text-xs -mt-6 ">{Show.feedback2}</p>
 
               <input
                 type={input.Type3}
                 value={input.Value3}
-                className=" border-2 border-gray-400  rounded pl-6 pr-12 py-3 text-xs  bg-slate-100 outline-none"
+                className=" border-2 border-gray-400  rounded pl-6 pr-12 py-3 text-lg sm:text-xs  bg-slate-100 outline-none"
                 placeholder="Comfirm Password"
                 onChange={(e) => {
                   setInput((prev) => ({ ...prev, Value3: e.target.value }));
@@ -213,16 +213,16 @@ export const ChangePwrd = ({ setDisplay }: forgotType) => {
                 className="cursor-pointer relative"
               >
                 {Show.icon3 && (
-                  <i className="fa-solid fa-eye fa-xs absolute bottom-7 right-2 border-black px-2 border-l-2 text-red-600 text-sm"></i>
+                  <i className="fa-solid fa-eye fa-xs absolute bottom-7 right-2 border-black px-2 border-l-2 text-red-600 text-lg sm:text-sm"></i>
                 )}
                 {!Show.icon3 && (
-                  <i className="fa-solid fa-eye-slash fa-xs absolute bottom-7 right-2 border-black px-2 border-l-2 text-red-600 text-sm"></i>
+                  <i className="fa-solid fa-eye-slash fa-xs absolute bottom-7 right-2 border-black px-2 border-l-2 text-red-600 text-lg sm:text-sm"></i>
                 )}
               </div>
-              <p className="text-red-500 text-xs -mt-6 ">{Show.feedback3}</p>
+              <p className="text-red-500 text-lg sm:text-xs -mt-6 ">{Show.feedback3}</p>
             </div>
             <button
-              className=" rounded-md py-3 bg-red-600 px-10 text-black ml-10 mt-6 border-white border-2 hover:bg-red-500 hover:scale-90 hover:border-black hover:border-2 hover:text-slate-100"
+              className=" rounded-md text-lg sm:text-sm py-3 bg-red-600 px-10 text-black ml-10 mt-6 border-white border-2 hover:bg-red-500 hover:scale-90 hover:border-black hover:border-2 hover:text-slate-100"
               onClick={handleSubmitBtn}
             >
               {Show.btnText}
@@ -230,9 +230,9 @@ export const ChangePwrd = ({ setDisplay }: forgotType) => {
           </form>
         </section>
         {Show.div && (
-          <section className=" bg-white flex flex-col gap-5  justify-center z-40 absolute  top-16 right-8 left-6 px-4 py-4 shadow-md shadow-gray-600">
+          <section className=" bg-white flex flex-col gap-5  justify-center z-40 absolute  top-16 right-8 left-6 px-4 py-10 sm:py-4 shadow-md shadow-gray-600">
             <i
-              className="fa-solid fa-xmark cursor-pointer flex justify-end pr-5  "
+              className="fa-solid fa-xmark cursor-pointer flex justify-end pr-5 text-xl sm:text-lg "
               onClick={() =>
                 setShow((prev) => ({
                   ...prev,
@@ -246,15 +246,15 @@ export const ChangePwrd = ({ setDisplay }: forgotType) => {
               {message?.includes("invalid") ||
               message?.includes("incorrect") ||
               message?.includes("same") ? (
-                <i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>
+                <i className="fa-solid fa-xmark bg-red-600 py-6 sm:py-3 px-9 sm:px-5 rounded-full text-white text-5xl sm:text-2xl"></i>
               ) : (
                 ""
               )}
             </div>
-            <p className="text-xs text-center">{message}</p>
+            <p className="text-lg sm:text-xs text-center">{message}</p>
 
             <button
-              className="bg-red-600 py-2 text-sm text-white w-36 rounded-[4px]"
+              className="bg-red-600 mx-auto sm:mx-0 py-2 sm:text-sm text-white w-36 rounded-[4px] text-lg"
               onClick={() => {
                 setEnteredPin("");
                 setShow((prev) => ({
@@ -273,7 +273,7 @@ export const ChangePwrd = ({ setDisplay }: forgotType) => {
           <AuthPin
             enteredPin={enteredPin}
             setEnteredPin={setEnteredPin}
-            className=" top-[39.5px] left-[16.4px] w-[215px]"
+            className=" top-[39.5px] left-[6rem] sm:left-[16.4px] w-[215px]"
             descrip=""
             handleCancel={() => setShow((prev) => ({ ...prev, auth: false }))}
             handleNext={async () => {
@@ -314,7 +314,7 @@ export const ChangePwrd = ({ setDisplay }: forgotType) => {
         )}
         {Show.loader && (
           <div className="bg-white z-30 h-screen w-full absolute top-0 ">
-            <Loading className=" absolute top-[220px] left-4  " />
+            <Loading className=" absolute top-[220px] left-[6rem] sm:left-4  " />
           </div>
         )}
       </main>

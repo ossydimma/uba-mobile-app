@@ -36,7 +36,7 @@ export const Settings = ({ setShow, setDisplaysection }: settingsType) => {
                     setShow((prev)=> ({...prev, settings : false}));
                 }}
             />
-            <ul className="text-sm flex flex-col  mx-2 mt-2">
+            <ul className="text-lg sm:text-sm flex flex-col  mx-2 mt-2">
                 <li
                     className=" flex justify-between items-center py-4 border-b  "
                     onClick={() => {

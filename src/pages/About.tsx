@@ -23,7 +23,7 @@ export const About = () => {
                 </div>
                 <div>
                     <h4 className='font-semibold'>United Bank For Africa Plc</h4>
-                    <div className='text-center text-xs'>
+                    <div className='text-center text-sm sm:text-xs'>
                         <p>2023</p>
                         <p>@ All right reserved</p>
                         <p>www.ubagroup.com</p>

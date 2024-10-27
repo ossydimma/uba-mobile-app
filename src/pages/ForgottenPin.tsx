@@ -126,11 +126,11 @@ export const ForgottenPin = ({ setDisplay }: forgotType) => {
         />
         <form className=" mx-3">
           <div className="flex flex-col gap-4 relative mt-5 ">
-            <label className=' text-sm -mb-3' >Please enter your password</label>
+            <label className=' text-lg sm:text-sm -mb-3' >Please enter your password</label>
             <input
               type={input.Type1}
               value={input.Value1}
-              className=" border-2 border-gray-400  rounded pl-6 pr-12 py-3 text-xs  bg-slate-100 outline-none"
+              className=" border-2 border-gray-400  rounded pl-6 pr-12 py-3 text-lg sm:text-xs  bg-slate-100 outline-none"
               placeholder="Password"
               onChange={(e) =>
                 setInput((prev) => ({ ...prev, Value1: e.target.value }))
@@ -150,19 +150,19 @@ export const ForgottenPin = ({ setDisplay }: forgotType) => {
               className="cursor-pointer relative"
             >
               {show.icon1 && (
-                <i className="fa-solid fa-eye fa-xs absolute bottom-7 text-sm right-2 text-red-600 border-l-2 border-black px-2"></i>
+                <i className="fa-solid fa-eye fa-xs absolute bottom-7 text-lg sm:text-sm right-2 text-red-600 border-l-2 border-black px-2"></i>
               )}
               {!show.icon1 && (
-                <i className="fa-solid fa-eye-slash fa-xs absolute bottom-7 right-2 text-sm text-red-600 border-l-2 border-black px-2"></i>
+                <i className="fa-solid fa-eye-slash fa-xs absolute bottom-7 right-2 text-lg sm:text-sm text-red-600 border-l-2 border-black px-2"></i>
               )}
             </div>
             <p className="text-red-500 text-xs -mt-6 ">{show.feedback1}</p>
 
-            <label className=' text-sm -mb-3' >Please enter new PIN</label>
+            <label className=' text-lg sm:text-sm -mb-3' >Please enter new PIN</label>
             <input
               type={input.Type2}
               value={input.Value2}
-              className=" border-2 border-gray-400  rounded pl-6 pr-12 py-3 text-xs  bg-slate-100 outline-none"
+              className=" border-2 border-gray-400  rounded pl-6 pr-12 py-3 text-lg sm:text-xs  bg-slate-100 outline-none"
               placeholder="PIN"
               onChange={(e) =>
                 setInput((prev) => ({ ...prev, Value2: e.target.value }))
@@ -182,10 +182,10 @@ export const ForgottenPin = ({ setDisplay }: forgotType) => {
               className="cursor-pointer relative"
             >
               {show.icon2 && (
-                <i className="fa-solid fa-eye fa-xs absolute bottom-7 text-sm right-2 text-red-600 border-l-2 border-black px-2"></i>
+                <i className="fa-solid fa-eye fa-xs absolute bottom-7 text-lg sm:text-sm right-2 text-red-600 border-l-2 border-black px-2"></i>
               )}
               {!show.icon2 && (
-                <i className="fa-solid fa-eye-slash fa-xs absolute bottom-7 right-2 text-sm text-red-600 border-l-2 border-black px-2"></i>
+                <i className="fa-solid fa-eye-slash fa-xs absolute bottom-7 right-2 text-lg sm:text-sm text-red-600 border-l-2 border-black px-2"></i>
               )}
             </div>
             <p className="text-red-500 text-xs -mt-6 ">{show.feedback2}</p>
@@ -193,7 +193,7 @@ export const ForgottenPin = ({ setDisplay }: forgotType) => {
             <input
               type={input.Type3}
               value={input.Value3}
-              className=" border-2 border-gray-400  rounded pl-6 pr-12 py-3 text-xs  bg-slate-100 outline-none"
+              className=" border-2 border-gray-400  rounded pl-6 pr-12 py-3 text-lg sm:text-xs  bg-slate-100 outline-none"
               placeholder="Comfirm PIN"
               onChange={(e) =>
                 setInput((prev) => ({ ...prev, Value3: e.target.value }))
@@ -213,16 +213,16 @@ export const ForgottenPin = ({ setDisplay }: forgotType) => {
               className="cursor-pointer relative"
             >
               {show.icon3 && (
-                <i className="fa-solid fa-eye fa-xs absolute bottom-7 right-2 border-black px-2 border-l-2 text-red-600 text-sm"></i>
+                <i className="fa-solid fa-eye fa-xs absolute bottom-7 right-2 border-black px-2 border-l-2 text-red-600 text-lg sm:text-sm"></i>
               )}
               {!show.icon3 && (
-                <i className="fa-solid fa-eye-slash fa-xs absolute bottom-7 right-2 border-black px-2 border-l-2 text-red-600 text-sm"></i>
+                <i className="fa-solid fa-eye-slash fa-xs absolute bottom-7 right-2 border-black px-2 border-l-2 text-red-600 text-lg sm:text-sm"></i>
               )}
             </div>
             <p className="text-red-500 text-xs -mt-6 ">{show.feedback3}</p>
           </div>
           <button
-            className=" rounded-md py-3 bg-red-600 px-10 text-black ml-10 mt-6 border-white border-2 hover:bg-red-500 hover:scale-90 hover:border-black hover:border-2 hover:text-slate-100"
+            className=" rounded-md py-3 text-lg sm:text-sm bg-red-600 px-10 text-black ml-10 mt-6 border-white border-2 hover:bg-red-500 hover:scale-90 hover:border-black hover:border-2 hover:text-slate-100"
             onClick={handleSubmitBtn}
           >
             {show.btnText}

@@ -339,7 +339,7 @@ export const Faq = () => {
           }
         }}/>
         <main className="questions-wrapper">
-          <ul className=" mx-3  text-sm">
+          <ul className=" mx-3 text-lg  sm:text-sm">
             <li className="mt-2  border-b-2 ">
               <div
                 className="cursor-pointer flex justify-between items-center mb-2"
@@ -354,7 +354,7 @@ export const Faq = () => {
                 ></i>
               </div>
               {showAns.item1 && (
-                <ul className="ans ml-7 text-xs pb-3 h-24">
+                <ul className="ans ml-7 text-[1rem] sm:text-xs pb-3 h-24">
                   <li className="list-disc">
                     if you forget ypour passord, the app will prompt you to
                     reset your password. You can also use the{" "}
@@ -375,7 +375,7 @@ export const Faq = () => {
                 <i className={`fa-solid fa-chevron-down fa-xs ${rotate.rotateItem2}`}></i>
               </div>
               {showAns.item2 && (
-                <ul className="ans ml-7 text-xs pb-3 h-24">
+                <ul className="ans ml-7 text-[1rem] sm:text-xs pb-3 h-24">
                   <li className="list-disc">
                     if you forget ypour passord, the app will prompt you to
                     reset your password. You can also use the{" "}
@@ -396,7 +396,7 @@ export const Faq = () => {
                 <i className={`fa-solid fa-chevron-down fa-xs ${rotate.rotateItem3}`}></i>
               </div>
               {showAns.item3 && (
-                <ul className="ans ml-7 text-xs pb-3 h-24">
+                <ul className="ans ml-7 text-[1rem] sm:text-xs pb-3 h-24">
                   <li className="list-disc">
                     if you forget ypour passord, the app will prompt you to
                     reset your password. You can also use the{" "}
@@ -417,7 +417,7 @@ export const Faq = () => {
                 <i className={`fa-solid fa-chevron-down fa-xs ${rotate.rotateItem4}`}></i>
               </div>
               {showAns.item4 && (
-                <ul className="ans ml-7 text-xs pb-3 h-24">
+                <ul className="ans ml-7 text-[1rem] sm:text-xs pb-3 h-24">
                   <li className="list-disc">
                     if you forget ypour passord, the app will prompt you to
                     reset your password. You can also use the{" "}
@@ -438,7 +438,7 @@ export const Faq = () => {
                 <i className={`fa-solid fa-chevron-down fa-xs ${rotate.rotateItem5}`}></i>
               </div>
               {showAns.item5 && (
-                <ul className="ans ml-7 text-xs pb-3 h-24">
+                <ul className="ans ml-7 text-[1rem] sm:text-xs pb-3 h-24">
                   <li className="list-disc">
                     if you forget ypour passord, the app will prompt you to
                     reset your password. You can also use the{" "}
@@ -460,7 +460,7 @@ export const Faq = () => {
                 <i className={`fa-solid fa-chevron-down fa-xs ${rotate.rotateItem6}`}></i>
               </div>
               {showAns.item6 && (
-                <ul className="ans ml-7 text-xs pb-3 h-24">
+                <ul className="ans ml-7 text-[1rem] sm:text-xs pb-3 h-24">
                   <li className="list-disc">
                     if you forget ypour passord, the app will prompt you to
                     reset your password. You can also use the{" "}
