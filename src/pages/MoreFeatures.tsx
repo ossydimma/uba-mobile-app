@@ -143,7 +143,7 @@ export const MoreFeatures = ({ setDisplaysection }: homeDisplaytype) => {
       {/* ----------------------NAV----------------------------- */}
       <div className=" fixed bottom-[19%] md:bottom-[30%] lg:bottom-[19%]  ">
         <nav
-          className="flex flex-col items-center text-[red] bg-white ml-[180px] border border-[red] py-4  sm:py-2 px-6 sm:px-3 rounded-full shadow-2xl"
+          className="flex flex-col items-center text-[red] bg-white ml-[180px] border border-[red] sm:py-2 py-3 sm:px-3 px-4 rounded-full shadow-2xl"
           onClick={() => {
             if (setHideHome) {
               setHideHome(true);
@@ -153,7 +153,7 @@ export const MoreFeatures = ({ setDisplaysection }: homeDisplaytype) => {
           }}
         >
           <i className="fa-solid fa-house cursor-pointer text-xl sm:text-sm"></i>
-          <p className="sm:text-[10px] text-lg">Home</p>
+          <p className="sm:text-[10px]">Home</p>
         </nav>
       </div>
       {showNoti && (

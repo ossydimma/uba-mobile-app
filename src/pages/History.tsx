@@ -68,7 +68,7 @@ export const History = ({ setDisplaysection }: homeDisplaytype) => {
         </div>
 
           <section className=" mt-10">
-            <ul className="pt-5 sm:pt-3">
+            <ul className="pt-5 sm:pt-2">
               {histories.length === 0 ? (
                 <div className=" mt-32">
                   <p className=" text-center text-sm">No recent Transaction</p>

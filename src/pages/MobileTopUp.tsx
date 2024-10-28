@@ -130,7 +130,7 @@ export const MobileTopUp = ({
               </p>
             </div>
           </section>
-          <section className="relative w-[100%] h-auto pb-5 y-3 border border-gray-300  bg-white rounded-3xl drop-shadow-xl mt-4 mb-8 overflow-hidden">
+          <section className="relative w-[100%] h-auto pb-5  border border-gray-300  bg-white rounded-3xl drop-shadow-xl mt-4 mb-8 overflow-hidden">
             <h2 className=" text-lg sm:text-sm pl-2.5 font-semibold  bg-gray-200 py-4 sm:py-3 ">
               Mobile Top up
             </h2>
@@ -139,7 +139,7 @@ export const MobileTopUp = ({
               <input
                 type="text"
                 value={selected.number}
-                className="rounded-md outline-none border py-4 sm:py-2 pl-24 sm:pl-[60px] pr-10 text-lg sm:text-xs w-[100%] sm:w-[190px] text-gray-600"
+                className="rounded-md outline-none border py-4 sm:py-2 pl-[5.5rem] sm:pl-[60px] pr-10 text-lg sm:text-xs w-[100%] sm:w-[190px] text-gray-600"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   setSelected((prev) => ({
                     ...prev,

@@ -170,7 +170,7 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
 
   return (
     <div
-      className={` ${display.style} text-black w-full  top-0 absolute left-0 showMorePage bg-white pb-10 `}
+      className={` ${display.style} sm:h-[465px] text-black w-full  top-0 absolute left-0 showMorePage bg-white pb-10 `}
     >
       <div className={`${display.opacity}`}>
         <MoreHeader
@@ -186,32 +186,32 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
             }
           }}
         />
-        <p className="  py-2.5 text-sm text-center shadow-md shadow-gray-400">
+        <p className="  py-2.5 text-lg sm:text-sm text-center shadow-md shadow-gray-400">
           Select Tranfer Option
         </p>
 
         <section className=" w-[93%] h-auto mt-3 mx-2 pb-1 border border-gray-300 rounded-2xl overflow-hidden">
-          <p className="text-sm pl-3 font-semibold  bg-gray-100 py-2 ">
+          <p className="text-lg sm:text-sm pl-3 font-semibold  bg-gray-100 py-4 sm:py-2 ">
             Transfer From:
           </p>
-          <div className=" py-2">
-            <p className="text-xs text-center font-semibold ">
+          <div className=" py-4 sm:py-2">
+            <p className="text-lg sm:text-xs text-center font-semibold ">
               {userData.FullName}
             </p>
-            <p className="text-[10px] text-center ">
+            <p className="text-sm sm:text-[10px] text-center ">
               Current Account:{" "}
               <span className="">{userData.AccountNumber}</span>
             </p>
           </div>
         </section>
         <section className=" w-[93%] h-auto mt-3 mx-2  border border-gray-300 rounded-2xl overflow-hidden">
-          <p className="text-sm pl-3 font-semibold  bg-gray-100 py-2 ">
+          <p className="text-lg sm:text-sm pl-3 font-semibold  bg-gray-100 py-4 sm:py-2 ">
             Transfer To:
           </p>
-          <div className=" py-2">
+          <div className=" py-2 px-1.5">
             <input
               type="text"
-              className=" border border-gray-300 outline-none w-52 ml-1.5 rounded px-2 mb-1 text-[12px] py-1"
+              className=" border border-gray-300 outline-none w-[100%] sm:w-52  rounded px-2 mb-1 text-lg sm:text-xs py-2 sm:py-1"
               placeholder="Account Number"
               value={details.number}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>{
@@ -226,7 +226,7 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
             {display.transferDiv && <input
               readOnly
               type="text"
-              className=" border border-gray-300 outline-none w-52 ml-1.5 mt-1 rounded px-2 mb-1 text-[12px] py-1"
+              className=" border border-gray-300 outline-none w-[100%] sm:w-52  mt-1 rounded px-2 mb-1 text-lg sm:text-xs py-2 sm:py-1"
               placeholder="Account Name"
               value={details.name}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -235,7 +235,7 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
             />}
             {!display.transferDiv && (
               <p
-                className=" text-right text-[10px] text-red-600 mr-2 cursor-pointer"
+                className=" text-right text-lg sm:text-[10px] text-red-600 mr-2 cursor-pointer"
                 onClick={() => {
                   setDisplay((prev) => ({ ...prev, addNew: true }));
                 }}
@@ -248,7 +248,7 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
         {display.transferDiv && (
           <section>
             <div className=" my-5 flex mx-3 justify-between">
-              <p className=" text-xs">Save as beneficiary</p>
+              <p className=" text-lg sm:text-xs">Save as beneficiary</p>
               <input
                 type="checkbox"
                 checked={display.check}
@@ -276,10 +276,10 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
               />
             </div>
 
-            <div>
+            <div className="mx-4 sm:mx-2">
               <input
                 type="text"
-                className=" border border-gray-300 bg-[#f8f8ff] outline-none w-56 ml-2 mt-1 rounded px-2 mb-3 text-[12px] py-1.5"
+                className=" border border-gray-300 bg-[#f8f8ff] outline-none w-[100%] sm:w-56  mt-1 rounded px-2 mb-3 text-lg sm:text-xs py-2 sm:py-1.5"
                 placeholder="Amount"
                 value={details.amount}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -289,7 +289,7 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
               <input
                 type="text"
                 maxLength={14}
-                className=" border border-gray-300 bg-[#f8f8ff] outline-none w-56 ml-2 mt-1 rounded px-2 mb-1 text-[12px] py-1.5"
+                className=" border border-gray-300 bg-[#f8f8ff] outline-none w-[100%] sm:w-56  mt-1 rounded px-2 mb-1 text-lg sm:text-xs py-2 sm:py-1.5"
                 placeholder="Narration"
                 value={details.narrator}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -297,12 +297,12 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
                 }
               />
             </div>
-            <p className=" text-xs text-right mr-2 ">14 characters max</p>
+            <p className=" text-lg sm:text-xs text-right mr-2 ">14 characters max</p>
           </section>
         )}
 
         <button
-          className="bg-red-600 py-2 mt-3 text-sm text-white ml-1.5 w-[230px] rounded-[4px]"
+          className="bg-red-600 py-2 mt-3 text-xl sm:text-sm text-white mx-3 sm:ml-1.5 w-[90%] sm:w-[230px] rounded-[4px]"
           onClick={handleBtn}
         >
           {display.btnText}
@@ -323,7 +323,7 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
           }}
         />
       )}
-      {display.loader && <Loading className="absolute top-[220px] left-4" />}
+      {display.loader && <Loading className="absolute top-[220px] left-[6rem] sm:left-4" />}
       {display.popUp && (
         <PopUP
           icon={
@@ -358,7 +358,7 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
             }));
             setEnteredPin("");
           }}
-          className="absolute top-[60px] left-4"
+          className="absolute top-[60px] left-[6rem] sm:left-4"
           title={
             details.name.length < 1 || !Success
               ? "Failed"
@@ -379,24 +379,25 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
           enteredPin={enteredPin}
           setEnteredPin={setEnteredPin}
           descrip="Transaction limits for PIN is 200,000NGN per day"
+          className="left-[6.5rem]"
         />
       )}
 
       {display.popUp2 && (
-        <div className=" z-10  w-52 h-auto pt-6 pb-10 bg-white rounded-2xl mx-auto px-4 drop-shadow-xl absolute top-[120px] left-4 ">
+        <div className=" z-10 w-60 sm:w-52 h-auto pt-6 pb-10 bg-white rounded-2xl mx-auto px-4 drop-shadow-xl absolute top-[120px] left-[6.5rem] sm:left-4 ">
           <i
             className="fa-solid fa-xmark cursor-pointer flex justify-end  pb-4 "
             onClick={handleCancel}
           ></i>
           <div className=" flex  flex-col justify-center items-center gap-2">
-            <h3 className=" font-semibold">Are you sure</h3>
-            <article className=" text-xs ">
+            <h3 className="sm:text-[1rem] text-lg font-semibold">Are you sure</h3>
+            <article className=" text-[1rem] sm:text-xs ">
               <p>Transaction Amount : {details.amount}</p>
               <p>Total Fee : 00.00</p>
               <p>Total Amount : {details.amount}</p>
             </article>
             <button
-              className="bg-red-600 py-2 text-sm text-white  w-44 rounded-[4px]"
+              className="bg-red-600 py-2 text-lg sm:text-sm text-white  w-44 rounded-[4px]"
               onClick={async () => {
                     const data : modelType = {
                       amount : details.amount,

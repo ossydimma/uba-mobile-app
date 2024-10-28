@@ -366,7 +366,7 @@ export const Home = () => {
               </div>
             </header>
 
-            <section className="  text-lg sm:text-xs absolute top-[3.5rem] sm:top-10 left-[3rem] xs:left-[5rem] sm:left-7 h-[10rem] sm:h-28 w-[14rem] sm:w-48  bg-white rounded-lg drop-shadow-xl">
+            <section className="  text-lg sm:text-xs absolute top-[3.5rem] sm:top-10 left-[3rem] xs:left-[5rem] sm:left-7 h-[10rem] sm:h-28 w-[15rem] sm:w-48  bg-white rounded-lg drop-shadow-xl">
               {reload && (
                 <div>
                   <p className=" text-center mt-2">
@@ -412,7 +412,7 @@ export const Home = () => {
                   <p className="text-lg sm:text-xs text-center mt-2">Current Account</p>
                   <div className="flex justify-evenly mx-1 item-center mt-2 mb-1 text-sm sm:text-xs">
                     <i className="fa-solid fa-plus text-red-600"></i>
-                    <p className="sm:font-[700] text-sm font-[900] sm:text-xs text-center ">
+                    <p className="sm:font-[700] text-[0.8rem] font-[900] sm:text-xs text-center ">
                       Balance last updated on <span>{clickTime}</span>
                     </p>
                     <i
@@ -745,7 +745,7 @@ export const Home = () => {
                 {/* ------------------Nav----------------------------- */}
                 <div className=" fixed bottom-[19%] md:bottom-[30%] lg:bottom-[20%]  ">
                   <nav
-                    className="flex flex-col items-center text-[red] bg-white ml-[180px] border border-[red]  py-2 px-3 rounded-full shadow-2xl"
+                    className="flex flex-col items-center text-[red] bg-white ml-[180px] border border-[red]  py-2 sm:px-3 px-4 rounded-full shadow-2xl"
                     onClick={() => {
                       if (setHideHome !== undefined) {
                         setHideHome(false);
@@ -757,8 +757,8 @@ export const Home = () => {
                       }));
                     }}
                   >
-                    <i className="fa-solid fa-bars  cursor-pointer"></i>
-                    <p className="text-[10px] text">More</p>
+                    <i className="fa-solid fa-bars  cursor-pointer text-xl sm:text-sm"></i>
+                    <p className="sm:text-[10px] text">More</p>
                   </nav>
                 </div>
 
