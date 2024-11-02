@@ -287,7 +287,7 @@ export const ChangePwrd = ({ setDisplay }: forgotType) => {
                 };
                 try {
                   const res = await axios.put(
-                    "https://localhost:7164/api/UbaClone/change-password",
+                    "http://ubaclone.somee.com/api/UbaClone/change-password",
                     data
                   );
                   setMessage(res.data);

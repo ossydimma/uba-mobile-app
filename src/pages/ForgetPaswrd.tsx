@@ -267,7 +267,7 @@ export const ForgetPaswrd = ({ setShowSignIn }: forgottenType) => {
               console.log(data)
 
               try {
-                const res = await axios.put("https://localhost:7164/api/UbaClone/Forgotten-Password", data);
+                const res = await axios.put("http://ubaclone.somee.com/api/UbaClone/Forgotten-Password", data);
                 setMessage(res.data);
                 console.log(res.data)
                 setEnteredPin("");

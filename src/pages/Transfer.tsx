@@ -117,7 +117,7 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
           Receiver : details.number
         }
         try {
-          const res = await axios.post("https://localhost:7164/api/UbaClone/Verify-Account", data );
+          const res = await axios.post("http://ubaclone.somee.com/api/UbaClone/Verify-Account", data );
           setDetails((prev)=> ({...prev, name: res.data}));
           setSuccess(true);
           setDisplay((prev) => ({
@@ -416,7 +416,7 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
                     };
                     setDisplay((prev) => ({...prev, popUp2: false, loader: true}));
                     try {
-                      const res = await axios.post("https://localhost:7164/api/UbaClone/Transfer-Money", data );
+                      const res = await axios.post("http://ubaclone.somee.com/api/UbaClone/Transfer-Money", data );
                       setMessage(`You have successfully transferred NGN${details.amount} to ${details.name} Account Number: ${details.number}`);
                       setSuccess(true);
                       const token = res.data;

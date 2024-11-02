@@ -103,7 +103,7 @@ export const ChangePin = ({ setDisplay }: forgotType) => {
       };
       try {
         const res = await axios.put(
-          "https://localhost:7164/api/UbaClone/change-PIN",
+          "http://ubaclone.somee.com/api/UbaClone/change-PIN",
           data
         );
         setMessage(res.data);
