@@ -20,7 +20,7 @@ export  const SignUp = ({ setShowSignIn }: MyComponentProps) => {
   const userData = JSON.parse(localStorage.getItem("userInfo") || "{}");
 
   useEffect(() => {
-    axios.get('http://ubaclone.somee.com/api/UbaClone')
+    axios.get('https://ubaclonewebapi20241103124646.azurewebsites.net/api/UbaClone')
       .then((response) => {
         // console.log(response.data)
       })
@@ -156,7 +156,7 @@ export  const SignUp = ({ setShowSignIn }: MyComponentProps) => {
       console.log(userData)
       setShowPopUP(true);
 
-      axios.post("http://ubaclone.somee.com/api/UbaClone/Sign-in", userData)
+      axios.post("https://ubaclonewebapi20241103124646.azurewebsites.net/api/UbaClone/Sign-in", userData)
         .then(response => console.log(response.data))
         .catch(error => console.error('Error:', error));
 

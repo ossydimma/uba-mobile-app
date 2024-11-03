@@ -170,7 +170,7 @@ export const Beneficiary = ({setDisplay, setDetails}: parentType) => {
                   
                   setDisplayer((prev) => ({ ...prev, loader: true }));
                   try {
-                    const res = await axios.get(`http://ubaclone.somee.com/api/UbaClone/${data.number}`);
+                    const res = await axios.get(`https://ubaclonewebapi20241103124646.azurewebsites.net/api/UbaClone/${data.number}`);
                     setData((prev)=> ({...prev, name: res.data}));
                     SetIsValid(true)
                     setData((prev)=> ({...prev, btnText: "Add Beneficiary"}));

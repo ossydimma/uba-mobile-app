@@ -97,7 +97,7 @@ export const ForgottenPin = ({ setDisplay }: forgotType) => {
           NewPin :  input.Value2
         }
         try {
-          const res = await axios.put("http://ubaclone.somee.com/api/UbaClone/Forgotten-PIN", data );
+          const res = await axios.put("https://ubaclonewebapi20241103124646.azurewebsites.net/api/UbaClone/Forgotten-PIN", data );
           setMessage(res.data);      
           setInput((prev) => ({ ...prev, Value1: "", Value2: "", Value3: "" }));
         }catch (err: any) {

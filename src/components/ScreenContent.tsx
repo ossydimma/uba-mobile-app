@@ -106,7 +106,7 @@ export const ScreenContent = () => {
       );
       try {
         const res = await axios.post(
-          "http://ubaclone.somee.com/api/UbaClone/login",
+          "https://ubaclonewebapi20241103124646.azurewebsites.net/api/UbaClone/login",
           loginData
         );
         const token = res.data;
