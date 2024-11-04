@@ -314,7 +314,7 @@ export const ScreenContent = () => {
               ></i>
             </div>
             {showPopup && (
-              <section className="absolute top-10 sm:top-1 sm:left-4 left-[5.5rem] bg-white text-black ml-0 sm:ml-5 w-60 sm:w-52  rounded-xl p-5">
+              <section className="absolute top-10 sm:top-1 sm:left-4 left-[5rem] bg-white text-black ml-0 sm:ml-5 w-60 sm:w-52  rounded-xl p-5">
                 <i
                   className="fa-solid fa-xmark cursor-pointer text-lg sm:text-sm flex justify-end mb-2"
                   onClick={() => setShowPopup(false)}
