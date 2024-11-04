@@ -314,17 +314,17 @@ export const ScreenContent = () => {
               ></i>
             </div>
             {showPopup && (
-              <section className="absolute top-1 right-4  bg-white text-black ml-5 w-52  rounded-xl p-5">
+              <section className="absolute top-10 sm:top-1 sm:left-4 left-[5.5rem] bg-white text-black ml-0 sm:ml-5 w-60 sm:w-52  rounded-xl p-5">
                 <i
-                  className="fa-solid fa-xmark cursor-pointer ml-36 mb-2"
+                  className="fa-solid fa-xmark cursor-pointer text-lg sm:text-sm flex justify-end mb-2"
                   onClick={() => setShowPopup(false)}
                 ></i>
                 <div className=" flex justify-center mb-1">
                   <i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>
                 </div>
-                <p className="text-center text-xs">{message}</p>
+                <p className="text-center text-lg sm:text-xs mt-4 sm:mt-0">{message}</p>
                 <button
-                  className="bg-red-600 text-white mt-3 w-32 h-8 rounded-sm ml-6"
+                  className="bg-red-600 text-white text-lg sm:text-[1rem] mt-5 sm:mt-3 w-32 py-2 rounded-sm ml-9 sm:ml-6"
                   onClick={(e) => {
                     e.preventDefault();
                     if (message.length > 1) {
