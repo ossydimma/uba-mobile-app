@@ -69,7 +69,7 @@ export const AuthPin = ({ enteredPin, setEnteredPin, handleCancel, handleNext, d
 
   return (
     <div>
-      <div className={`${className} z-10  w-52 h-auto pt-6 pb-10 bg-white rounded-2xl mx-auto px-4 drop-shadow-xl absolute top-[60px] sm:left-4 `}>
+      <div className={`${className} z-10 w-56  sm:w-52 h-auto pt-6 pb-10 bg-white rounded-2xl mx-auto px-4 drop-shadow-xl absolute top-[60px] sm:left-4 `}>
         <i
           className="fa-solid fa-xmark cursor-pointer flex justify-end  pb-4 "
           onClick={handleCancel}

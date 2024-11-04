@@ -142,13 +142,6 @@ export const ForgetPaswrd = ({ setShowSignIn }: forgottenType) => {
       setBg("phone-deafult-screen");
     }
   };
-  // const handleLogIn = (): void => {
-  //   if (setShowForgottenPage) {
-  //     setShowForgottenPage(false);
-  //     setBg("phone-deafult-screen");
-  //     setShowSignIn(true);
-  //   }
-  // };
   return (
     <div className=" text-black w-full h-screen top-0 absolute left-0 showMorePage bg-white ">
       <main className="relative">
@@ -269,7 +262,7 @@ export const ForgetPaswrd = ({ setShowSignIn }: forgottenType) => {
             <AuthPin
               enteredPin={enteredPin}
               setEnteredPin={setEnteredPin}
-              className=" top-[75px] left-[6.5rem] sm:left-[16.4px] w-[215px]"
+              className=" top-[75px] left-[6rem] sm:left-[16.4px] w-[215px]"
               descrip=""
               handleCancel={() =>
                 setDisplay((prev) => ({ ...prev, auth: false }))
