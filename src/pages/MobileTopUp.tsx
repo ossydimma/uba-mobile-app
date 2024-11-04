@@ -1,7 +1,7 @@
-import React, { ChangeEvent, useContext, useState } from "react";
+import React, { ChangeEvent, useContext, useEffect, useState } from "react";
 import { MoreHeader } from "../components/MoreHeader";
 import { BgContext, MorePageContext} from "../MyContext";
-import type { selectedType, displaySectionType } from "./Home";
+import type { selectedType, displaySectionType, UserType} from "./Home";
 import { Slider } from "../components/Slider";
 import { SwiperSlide } from "swiper/react";
 import flag from "../assests/flag.jpeg";
@@ -9,6 +9,7 @@ import { Loading } from "../components/Loading";
 import { PopUP } from "../components/PopUP";
 import successImg from "../assests/leo_uba_thubs_up.png";
 import { EmptyPage } from "./EmptyPage";
+import { jwtDecode } from "jwt-decode";
 
 interface selectType {
   selected: selectedType;
@@ -27,8 +28,19 @@ export const MobileTopUp = ({
   updateInputValueHandler,
   setDisplaysection,
 }: selectType) => {
+
+  const [userData, setUserData] = useState<UserType>({} as UserType );
+
+  useEffect(()=> {
+    const token =  localStorage.getItem("authToken") || "{}";
+    if (token) {
+     const decodeToken : UserType = jwtDecode(token);
+     setUserData(decodeToken)
+    }
+   
+ }, [])
   
-  const userData = JSON.parse(localStorage.getItem('userInfo') || '{}')
+  // const userData = JSON.parse(localStorage.getItem('userInfo') || '{}')
 
   // contexts
   const { setBg } = useContext(BgContext);
@@ -36,7 +48,7 @@ export const MobileTopUp = ({
   
   const now = new Date()
   const details = {
-    narrator : userData.fullName,
+    narrator : userData.FullName,
     number: selected.number,
     amount : mobileAmount,
     date : now.toDateString(),
@@ -121,12 +133,12 @@ export const MobileTopUp = ({
               Pay from
             </p>
             <div className=" py-4 sm:py-2">
-              <p className="text-lg sm:text-sm text-center ">{userData.fullName}</p>
+              <p className="text-lg sm:text-sm text-center ">{userData.FullName}</p>
               <p className="text-sm sm:text-xs text-center ">
-                {userData.accountType}: <span className="">{userData.accountNo}</span>
+                Current Account: <span className="">{userData.AccountNumber}</span>
               </p>
               <p className="text-sm sm:text-[11px] text-center ">
-                NGN<span className={` `}>{userData.balance}</span>
+                NGN<span className={` `}>{userData.Balance}</span>
               </p>
             </div>
           </section>

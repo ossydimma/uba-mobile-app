@@ -231,7 +231,7 @@ export const Beneficiary = ({ setDisplay, setDetails }: parentType) => {
             </button>
           </div>
           {displayer.loader && (
-            <Loading className="absolute top-[180px] left-[6rem] sm:left-4" />
+            <Loading className="absolute top-[180px] left-[5rem] sm:left-4" />
           )}
           {displayer.popUp && (
             <div className="absolute top-0 h-full w-full bg-white">
