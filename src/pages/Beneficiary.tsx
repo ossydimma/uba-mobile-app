@@ -56,11 +56,11 @@ export const Beneficiary = ({setDisplay, setDetails}: parentType) => {
   return (
     <div>
       <div className=" text-black w-full h-screen  top-0 absolute left-0 showMorePage bg-white ">
-        <h4 className="ml-3 border-red-500 border-b-[3px] pb-1 w-[130px] mb-2 font-semibold">
+        <h4 className="ml-6 sm:ml-3 mt-7 sm:mt-0 border-red-500 border-b-[3px] pb-1 w-fit mb-2 font-semibold text-xl sm:text-lg ">
           Select beneficiary
         </h4>
         <button
-          className="bg-red-600 py-2 mt-3  text-white ml-6 w-[200px] text-sm rounded-[4px]"
+          className="bg-red-600 py-3 sm:py-2 my-3  text-white ml-6 w-[90%] sm:w-[200px] text-lg sm:text-sm rounded-[4px]"
           onClick={() => {
             setDisplayer((prev) => ({ ...prev, addNew: true }));
           }}
@@ -71,41 +71,41 @@ export const Beneficiary = ({setDisplay, setDetails}: parentType) => {
         ? ( <input
         type="text"
         placeholder="search beneficiary list"
-        className="ml-6 w-[200px] border outline-none text-sm p-2 mt-2"
+        className="ml-6 w-[90%] sm:w-[200px] border outline-none text-lg sm:text-sm p-3 sm:p-2 mt-2"
         value={inputValue}
         onChange={handleInputChange}
         />)
         : ''}
        
         <section>
-            <ul className=" flex flex-col gap-3 mt-5">
+            <ul className=" flex flex-col gap-4 sm:gap-3 mt-5 pl-5 sm:pl-0">
                 { inputValue === '' ? 
                  userBeneficiaries.map((obj, index) => (
                     <li 
                       key={index} 
-                      className="border w-[232px] h-[65px] ml-1 flex gap-4 items-center py-4 pl-4 pr-10 hover:bg-gray-300"
+                      className="border w-[95%] sm:w-[232px] h-[65px] ml-1 flex gap-4 items-center py-4 pl-4 pr-10 hover:bg-gray-300"
                       onClick={()=> {
                         setDetails((prev)=>({...prev, name: obj.name, number: obj.number}))
                         setDisplay((prev)=> ({...prev, addNew : false, transferDiv: true , btnText : "Transfer"}))
                       
                       }}
                     >
-                        <i className="fa-regular fa-user  text-xl"></i>
-                        <p className=" uppercase text-sm">{obj.name}</p>
+                        <i className="fa-regular fa-user  text-2xl sm:text-xl"></i>
+                        <p className=" uppercase text-lg sm:text-sm">{obj.name}</p>
                     </li>
                 )) 
                 : filteredObj.map((obj, index) => (
                   <li 
                     key={index} 
-                    className="border w-[232px] h-[65px] ml-1 flex gap-4 items-center py-4 pl-4 pr-10"
+                    className="border w-[95%] sm:w-[232px] h-[65px] ml-1 flex gap-4 items-center py-4 pl-4 pr-10"
                     onClick={()=> {
                       setDetails((prev)=>({...prev, name: obj.name, number: obj.number}))
                        setDisplay((prev)=> ({...prev, addNew : false}))
                      
                      }}
                     >
-                      <i className="fa-regular fa-user  text-xl"></i>
-                      <p className=" uppercase text-sm">{obj.name}</p>
+                      <i className="fa-regular fa-user  text-2xl sm:text-xl"></i>
+                      <p className=" uppercase text-lg sm:text-sm">{obj.name}</p>
                   </li>
               )) 
 
@@ -113,7 +113,7 @@ export const Beneficiary = ({setDisplay, setDetails}: parentType) => {
             </ul>
         </section>
         <button 
-            className="bg-red-600 py-2 mt-5 text-sm text-white ml-1.5 w-[230px] rounded-[4px]"
+            className="bg-red-600 py-4 sm:py-2 mt-5 text-xl sm:text-sm text-white ml-6 sm:ml-1.5 w-[90%] sm:w-[230px] rounded-[4px]"
             onClick={(e)=> {
               e.preventDefault()
               setDisplay((prev)=> ({...prev, addNew : false}))

@@ -112,7 +112,7 @@ export const ScreenContent = () => {
         const token = res.data;
 
         const decodedToken: UserdetailsType = jwtDecode(token);
-        const data: UserdetailsType = JSON.parse(decodedToken.History);
+        setInputValue((prev)=> ({...prev, contact : decodedToken.Contact, password: ""}));
         localStorage.setItem("histories", decodedToken.History);
         localStorage.setItem("authToken", token);
         if (setShowHome && setHideHome) {
@@ -161,9 +161,6 @@ export const ScreenContent = () => {
               ></path>{" "}
             </g>
           </svg>
-          {/* <div className="arrow-down-icon">
-            <img src={arrowDown} alt="arrow-icon" />
-          </div> */}
         </div>
 
         {showDiv && (
