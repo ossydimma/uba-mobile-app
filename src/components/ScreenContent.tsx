@@ -322,7 +322,7 @@ export const ScreenContent = () => {
                 <div className=" flex justify-center mb-1">
                   <i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>
                 </div>
-                <p className="text-center text-lg sm:text-xs mt-4 sm:mt-0">{message}</p>
+                <p className="text-center text-sm sm:text-xs mt-4 sm:mt-0">{message}</p>
                 <button
                   className="bg-red-600 text-white text-lg sm:text-[1rem] mt-5 sm:mt-3 w-32 py-2 rounded-sm ml-9 sm:ml-6"
                   onClick={(e) => {
