@@ -8,7 +8,7 @@ import { SignUp } from "./SignUp";
 import { SignUpHomePage } from "../pages/SignUpHomePage";
 import { ForgetPaswrd } from "../pages/ForgetPaswrd";
 import { Home } from "../pages/Home";
-import axios from "axios";
+import { api } from "../axios";
 import { jwtDecode } from "jwt-decode";
 // import { detailsType } from "../pages/History";
 export interface UserdetailsType {
@@ -105,8 +105,8 @@ export const ScreenContent = () => {
         </div>
       );
       try {
-        const res = await axios.post(
-          "https://ubaclonewebapi20241103124646.azurewebsites.net/api/UbaClone/login",
+        const res = await api.post(
+          "/login",
           loginData
         );
         const token = res.data;
@@ -121,7 +121,9 @@ export const ScreenContent = () => {
           setShowHome(true);
         }
       } catch (err: any) {
-        setMessage(err.response.data);
+        err.response.data && err.response.data.length < 350 ? 
+          setMessage(err.response.data)
+          : setMessage("Server Error, try again later.")
         setShowPopup(true);
       }
 
@@ -311,7 +313,7 @@ export const ScreenContent = () => {
               ></i>
             </div>
             {showPopup && (
-              <section className="absolute top-10 sm:top-1 sm:left-4 left-[5rem] bg-white text-black ml-0 sm:ml-5 w-60 sm:w-52  rounded-xl p-5">
+              <section className="absolute top-10 sm:top-2 left-1/2 transform -translate-x-1/2  bg-white text-black  w-60 sm:w-52  rounded-xl px-5 py-5">
                 <i
                   className="fa-solid fa-xmark cursor-pointer text-lg sm:text-sm flex justify-end mb-2"
                   onClick={() => setShowPopup(false)}
@@ -333,6 +335,8 @@ export const ScreenContent = () => {
                         setShowSignIn(false);
                         setBg("light-screen-mode");
                         if (setShowSignUpHomePage) setShowSignUpHomePage(true);
+                      } else if (message?.includes("Server Error, try again later.")) {
+                        setShowPopup(false);
                       } else {
                         if (setShowForgottenPage) setShowForgottenPage(true);
                         setInputValue((prev) => ({ ...prev, password: "" }));
@@ -345,6 +349,8 @@ export const ScreenContent = () => {
                 >
                   {message?.includes("You don't have an account with us.")
                     ? `Sign Up`
+                    : message?.includes("Server Error, try again later.")
+                    ? "OK"
                     : `Yes`}
                 </button>
               </section>

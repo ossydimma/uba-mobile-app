@@ -2,7 +2,7 @@ import { useContext, useState, useEffect } from "react";
 import { BgContext, MorePageContext } from "../MyContext";
 import { PopUP } from "./PopUP";
 import successImg from "../assests/leo_uba_thubs_up.png";
-import axios from "axios";
+import { api } from "../axios"
 interface MyComponentProps {
   setShowSignIn: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -19,13 +19,13 @@ interface userData{
 export  const SignUp = ({ setShowSignIn }: MyComponentProps) => {
   const userData = JSON.parse(localStorage.getItem("userInfo") || "{}");
 
-  useEffect(() => {
-    axios.get('https://ubaclonewebapi20241103124646.azurewebsites.net/api/UbaClone')
-      .then((response) => {
-        // console.log(response.data)
-      })
-      .catch(error => console.error(error)) 
-  }, []);
+  // useEffect(() => {
+  //   axios.get('https://ubaclonewebapi20241103124646.azurewebsites.net/api/UbaClone')
+  //     .then((response) => {
+  //       // console.log(response.data)
+  //     })
+  //     .catch(error => console.error(error)) 
+  // }, []);
   
   // Contexts
   const { setBg } = useContext(BgContext);
@@ -44,7 +44,13 @@ export  const SignUp = ({ setShowSignIn }: MyComponentProps) => {
 
   const [showPopUP, setShowPopUP] = useState<boolean>(false);
 
-  const [data, setData] = useState<userData>();
+  // const [data, setData] = useState<userData>();
+  const [isSuccess, setIsSuccess] = useState<boolean>(false)
+
+  const [msg, setMsg] = useState<string>("");
+
+  
+  // console.log("API URL:", process.env.REACT_APP_API_URL);
 
 
 
@@ -80,7 +86,7 @@ export  const SignUp = ({ setShowSignIn }: MyComponentProps) => {
       localStorage.setItem("userInfo", JSON.stringify(userData));
     }
   }
-  function handleNext2Btn(e: React.MouseEvent<HTMLButtonElement>) {
+  function  handleNext2Btn  (e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
 
     setshowFeedBack1("");
@@ -123,7 +129,7 @@ export  const SignUp = ({ setShowSignIn }: MyComponentProps) => {
     }
   }
 
-  function handleActivationBtn(e: React.MouseEvent<HTMLButtonElement>) {
+  async function handleActivationBtn(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
 
     setshowFeedBack1("");
@@ -151,16 +157,20 @@ export  const SignUp = ({ setShowSignIn }: MyComponentProps) => {
       /^[0-9]+$/.test(inputValue2) &&
       inputValue1.length === 4
     ) {
-      console.log(userData)
       userData.pin = inputValue1;
-      console.log(userData)
-      setShowPopUP(true);
 
-      axios.post("https://ubaclonewebapi20241103124646.azurewebsites.net/api/UbaClone/Sign-in", userData)
-        .then(response => console.log(response.data))
-        .catch(error => console.error('Error:', error));
-
-      localStorage.setItem("userInfo", JSON.stringify(userData));
+      try {
+        await api.post("/Sign-in", userData)
+        localStorage.setItem("userInfo", JSON.stringify(userData));
+        setIsSuccess(true);
+      } catch (error : any) {
+        setIsSuccess(false);
+        error.response.data ? setMsg(error.response.data) : setMsg("Failed to Sign up, try again");
+        console.error('Error:', error)
+      } finally {  
+        setShowPopUP(true);
+      }
+      
     }
   }
 
@@ -195,14 +205,14 @@ export  const SignUp = ({ setShowSignIn }: MyComponentProps) => {
             ></i>
           ) : (
             <i
-              className="fa-solid fa-arrow-left cursor-pointer  text-xl mb-8 "
+              className="fa-solid fa-arrow-left cursor-pointer pt-3  text-xl mb-8 "
               onClick={() => {
                 setshowPinPage(false);
                 setshowPassPage(true);
               }}
             ></i>
           )}
-          <h1 className="font-bold text-black text-center  text-4xl sm:text-2xl mb-4">Sign Up</h1>
+          <h1 className="font-bold text-black text-center  text-4xl sm:text-2xl mb-2">Sign Up</h1>
         </div>
         {showName && (
           <form className="flex flex-col mt-5 sm:mt-0 ml-4 sm:ml-0 gap-5 text-xl">
@@ -312,21 +322,29 @@ export  const SignUp = ({ setShowSignIn }: MyComponentProps) => {
       </section>
       {showPopUP && (
         <PopUP
-          msg="You have successfully signed up with us. Click OK to log in"
-          onClick={() => {
-            if (setShowSignUp) {
-              setShowSignUp(false);
-              setBg("phone-deafult-screen");
-              setShowSignIn(true);
+          msg={isSuccess ?  "You have successfully signed up with us. Click OK to log in" : msg}
+          onClick={() => { 
+            if (isSuccess) {
+              if (setShowSignUp) {
+                setShowSignUp(false);
+                setBg("phone-deafult-screen");
+                setShowSignIn(true);
+              }
+            } else {
+              setShowPopUP(false);
             }
+            
+            
           }}
           icon={
-            <div className="successImg">
+            isSuccess ?
+            (<div className="successImg">
               <img src={successImg} alt="thumb up" />
-            </div>
+            </div>) : 
+             <i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>
           }
-          className="absolute top-[13px] text-sm left-4 pb-[85px] text-black"
-          title="Success"
+          className=" text-sm pb-[85px] text-black"
+          title={isSuccess ? "Success" : "Failed"}
         />
       )}
     </>

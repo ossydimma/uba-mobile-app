@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Loading } from "../components/Loading";
 import { PopUP } from "../components/PopUP";
 import type { transferType, detailsType, BeneficiaryType } from "./Transfer";
-import axios from "axios";
+import { api } from "../axios";
 
 interface displayType {
   addNew: boolean;
@@ -177,8 +177,8 @@ export const Beneficiary = ({ setDisplay, setDetails }: parentType) => {
                 if (data.btnText === "Verify Account") {
                   setDisplayer((prev) => ({ ...prev, loader: true }));
                   try {
-                    const res = await axios.get(
-                      `https://ubaclonewebapi20241103124646.azurewebsites.net/api/UbaClone/${data.number}`
+                    const res = await api.get(
+                      `/${data.number}`
                     );
                     setData((prev) => ({ ...prev, name: res.data }));
                     SetIsValid(true);
