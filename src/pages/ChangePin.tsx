@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { MoreHeader } from "../components/MoreHeader";
 import type { forgotType } from "./ForgottenPin";
-import axios from "axios";
+import { api } from "../axios";
 import { jwtDecode } from "jwt-decode";
 
 export interface resType {
@@ -102,8 +102,8 @@ export const ChangePin = ({ setDisplay }: forgotType) => {
         NewPin: input.Value2,
       };
       try {
-        const res = await axios.put(
-          "https://ubaclonewebapi20241103124646.azurewebsites.net/api/UbaClone/change-PIN",
+        const res = await api.put(
+          "/change-PIN",
           data
         );
         setMessage(res.data);

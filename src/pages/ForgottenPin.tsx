@@ -1,4 +1,4 @@
-import axios from "axios";
+import { api } from "../axios";
 import { MoreHeader } from "../components/MoreHeader";
 import type { displayType } from "./Settings";
 import { useEffect, useState } from "react";
@@ -9,9 +9,9 @@ export interface forgotType {
 }
 
 interface resType {
-  Contact : string,
-  Password: string,
-  NewPin : string
+  Contact: string;
+  Password: string;
+  NewPin: string;
 }
 
 export const ForgottenPin = ({ setDisplay }: forgotType) => {
@@ -56,65 +56,63 @@ export const ForgottenPin = ({ setDisplay }: forgotType) => {
       btnText: "Checking...",
     }));
 
-      if (input.Value1 === "") {
-        setShow((prev) => ({ ...prev, feedback1: "Field must be filled" }));
-      } else {
-        setShow((prev) => ({ ...prev, feedback1: "" }));
-      }
+    if (input.Value1 === "") {
+      setShow((prev) => ({ ...prev, feedback1: "Field must be filled" }));
+    } else {
+      setShow((prev) => ({ ...prev, feedback1: "" }));
+    }
 
-      input.Value2 === ""
-        ? setShow((prev) => ({ ...prev, feedback2: "Field must be filled" }))
-        : !/^[0-9]+$/.test(input.Value2)
-        ? setShow((prev) => ({
-            ...prev,
-            feedback2: "PIN should contain only numbers",
-          }))
-        : input.Value2.length !== 4
-        ? setShow((prev) => ({
-            ...prev,
-            feedback2: "PIN shouldn't be less or greater than 4",
-          }))
-        : setShow((prev) => ({ ...prev, feedback2: "" }));
+    input.Value2 === ""
+      ? setShow((prev) => ({ ...prev, feedback2: "Field must be filled" }))
+      : !/^[0-9]+$/.test(input.Value2)
+      ? setShow((prev) => ({
+          ...prev,
+          feedback2: "PIN should contain only numbers",
+        }))
+      : input.Value2.length !== 4
+      ? setShow((prev) => ({
+          ...prev,
+          feedback2: "PIN shouldn't be less or greater than 4",
+        }))
+      : setShow((prev) => ({ ...prev, feedback2: "" }));
 
-      input.Value3 === ""
-        ? setShow((prev) => ({ ...prev, feedback3: "Field must be filled" }))
-        : input.Value2 !== input.Value3
-        ? setShow((prev) => ({ ...prev, feedback3: "Both PIN did not match" }))
-        : setShow((prev) => ({ ...prev, feedback3: "" }));
+    input.Value3 === ""
+      ? setShow((prev) => ({ ...prev, feedback3: "Field must be filled" }))
+      : input.Value2 !== input.Value3
+      ? setShow((prev) => ({ ...prev, feedback3: "Both PIN did not match" }))
+      : setShow((prev) => ({ ...prev, feedback3: "" }));
 
-      if (
-        input.Value2 !== "" &&
-        /^[0-9]+$/.test(input.Value2) &&
-        input.Value2.length === 4 &&
-        input.Value2 === input.Value3 &&
-        /^[0-9]+$/.test(input.Value3) &&
-        input.Value2.length === 4
-      ) {
-
-        const data : resType = {
-          Contact: decodeToken.Contact,
-          Password : input.Value1,
-          NewPin :  input.Value2
+    if (
+      input.Value2 !== "" &&
+      /^[0-9]+$/.test(input.Value2) &&
+      input.Value2.length === 4 &&
+      input.Value2 === input.Value3 &&
+      /^[0-9]+$/.test(input.Value3) &&
+      input.Value2.length === 4
+    ) {
+      const data: resType = {
+        Contact: decodeToken.Contact,
+        Password: input.Value1,
+        NewPin: input.Value2,
+      };
+      try {
+        const res = await api.put("/Forgotten-PIN", data);
+        setMessage(res.data);
+        setInput((prev) => ({ ...prev, Value1: "", Value2: "", Value3: "" }));
+      } catch (err: any) {
+        if (err.status === 400 || 401 || 404) {
+          setMessage(err.response.data);
+        } else {
+          setMessage("Server error contact costumer service");
         }
-        try {
-          const res = await axios.put("https://ubaclonewebapi20241103124646.azurewebsites.net/api/UbaClone/Forgotten-PIN", data );
-          setMessage(res.data);      
-          setInput((prev) => ({ ...prev, Value1: "", Value2: "", Value3: "" }));
-        }catch (err: any) {
-          if (err.status === 400 || 401 || 404) {
-            setMessage(err.response.data)
-          }else {
-            setMessage("Server error contact costumer service");
-          }
-
-        }
-        setShow((prev) => ({ ...prev, popUp: true }));
-        setTimeout(() => {
-          setShow((prev) => ({ ...prev, popUp: false }));
-        }, 3000);
       }
+      setShow((prev) => ({ ...prev, popUp: true }));
+      setTimeout(() => {
+        setShow((prev) => ({ ...prev, popUp: false }));
+      }, 3000);
+    }
 
-      setShow((prev) => ({ ...prev, btnText: "SUBMIT" }));
+    setShow((prev) => ({ ...prev, btnText: "SUBMIT" }));
   }
 
   return (
@@ -126,7 +124,9 @@ export const ForgottenPin = ({ setDisplay }: forgotType) => {
         />
         <form className=" mx-3">
           <div className="flex flex-col gap-4 relative mt-5 ">
-            <label className=' text-lg sm:text-sm -mb-3' >Please enter your password</label>
+            <label className=" text-lg sm:text-sm -mb-3">
+              Please enter your password
+            </label>
             <input
               type={input.Type1}
               value={input.Value1}
@@ -158,7 +158,9 @@ export const ForgottenPin = ({ setDisplay }: forgotType) => {
             </div>
             <p className="text-red-500 text-xs -mt-6 ">{show.feedback1}</p>
 
-            <label className=' text-lg sm:text-sm -mb-3' >Please enter new PIN</label>
+            <label className=" text-lg sm:text-sm -mb-3">
+              Please enter new PIN
+            </label>
             <input
               type={input.Type2}
               value={input.Value2}

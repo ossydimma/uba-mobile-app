@@ -4,7 +4,7 @@ import { BgContext, MorePageContext } from "../MyContext";
 import { AuthPin } from "../components/AuthPin";
 import { Loading } from "../components/Loading";
 import { jwtDecode } from "jwt-decode";
-import axios from "axios";
+import {api} from "../axios";
 
 interface forgottenType {
   setShowSignIn: React.Dispatch<React.SetStateAction<boolean>>;
@@ -276,10 +276,7 @@ export const ForgetPaswrd = ({ setShowSignIn }: forgottenType) => {
                 setDisplay((prev) => ({ ...prev, loader: true, auth: false }));
 
                 try {
-                  const res = await axios.put(
-                    "https://ubaclonewebapi20241103124646.azurewebsites.net/api/UbaClone/Forgotten-Password",
-                    data
-                  );
+                  const res = await api.put("/Forgotten-Password", data);
                   setMessage(res.data);
                   setIsSuccess(true);
                   setEnteredPin("");

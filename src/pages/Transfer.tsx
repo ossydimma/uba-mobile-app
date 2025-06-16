@@ -10,7 +10,7 @@ import successImg from "../assests/leo_uba_thubs_up.png";
 import { AuthPin } from "../components/AuthPin";
 import { UserType } from "./Home";
 import { jwtDecode } from "jwt-decode";
-import axios from "axios";
+import { api } from "../axios";
 import { DecodedToken } from "./History";
 import { UserdetailsType } from "../components/ScreenContent";
 
@@ -24,25 +24,24 @@ export interface detailsType {
 }
 
 export interface BeneficiaryType {
-  name : string,
-  number : string
+  name: string;
+  number: string;
 }
 
 export interface VerifyType {
-  Sender : string,
-  Receiver : string
+  Sender: number;
+  Receiver: number;
 }
 
 export interface modelType {
-  amount : string;
-  senderPin : string;
-  receiversAccountNumber : string;
-  receiverFullName : string;
-  senderAccountNumber : string;
-  narrator : string;
-  date : string;
-  time : string;
-  
+  amount: string;
+  senderPin: string;
+  receiversAccountNumber: string;
+  receiverFullName: string;
+  senderAccountNumber: string;
+  narrator: string;
+  date: string;
+  time: string;
 }
 export interface transferType {
   addNew: boolean;
@@ -58,15 +57,13 @@ export interface transferType {
 }
 
 export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
-
-  useEffect(()=> {
-    const token =  localStorage.getItem("authToken") || "{}";
+  useEffect(() => {
+    const token = localStorage.getItem("authToken") || "{}";
     if (token) {
-     const decodeToken : UserType = jwtDecode(token);
-     setUserData(decodeToken)
+      const decodeToken: UserType = jwtDecode(token);
+      setUserData(decodeToken);
     }
-   
- }, [])
+  }, []);
 
   // contexts
   const { setBg } = useContext(BgContext);
@@ -76,8 +73,8 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
 
   //   States
   const [message, setMessage] = useState<string>("");
-  const [Success, setSuccess] = useState<boolean>(false)
-  const [userData, setUserData] = useState<UserType>({} as UserType );
+  const [Success, setSuccess] = useState<boolean>(false);
+  const [userData, setUserData] = useState<UserType>({} as UserType);
   const [enteredPin, setEnteredPin] = useState<string>("");
   const [display, setDisplay] = useState<transferType>({
     addNew: false,
@@ -91,8 +88,7 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
     opacity: "",
     style: "home-wrapper h-screen",
   });
-  const [details, setDetails] = useState<detailsType>(
-  {
+  const [details, setDetails] = useState<detailsType>({
     name: "",
     number: "",
     amount: "",
@@ -105,20 +101,20 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
     }),
   });
 
-
   // functions
 
   async function handleBtn() {
     if (display.btnText === "Confirm Reciever") {
       setDisplay((prev) => ({ ...prev, opacity: "opacity-5", loader: true }));
-      if (details.number !== "" && /^[0-9]+$/.test(details.number)) {
-        const data : VerifyType = {
-          Sender : userData.AccountNumber,
-          Receiver : details.number
-        }
+      const data: VerifyType = {
+          Sender: Number(userData.AccountNumber),
+          Receiver: Number(details.number),
+        };
+      if (/^[0-9]+$/.test(details.number) && data.Receiver !== 0 ) {
+        
         try {
-          const res = await axios.post("https://ubaclonewebapi20241103124646.azurewebsites.net/api/UbaClone/Verify-Account", data );
-          setDetails((prev)=> ({...prev, name: res.data}));
+          const res = await api.post("/Verify-Account", data);
+          setDetails((prev) => ({ ...prev, name: res.data }));
           setSuccess(true);
           setDisplay((prev) => ({
             ...prev,
@@ -127,16 +123,16 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
             transferDiv: true,
             btnText: "Transfer",
           }));
-        }catch (err : any ) {
+        } catch (err: any) {
           setSuccess(false);
-          if (err.status === 400 || 401 || 404 ) {
-            setMessage(JSON.stringify(err.response.data))
-          }else {
+          if (err.status === 400 || 401 || 404) {
+            setMessage(JSON.stringify(err.response.data));
+          } else {
             setMessage("Server error contact costumer service");
           }
           setDisplay((prev) => ({ ...prev, popUp: true, style: " h-screen " }));
         }
-      }else {
+      } else {
         setSuccess(false);
         setMessage("Enter a valid beneficiary account number and try again");
         setDisplay((prev) => ({ ...prev, popUp: true, style: " h-screen " }));
@@ -144,27 +140,33 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
     }
     if (display.btnText === "Transfer") {
       setDisplay((prev) => ({ ...prev, check: false }));
-      if (details.narrator !== ""){
-          setDisplay((prev) => ({ ...prev, opacity: "opacity-5", style: "", loader: false, popUp1: true }));
+      if (details.narrator !== "") {
+        setDisplay((prev) => ({
+          ...prev,
+          opacity: "opacity-5",
+          style: "",
+          loader: false,
+          popUp1: true,
+        }));
       }
     }
   }
 
   function handleCancel() {
-      setDisplay((prev) => ({
-        ...prev,
-        loader: false,
-        opacity: "",
-        style: " h-screen home-wrapper",
-        popUp: false,
-        popUp1: false,
-        popUp2: false,
-        // transferDiv: false,
-        amount: "",
-        narrator: "",
-        btnText: "Transfer",
-      }));
-    
+    setDisplay((prev) => ({
+      ...prev,
+      loader: false,
+      opacity: "",
+      style: " h-screen home-wrapper",
+      popUp: false,
+      popUp1: false,
+      popUp2: false,
+      // transferDiv: false,
+      amount: "",
+      narrator: "",
+      btnText: "Transfer",
+    }));
+
     setEnteredPin("");
   }
 
@@ -214,25 +216,30 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
               className=" border border-gray-300 outline-none w-[100%] sm:w-52  rounded px-2 mb-1 text-lg sm:text-xs py-2 sm:py-1"
               placeholder="Account Number"
               value={details.number}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>{
-                setDetails((prev) => ({ ...prev, number: e.target.value }))
-                if(display.transferDiv) {
-                  setDisplay((prev)=> ({...prev, transferDiv: false, btnText: "Confirm Reciever", check: false}))
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                setDetails((prev) => ({ ...prev, number: e.target.value }));
+                if (display.transferDiv) {
+                  setDisplay((prev) => ({
+                    ...prev,
+                    transferDiv: false,
+                    btnText: "Confirm Reciever",
+                    check: false,
+                  }));
                 }
-              }
-                
-              }
+              }}
             />
-            {display.transferDiv && <input
-              readOnly
-              type="text"
-              className=" border border-gray-300 outline-none w-[100%] sm:w-52  mt-1 rounded px-2 mb-1 text-lg sm:text-xs py-2 sm:py-1"
-              placeholder="Account Name"
-              value={details.name}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setDetails((prev) => ({ ...prev, name: e.target.value }))
-              }
-            />}
+            {display.transferDiv && (
+              <input
+                readOnly
+                type="text"
+                className=" border border-gray-300 outline-none w-[100%] sm:w-52  mt-1 rounded px-2 mb-1 text-lg sm:text-xs py-2 sm:py-1"
+                placeholder="Account Name"
+                value={details.name}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setDetails((prev) => ({ ...prev, name: e.target.value }))
+                }
+              />
+            )}
             {!display.transferDiv && (
               <p
                 className=" text-right text-lg sm:text-[10px] text-red-600 mr-2 cursor-pointer"
@@ -253,25 +260,37 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
                 type="checkbox"
                 checked={display.check}
                 onChange={() => {
-                  const data : BeneficiaryType = {
-                    name : details.name,
-                    number : details.number
-                  }
-                  let userBeneficiaries : BeneficiaryType[] = JSON.parse(localStorage.getItem("Beneficiaries" ) || "[]") ;
+                  const data: BeneficiaryType = {
+                    name: details.name,
+                    number: details.number,
+                  };
+                  let userBeneficiaries: BeneficiaryType[] = JSON.parse(
+                    localStorage.getItem("Beneficiaries") || "[]"
+                  );
 
                   if (!display.check) {
                     setDisplay((prev) => ({ ...prev, check: true }));
-                    const containValue = userBeneficiaries.some(obj => obj.number === data.number);
+                    const containValue = userBeneficiaries.some(
+                      (obj) => obj.number === data.number
+                    );
 
                     if (!containValue) {
-                      userBeneficiaries = [...userBeneficiaries,  data];
+                      userBeneficiaries = [...userBeneficiaries, data];
                     }
-                    localStorage.setItem("Beneficiaries", JSON.stringify(userBeneficiaries));
+                    localStorage.setItem(
+                      "Beneficiaries",
+                      JSON.stringify(userBeneficiaries)
+                    );
                   } else {
                     setDisplay((prev) => ({ ...prev, check: false }));
-                    userBeneficiaries = userBeneficiaries.filter((item) => item.number !== details.number);
-                      localStorage.setItem("Beneficiaries", JSON.stringify(userBeneficiaries));
-                  }  
+                    userBeneficiaries = userBeneficiaries.filter(
+                      (item) => item.number !== details.number
+                    );
+                    localStorage.setItem(
+                      "Beneficiaries",
+                      JSON.stringify(userBeneficiaries)
+                    );
+                  }
                 }}
               />
             </div>
@@ -297,7 +316,9 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
                 }
               />
             </div>
-            <p className=" text-lg sm:text-xs text-right mr-2 ">14 characters max</p>
+            <p className=" text-lg sm:text-xs text-right mr-2 ">
+              14 characters max
+            </p>
           </section>
         )}
 
@@ -323,19 +344,21 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
           }}
         />
       )}
-      {display.loader && <Loading className="absolute top-[220px] left-[6rem] sm:left-4" />}
+      {display.loader && (
+        <Loading className="absolute top-[220px] left-[6rem] sm:left-4" />
+      )}
       {display.popUp && (
         <PopUP
           icon={
-            details.name.length < 1 || !Success
-            ?  <i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>
-            : (
+            details.name.length < 1 || !Success ? (
+              <i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>
+            ) : (
               <div className="successImg">
                 <img src={successImg} alt="thumb up" />
               </div>
             )
           }
-          onClick={()=> {
+          onClick={() => {
             setDisplay((prev) => ({
               ...prev,
               loader: false,
@@ -358,12 +381,8 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
             }));
             setEnteredPin("");
           }}
-          className="absolute top-[60px] left-[6rem] sm:left-4"
-          title={
-            details.name.length < 1 || !Success
-              ? "Failed"
-              : "Succes"
-          }
+          className=""
+          title={details.name.length < 1 || !Success ? "Failed" : "Succes"}
           msg={message}
         />
       )}
@@ -371,10 +390,14 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
       {display.popUp1 && (
         <AuthPin
           handleCancel={handleCancel}
-          handleNext= {()=> {
+          handleNext={() => {
             if (enteredPin.length >= 4 && setDisplay)
-              setDisplay((prev) => ({...prev, popUp1: false, loader: false, popUp2: true}));
-             
+              setDisplay((prev) => ({
+                ...prev,
+                popUp1: false,
+                loader: false,
+                popUp2: true,
+              }));
           }}
           enteredPin={enteredPin}
           setEnteredPin={setEnteredPin}
@@ -390,7 +413,9 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
             onClick={handleCancel}
           ></i>
           <div className=" flex  flex-col justify-center items-center gap-2">
-            <h3 className="sm:text-[1rem] text-lg font-semibold">Are you sure</h3>
+            <h3 className="sm:text-[1rem] text-lg font-semibold">
+              Are you sure
+            </h3>
             <article className=" text-[1rem] sm:text-xs ">
               <p>Transaction Amount : {details.amount}</p>
               <p>Total Fee : 00.00</p>
@@ -399,43 +424,44 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
             <button
               className="bg-red-600 py-2 text-lg sm:text-sm text-white  w-44 rounded-[4px]"
               onClick={async () => {
-                    const data : modelType = {
-                      amount : details.amount,
-                      senderPin : enteredPin,
-                      senderAccountNumber : userData.AccountNumber,
-                      receiversAccountNumber : details.number,
-                      receiverFullName : details.name,
-                      narrator : details.narrator,
-                      date : now.toDateString(),
-                      time :  now.toLocaleTimeString([], {
-                        hour: "numeric",
-                        minute: "2-digit",
-                        hour12: true,
-                      })
-
-                    };
-                    setDisplay((prev) => ({...prev, popUp2: false, loader: true}));
-                    try {
-                      const res = await axios.post("https://ubaclonewebapi20241103124646.azurewebsites.net/api/UbaClone/Transfer-Money", data );
-                      setMessage(`You have successfully transferred NGN${details.amount} to ${details.name} Account Number: ${details.number}`);
-                      setSuccess(true);
-                      const token = res.data;
-                      const decodedToken : UserdetailsType= jwtDecode(token);
-                      // const usersData : detailsType = JSON.parse(decodedToken.History);
-                      // console.log(data);
-                      localStorage.setItem("histories", decodedToken.History)
-                      localStorage.setItem("authToken", token);
-                                  
-                    }catch (err: any) {
-                      setSuccess(false)
-                      if (err.status === 400 || 401 || 404 ) {
-                        setMessage(JSON.stringify(err.response.data))
-                      }else {
-                        setMessage("Server error contact costumer service");
-                      }
-                      
-                    }
-                    setDisplay((prev) => ({...prev,loader: false,popUp: true}));
+                const data: modelType = {
+                  amount: details.amount,
+                  senderPin: enteredPin,
+                  senderAccountNumber: userData.AccountNumber,
+                  receiversAccountNumber: details.number,
+                  receiverFullName: details.name,
+                  narrator: details.narrator,
+                  date: now.toDateString(),
+                  time: now.toLocaleTimeString([], {
+                    hour: "numeric",
+                    minute: "2-digit",
+                    hour12: true,
+                  }),
+                };
+                setDisplay((prev) => ({
+                  ...prev,
+                  popUp2: false,
+                  loader: true,
+                }));
+                try {
+                  const res = await api.post("/Transfer-Money", data);
+                  setMessage(
+                    `You have successfully transferred NGN${details.amount} to ${details.name} Account Number: ${details.number}`
+                  );
+                  setSuccess(true);
+                  const token = res.data;
+                  // const decodedToken: UserdetailsType = jwtDecode(token);
+                  // localStorage.setItem("histories", decodedToken.History);
+                  localStorage.setItem("authToken", token);
+                } catch (err: any) {
+                  setSuccess(false);
+                  if (err.status === 400 || 401 || 404) {
+                    setMessage(JSON.stringify(err.response.data));
+                  } else {
+                    setMessage("Server error contact costumer service");
+                  }
+                }
+                setDisplay((prev) => ({ ...prev, loader: false, popUp: true }));
               }}
             >
               OK

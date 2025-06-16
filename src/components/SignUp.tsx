@@ -18,14 +18,6 @@ interface userData{
 
 export  const SignUp = ({ setShowSignIn }: MyComponentProps) => {
   const userData = JSON.parse(localStorage.getItem("userInfo") || "{}");
-
-  // useEffect(() => {
-  //   axios.get('https://ubaclonewebapi20241103124646.azurewebsites.net/api/UbaClone')
-  //     .then((response) => {
-  //       // console.log(response.data)
-  //     })
-  //     .catch(error => console.error(error)) 
-  // }, []);
   
   // Contexts
   const { setBg } = useContext(BgContext);
@@ -48,9 +40,6 @@ export  const SignUp = ({ setShowSignIn }: MyComponentProps) => {
   const [isSuccess, setIsSuccess] = useState<boolean>(false)
 
   const [msg, setMsg] = useState<string>("");
-
-  
-  // console.log("API URL:", process.env.REACT_APP_API_URL);
 
 
 

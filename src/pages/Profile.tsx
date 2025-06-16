@@ -7,12 +7,10 @@ import { jwtDecode } from "jwt-decode";
 import { UserType } from "./Home";
 
 export const Profile = ({ setDisplaysection }: homeDisplaytype) => {
-  //useEffect
   useEffect(()=> {
     const token =  localStorage.getItem("authToken") || "{}";
     if (token) {
      const decodeToken : UserType = jwtDecode(token);
-     console.log(decodeToken.Contact);
     
      setUserData(decodeToken)
     }

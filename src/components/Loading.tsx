@@ -1,5 +1,4 @@
 
-
 interface loadingType {
     className : String
 }

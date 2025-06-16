@@ -260,7 +260,7 @@ export const Beneficiary = ({ setDisplay, setDetails }: parentType) => {
                   }
                   setDisplayer((prev) => ({ ...prev, popUp: false }));
                 }}
-                className="absolute top-[90px] left-[6rem] sm:left-4"
+                className=""
                 title={isValid ? "sucess" : "Failed"}
                 msg={message}
               />

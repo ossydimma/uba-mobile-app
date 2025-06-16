@@ -4,7 +4,7 @@ import { Loading } from "../components/Loading";
 import { MoreHeader } from "../components/MoreHeader";
 import type { forgotType } from "./ForgottenPin";
 import { jwtDecode } from "jwt-decode";
-import axios from "axios";
+import {api} from "../axios";
 
 interface resType {
   Contact: string;
@@ -286,8 +286,8 @@ export const ChangePwrd = ({ setDisplay }: forgotType) => {
                   Pin: enteredPin,
                 };
                 try {
-                  const res = await axios.put(
-                    "https://ubaclonewebapi20241103124646.azurewebsites.net/api/UbaClone/change-password",
+                  const res = await api.put(
+                    "/change-password",
                     data
                   );
                   setMessage(res.data);

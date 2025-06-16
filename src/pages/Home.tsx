@@ -1003,7 +1003,7 @@ export const Home = () => {
                     <img src={successImg} alt="thumb up" />
                   </div>
                 }
-                className="absolute top-[330px] left-[4rem] sm:left-4"
+                className="top-[400px] "
                 title="Success"
                 msg={`Your ${
                   selected.service === "Buy Airtime" ? "Airtime" : "Data"

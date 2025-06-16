@@ -121,7 +121,7 @@ export const Enaira = ({ setStyles, setDisplaysection }: childPropType) => {
           <i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>
         }
         onClick={handleExit}
-        className='absolute bottom-[60px] left-5 text-black'
+        className=' text-black'
         title="Failed"
         msg="can't access eNaira at the Moment, please contact customer service"
         />
