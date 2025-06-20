@@ -289,19 +289,6 @@ export const Home = () => {
     setStyles((prev) => ({ ...prev, scroll: "home-wrapper" }));
   }
 
-  const now = new Date();
-  const details = {
-    narrator: selected.service,
-    number: selected.number,
-    amount: mobileAmount,
-    date: now.toDateString(),
-    time: now.toLocaleTimeString([], {
-      hour: "numeric",
-      minute: "2-digit",
-      hour12: true,
-    }),
-  };
-
 
 
   return (
@@ -989,7 +976,7 @@ export const Home = () => {
                   <i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>
                 }
                 onClick={handleExitPopup}
-                className="absolute top-[330px] left-[4rem] sm:left-4"
+                className="top-[395px] right-14"
                 title="Failed"
                 msg="Invalid mobile number, please use the right phone number format and retry"
               />

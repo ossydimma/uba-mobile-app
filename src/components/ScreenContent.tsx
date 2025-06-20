@@ -1,4 +1,4 @@
-import arrowDown from "../assests/down-arrow-5-svgrepo-com.svg";
+
 import logo from "../assests/logo.svg";
 import ngFlag from "../assests/emojione_flag-for-nigeria.svg";
 import { ReactNode, useContext, useState } from "react";
@@ -10,7 +10,7 @@ import { ForgetPaswrd } from "../pages/ForgetPaswrd";
 import { Home } from "../pages/Home";
 import { api } from "../axios";
 import { jwtDecode } from "jwt-decode";
-// import { detailsType } from "../pages/History";
+import axios from "axios";
 export interface UserdetailsType {
   FullName: string;
   Contact: string;
@@ -106,9 +106,10 @@ export const ScreenContent = () => {
       );
       try {
         const res = await api.post(
-          "/login",
+          "/login", 
           loginData
         );
+        // const res : any = api.post("/login", loginData)
         const token = res.data;
 
         const decodedToken: UserdetailsType = jwtDecode(token);
@@ -121,6 +122,7 @@ export const ScreenContent = () => {
           setShowHome(true);
         }
       } catch (err: any) {
+        console.error(err)
         err.response.data && err.response.data.length < 350 ? 
           setMessage(err.response.data)
           : setMessage("Server Error, try again later.")
@@ -303,13 +305,16 @@ export const ScreenContent = () => {
                 {btnText}
               </button>
               <i className="fa-solid fa-fingerprint bg-red-600 p-3 sm:p-2 rounded-md ml-3 cursor-pointer"
-                onClick={()=> {
-                if (setShowHome && setHideHome) {
-                setBg("dark-screen-mode");
-                  setHideHome(true);
-                  setShowHome(true);
-                }
-              }}
+                onClick={ async () => {
+                  console.log("inside finger print")
+                  try {
+                      await api.get("https://uba-banking-app.onrender.com/test-cors");
+                  } catch (err) {
+                    console.error(err)
+                  }
+                  
+
+                }}
               ></i>
             </div>
             {showPopup && (

@@ -1,5 +1,4 @@
 
-import type {displaySectionType, stylesType} from "../pages/Home"
 
 export interface childPropType {
     icon : React.ReactNode;

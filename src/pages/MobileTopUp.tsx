@@ -256,7 +256,7 @@ export const MobileTopUp = ({
               <img src={successImg} alt="thumb up" />
             </div>
           }
-          className="absolute top-[65px] left-[4.5rem] sm:left-5 border border-gray-300"
+          className=" border border-gray-300"
           title="Success"
           msg={`Your ${
             selected.service === "Buy Airtime" ? "Airtime" : "Data"

@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import { BgContext, MorePageContext } from "../MyContext";
 import { PopUP } from "./PopUP";
 import successImg from "../assests/leo_uba_thubs_up.png";
@@ -7,12 +7,12 @@ interface MyComponentProps {
   setShowSignIn: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-interface userData{
-  fullname : string,
-  password : string,
-  pin : string,
-  contact : string
-}
+// interface userData{
+//   fullname : string,
+//   password : string,
+//   pin : string,
+//   contact : string
+// }
 
 
 

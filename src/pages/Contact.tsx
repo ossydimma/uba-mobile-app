@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import { MoreHeader } from '../components/MoreHeader'
 import { EmptyPage } from './EmptyPage'
 import { MorePageContext } from '../MyContext'

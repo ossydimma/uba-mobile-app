@@ -5,7 +5,7 @@ import { BgContext, MorePageContext } from "../MyContext";
 export const SignUpHomePage = () => {
 // contexts
   const { setBg } = useContext(BgContext);
-  const {showSignUp, setShowSignUp, setShowSignUpHomePage} = useContext(MorePageContext);
+  const { setShowSignUp, setShowSignUpHomePage} = useContext(MorePageContext);
 
 //   functions
   function handleSignUpPage(): void {

@@ -5,11 +5,8 @@ import { Contact } from "./Contact";
 import { EmptyPage } from "./EmptyPage";
 import { About } from "./About";
 import { Faq } from "./Faq";
-// import { backGroundType } from "../components/ScreenContent";
 
-interface showMorePageType {
-  setShowMorePage: React.Dispatch<React.SetStateAction<boolean>>;
-}
+
 
 export const More = () => {
   const { setBg } = useContext(BgContext);
@@ -26,26 +23,7 @@ export const More = () => {
     setShowFaq,
     showNoti,
   } = useContext(MorePageContext);
-  function handleContactPage(): void {
-    if (setShowContact !== undefined) {
-      setShowContact(true);
-    }
-  }
-  function handleInboxPage(): void {
-    if (setShowInbox !== undefined) {
-      setShowInbox(true);
-    }
-  }
-  function handleAboutPage(): void {
-    if (setShowAbout !== undefined) {
-      setShowAbout(true);
-    }
-  }
-  function handleFaqPage(): void {
-    if (setShowFaq !== undefined) {
-      setShowFaq(true);
-    }
-  }
+
   return (
     <div>
       <section className=" text-black w-full h-screen top-0 absolute left-0 showMorePage bg-white">

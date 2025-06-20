@@ -1,5 +1,4 @@
-import {useRef, useState} from "react";
-import { transferType} from "../pages/Transfer";
+import {useRef} from "react";
 
 interface AuthPinType {
   enteredPin : string;
@@ -12,7 +11,6 @@ interface AuthPinType {
 
 export const AuthPin = ({ enteredPin, setEnteredPin, handleCancel, handleNext, descrip, className }: AuthPinType) => {
 
-  const userData = JSON.parse(localStorage.getItem("userInfo") || "{}");
 
   //  ref
   const input1Ref = useRef<HTMLInputElement>(null);

@@ -1,9 +1,8 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { MoreHeader } from "../components/MoreHeader";
 import { BgContext, MorePageContext } from "../MyContext";
 import { AuthPin } from "../components/AuthPin";
 import { Loading } from "../components/Loading";
-import { jwtDecode } from "jwt-decode";
 import {api} from "../axios";
 
 interface forgottenType {

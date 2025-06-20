@@ -129,7 +129,7 @@ function handleExitLoan() {
               <i className="fa-solid fa-xmark bg-red-600 py-3 px-5 rounded-full text-white text-2xl"></i>
             }
             onClick={handleExitLoan}
-            className="absolute top-[290px] left-[4rem] xs:left-[5rem] sm:left-4"
+            className=""
             title="Failed"
             msg="You are not eligible for loans, please contact costumer service for more info"
           />

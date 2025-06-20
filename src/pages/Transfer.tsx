@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { MoreHeader } from "../components/MoreHeader";
-import { BeneficiariesContext, BgContext, MorePageContext } from "../MyContext";
+import { BgContext, MorePageContext } from "../MyContext";
 import type { homeDisplaytype } from "./LifeStyle";
 import { EmptyPage } from "./EmptyPage";
 import { Beneficiary } from "./Beneficiary";
@@ -11,8 +11,6 @@ import { AuthPin } from "../components/AuthPin";
 import { UserType } from "./Home";
 import { jwtDecode } from "jwt-decode";
 import { api } from "../axios";
-import { DecodedToken } from "./History";
-import { UserdetailsType } from "../components/ScreenContent";
 
 export interface detailsType {
   name: string;
@@ -125,10 +123,10 @@ export const Transfer = ({ setDisplaysection }: homeDisplaytype) => {
           }));
         } catch (err: any) {
           setSuccess(false);
-          if (err.status === 400 || 401 || 404) {
+          if ((err.status === 400 || 401 || 404) && (err.response.data.length < 350)) {
             setMessage(JSON.stringify(err.response.data));
           } else {
-            setMessage("Server error contact costumer service");
+            setMessage("Server error try again later,\n if it continues contact constumer service.");
           }
           setDisplay((prev) => ({ ...prev, popUp: true, style: " h-screen " }));
         }

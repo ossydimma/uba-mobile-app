@@ -12,7 +12,7 @@ interface servicesType {
 }
 
 export const BankServices = ({ setShow, setDisplaysection }: servicesType) => {
-    const { showNoti, setHideHome, } = useContext(MorePageContext);
+    const { setHideHome } = useContext(MorePageContext);
     const { setBg } = useContext(BgContext);
 
     return (

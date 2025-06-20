@@ -17,7 +17,6 @@ export const MoreFeatures = ({ setDisplaysection }: homeDisplaytype) => {
   const {
     setHideHome,
     showContact,
-    setShowMorePage,
     setShowNoti,
     setShowContact,
     showInbox,
