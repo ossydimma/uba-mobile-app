@@ -109,7 +109,7 @@ export const ScreenContent = () => {
           "/login", 
           loginData
         );
-        // const res : any = api.post("/login", loginData)
+
         const token = res.data;
 
         const decodedToken: UserdetailsType = jwtDecode(token);
